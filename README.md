@@ -1,7 +1,6 @@
-# immo-llm
-# Projet sortir
+# Projet immo
 ***
-Projet web en équipe sur deux semaines.
+Web project for housings.
 
 ## Table des matières
 1. [General Info](#general-info)
@@ -10,15 +9,15 @@ Projet web en équipe sur deux semaines.
 5. [FAQs](#faqs)
 ### General Info
 ***
-Application web "Sortir" pour organiser des sorties entre stagiaires.
+Web Application "Immo" pour organiser la gestion des propriétaires et locateires.
 Projet en cours de développement.
 
 ## Technologies
 ***
-Les technologies et langages utilisés dans le cadre de ce projet :
+Les technologies et langages utilisés :
 * HTML5
 * CSS3
-  * [Foundation](https://get.foundation/) : Version 6
+  * [UiKit](https://getuikit.com/) : Version 3.7.1
 * [PHP](https://www.php.net/) : Version 8.0.8
 * JSON
 * [Symfony](https://symfony.com/) : Version 5.2.*
@@ -34,14 +33,13 @@ Bundles utilisés :
 
 Bundles utilisés en dev :
 * doctrine/doctrine-fixtures-bundle
-* fzaninotto/faker
 * phpunit/phpunit
 
 ## Installation
 ***
 Pour installer le projet (HTTPS) :
 ```
-$ git clone https://github.com/Les-Serendipistes/sortir.git
+$ git clone https://github.com/Claude-Lab/immo-llm.git
 ```
 
 ## FAQs
