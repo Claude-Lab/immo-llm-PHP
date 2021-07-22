@@ -10,16 +10,19 @@
 				Gestion Immo
 			{% endblock %}
 		</title>
-		{% block stylesheets %}
-			<link rel="stylesheet" href="{{ asset('assets/dashboard/css/uikit.min.css') }}"/>
-			<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
-			<link rel="stylesheet" href="{{ asset('assets/dashboard/css/style.css') }}"/>
-			<link rel="stylesheet" href="{{ asset('assets/dashboard/css/notyf.min.css') }}"/>
-			<link rel="stylesheet" href="{{ asset('assets/styles.css') }}"/>
-			<script src="{{ asset('assets/jquery.min.js') }}"></script>
-			<script src="{{ asset('assets/dashboard/js/uikit.min.js') }}"></script>
-			<script src="{{ asset('assets/dashboard/js/uikit-icons.min.js') }}"></script>
-		{% endblock %}
+		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/uikit.min.css') }}"/>
+		<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/style.css') }}"/>
+		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/notyf.min.css') }}"/>
+		<link rel="stylesheet" href="{{ asset('assets/styles.css') }}"/>
+		<script src="{{ asset('assets/jquery.min.js') }}"></script>
+		<script src="{{ asset('assets/dashboard/js/uikit.min.js') }}"></script>
+		<script src="{{ asset('assets/dashboard/js/uikit-icons.min.js') }}"></script>
+
+		{% block stylesheets %}{% endblock %}
+
+		{% block extraCss %}{% endblock %}
+
 	</head>
 	<body>
 		{% if app.user %}
@@ -30,18 +33,18 @@
 
 		{% block body %}{% endblock %}
 
-		{% block javascripts %}
-			<script src="{{ asset('assets/dashboard/js/Chart.min.js') }}"></script>
-			<script src="{{ asset('assets/dashboard/js/jquery.transit.min.js') }}"></script>
-			<script src="{{ asset('assets/dashboard/js/notyf.min.js') }}"></script>
-			<!-- Required Overall Script -->
-			<script src="{{ asset('assets/dashboard/js/script.js') }}"></script>
-			<!-- Status Updater -->
-			<script src="{{ asset('assets/dashboard/js/status.js') }}"></script>
-			<!-- Sample Charts -->
-			<script src="{{ asset('assets/dashboard/js/charts.js') }}"></script>
-			<!-- Sample Notifications -->
-			<script src="{{ asset('assets/dashboard/js/notification.js') }}"></script>
-		{% endblock %}
+		<script src="{{ asset('assets/dashboard/js/Chart.min.js') }}"></script>
+		<script src="{{ asset('assets/dashboard/js/jquery.transit.min.js') }}"></script>
+		<script src="{{ asset('assets/dashboard/js/notyf.min.js') }}"></script>
+		<!-- Required Overall Script -->
+		<script src="{{ asset('assets/dashboard/js/script.js') }}"></script>
+		<!-- Status Updater -->
+		<script src="{{ asset('assets/dashboard/js/status.js') }}"></script>
+		<!-- Sample Charts -->
+		<script src="{{ asset('assets/dashboard/js/charts.js') }}"></script>
+
+		{% block javascripts %}{% endblock %}
+
+		{% block extraJs %}{% endblock %}
 	</body>
 </html>

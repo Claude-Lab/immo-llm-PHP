@@ -1,29 +1,91 @@
 <div id="sidebar" class="tm-sidebar-left uk-background-default">
-    <center>
-        <div class="user">
-            <img id="avatar" width="100" class="uk-border-circle" src="images/avatar.jpg" />
-            <div class="uk-margin-top"></div>
-            <div id="name" class="uk-text-truncate">Èrik Campobadal</div>
-            <div id="email" class="uk-text-truncate">ConsoleTVs@gmail.com</div>
-            <span id="status" data-enabled="true" data-online-text="Online" data-away-text="Away" data-interval="10000" class="uk-margin-top uk-label uk-label-success"></span>
-        </div>
-        <br />
-    </center>
-    <ul class="uk-nav uk-nav-default">
+	<center>
+		<div class="user">
+			{% if app.user.avatar %}
+				<img id="avatar" width="100" class="uk-border-circle" src="{{ asset('documents/images/avatars/' ~ app.user.avatar) }}"/>
+			{% else %}
+				<img id="avatar" width="100" class="uk-border-circle" src="{{ asset('documents/images/avatars/default.png') }}"/>
+			{% endif %}
+			<div class="uk-margin-top"></div>
+			<div id="name" class="uk-text-truncate">{{ app.user.firstname }}
+				{{ app.user.lastname }}</div>
+			<div id="email" class="uk-text-truncate">{{ app.user.email }}
+			</div>
 
-        <li class="uk-nav-header">
-            UI Elements
-        </li>
-        <li><a href="buttons.html">Buttons</a></li>
-        <li><a href="components.html">Components</a></li>
-        <li><a href="tables.html">Tables</a></li>
+			<div class="uk-text-truncate role">
+				{% if app.user.roles[0] == 'ROLE_ADMIN' %}
+					Administrateur
+				{% elseif app.user.roles[0] == 'ROLE_OWNER' %}
+					Propriétaire
+				{% elseif app.user.roles[0] == 'ROLE_TENANT' %}
+					Locataire
+				{% elseif app.user.roles[0] == 'ROLE_GUARANTY' %}
+					Caution solidaire
+				{% endif %}
+			</div>
 
-        <li class="uk-nav-header">
-            Pages
-        </li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="register.html">Register</a></li>
-        <li><a href="article.html">Article</a></li>
-        <li><a href="404.html">404</a></li>
-    </ul>
+
+			<span id="status" data-enabled="true" data-online-text="Online" data-away-text="Away" data-interval="10000" class="uk-margin-top uk-label uk-label-success"></span>
+		</div>
+		<br/>
+	</center>
+	<ul class="uk-nav uk-nav-default">
+
+		<li class="uk-nav-header">
+			<a href="{{ path('dashboard') }}">Accueil</a>
+		</li>
+
+		<li class="uk-nav-header">
+			Administration
+		</li>
+
+		<li>
+			<a href="#">Créer un propriétaire</a>
+		</li>
+
+
+		<li class="uk-nav-header">
+			Mes données
+		</li>
+
+		<li>
+			<a href="#">Mon contrat</a>
+		</li>
+
+		<li>
+			<a href="#">Mes fichiers partagés</a>
+		</li>
+
+		<li>
+			<a href="#">Mes quittances de loyers</a>
+		</li>
+
+		<li class="uk-nav-header">
+			Mes logements
+		</li>
+
+		<li>
+			<a href="#">Liste des logements</a>
+		</li>
+
+		<li>
+			<a href="#">Liste des locataire</a>
+		</li>
+
+		<li>
+			<a href="#">Liste des contrats</a>
+		</li>
+
+		<li class="uk-nav-header">
+			Mon mobilier
+		</li>
+
+		<li>
+			<a href="#">Mes équipements disponibles</a>
+		</li>
+
+		<li>
+			<a href="#">Modes de chauffage</a>
+		</li>
+	</ul>
 </div>

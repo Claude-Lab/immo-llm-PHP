@@ -1,28 +1,43 @@
 <div uk-sticky class="uk-navbar-container tm-navbar-container uk-active">
-    <div class="uk-container uk-container-expand">
-        <nav uk-navbar>
-            <div class="uk-navbar-left">
-                <a id="sidebar_toggle" class="uk-navbar-toggle" uk-navbar-toggle-icon></a>
-                <a href="#" class="uk-navbar-item uk-logo">
-                    Tableau de bord
-                </a>
-            </div>
-            <div class="uk-navbar-right uk-light">
-                <ul class="uk-navbar-nav">
-                    <li class="uk-active">
-                        <a href="#">Èrik &nbsp;<span class="ion-ios-arrow-down"></span></a>
-                        <div uk-dropdown="pos: bottom-right; mode: click; offset: -17;">
-                            <ul class="uk-nav uk-navbar-dropdown-nav">
-                                <li class="uk-nav-header">Options</li>
-                                <li><a href="#">Edit Profile</a></li>
-                                <li class="uk-nav-header">Actions</li>
-                                <li><a href="#">Lock</a></li>
-                                <li><a href="#">Logout</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+	<div class="uk-container uk-container-expand">
+		<nav uk-navbar>
+			<div class="uk-navbar-left">
+				<a id="sidebar_toggle" class="uk-navbar-toggle" uk-navbar-toggle-icon></a>
+				<a href="{{ path('dashboard') }}" class="uk-navbar-item uk-logo">
+					{% if app.user.roles == 'ROLE_ADMIN' %}
+						Mon compte Admin
+					{% elseif app.user.roles == 'ROLE_OWNER' %}
+						Ma gestion immobilière
+					{% elseif app.user.roles == 'ROLE_TENANT' %}
+						Mon compte locataire
+					{% elseif app.user.roles == 'ROLE_GUARANTY' %}
+						Accès caution solidaire
+					{% endif %}
+
+
+				</a>
+			</div>
+			<div class="uk-navbar-right uk-light">
+				<ul class="uk-navbar-nav">
+					<li class="uk-active">
+						<a href="#">{{ app.user.firstname }}
+							{{ app.user.lastname }}&nbsp;<span class="ion-ios-arrow-down"></span>
+						</a>
+						<div uk-dropdown="pos: bottom-right; mode: click; offset: -17;">
+							<ul class="uk-nav uk-navbar-dropdown-nav">
+								<li class="uk-nav-header">Options</li>
+								<li>
+									<a href="{{ path('user_profile') }} ">Mon compte</a>
+								</li>
+								<li class="uk-nav-header">Actions</li>
+								<li>
+									<a href="{{ path('app_logout') }}">Deconnexion</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
 </div>

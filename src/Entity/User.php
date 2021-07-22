@@ -15,39 +15,45 @@ class User implements UserInterface
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * 
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * 
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * 
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=180)
+     * 
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=180)
+     * 
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=15)
+     * 
      */
     private $mobile;
 
@@ -73,7 +79,7 @@ class User implements UserInterface
     private $addressAfter;
 
     /**
-     * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="owner")
      */
     private $housings;
 
@@ -91,6 +97,11 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity=Contract::class)
      */
     private $guarantyContract;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar;
 
     public function __construct()
     {
@@ -343,6 +354,18 @@ class User implements UserInterface
     public function setGuarantyContract(?Contract $guarantyContract): self
     {
         $this->guarantyContract = $guarantyContract;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }
