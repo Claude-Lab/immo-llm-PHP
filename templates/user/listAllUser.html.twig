@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!
+{% endblock %}
+
+{% block body %}
+	<div class="content-padder content-background">
+		<div class="uk-section-small">
+			<div class="uk-container uk-container-large">
+				<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+					<div class="uk-first-column">
+						<div class="uk-card uk-card-default">
+							<div class="uk-card-header">
+								Liste de tout les utilisateurs
+							</div>
+							<div class="uk-card-body">
+								<table class="uk-table uk-table-striped">
+									<thead>
+										<tr>
+											<th>Prénom Nom</th>
+											<th>Nb de propriété</th>
+											<th>Mobile</th>
+											<th>Email</th>
+											<th>Ville</th>
+											<th>Role</th>
+											<th>Detail</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for user in users %}
+											<tr>
+												<td>{{ user.firstname }} {{ user.lastname }}</td>
+												<td>{{ user.housings | length }}</td>
+												<td>{{ user.mobile }}</td>
+												<td>{{ user.email }}</td>
+												<td>{{ user.address.city }}</td>
+												<td>
+													{% if user.roles[0] == 'ROLE_ADMIN' %}
+														Administrateur
+													{% elseif user.roles[0] == 'ROLE_OWNER' %}
+														Propriétaire
+													{% elseif user.roles[0] == 'ROLE_TENANT' %}
+														Locataire
+													{% elseif user.roles[0] == 'ROLE_GUARANTY' %}
+														Caution solidaire
+													{% endif %}
+												</td>
+
+												<td>
+													<a href="{{ path('user_detail', {'id' : user.id}) }}">Détail</td>
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</tr>
+							</tbody>
+						</table>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div></div>{% endblock %}

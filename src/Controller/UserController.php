@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\AdminUpdateProfileType;
+use App\Form\CreateOwnerType;
 use App\Repository\UserRepository;
 use App\Utils\UploadProfilePic;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,7 +35,7 @@ class UserController extends AbstractController
 
 
     #[Route('/user/profile', name: 'user_profile')]
-    public function editProfile(Request $request,): Response
+    public function editProfile(Request $request): Response
     {
 
         $user = $this->getUser();
@@ -71,4 +73,63 @@ class UserController extends AbstractController
             ]);
         }
     }
+
+    #[Route('/user/createOwner', name: 'user_create_owner')]
+    public function createOwner(Request $request): Response
+    {
+        $owner = new User();
+        $ownerForm = $this->createForm(CreateOwnerType::class, $owner);
+        $ownerForm->handleRequest($request);
+
+        if ($ownerForm->isSubmitted() && $ownerForm->isValid()) {
+
+            $password = random_bytes(10);
+            $owner->setPassword($this->passwordEncoder->encodePassword($owner,  $password));
+
+            $role = ['ROLE_OWNER'];
+            $owner->setRoles($role);
+
+            $this->entityManager->persist($owner);
+            $this->entityManager->flush();
+            $this->addFlash("Création", "Succès de la création du propriétaire");
+
+            return $this->redirectToRoute('dashboard', [
+                'owner' => $owner
+            ]);
+        } else {
+
+            return $this->render('user/createOwner.html .twig', [
+                'owner' => $owner,
+                'ownerForm' => $ownerForm->createView()
+            ]);
+        }
+    }
+
+    #[Route('/admin/user/listAll', name: 'user_list_all')]
+    public function listAllUser(): Response
+    {
+
+        $users = $this->userRepository->findAll();
+
+        return $this->render('user/listAllUser.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    #[Route('/admin/user/detail/{id}', name: 'user_detail')]
+    public function userDetail(int $id): Response
+    {
+
+        $user = $this->userRepository->find($id);
+
+        if (!$user) {
+            throw $this->createNotFoundException("Ooop ! Cette personne n'existe pas...");
+        }
+
+        return $this->render('user/userDetail.html.twig', [
+            'user' => $user
+        ]);
+    }
+
+
 }
