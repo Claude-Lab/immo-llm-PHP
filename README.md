@@ -9,7 +9,7 @@ Web project for housings.
 5. [FAQs](#faqs)
 ### General Info
 ***
-Web Application "Immo" pour organiser la gestion des propriétaires et locataires.
+Web Application "Immo" pour organiser la gestion des propriétaires et locataires. 
 Projet en cours de développement.
 
 ## Technologies
