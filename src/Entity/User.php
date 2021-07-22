@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -53,6 +55,48 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=15, nullable=true)
      */
     private $phone;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $address;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
+     */
+    private $addressBefore;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
+     */
+    private $addressAfter;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="user")
+     */
+    private $housings;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="owner")
+     */
+    private $ownerContracts;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Contract::class)
+     */
+    private $tenantContract;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Contract::class)
+     */
+    private $guarantyContract;
+
+    public function __construct()
+    {
+        $this->housings = new ArrayCollection();
+        $this->ownerContracts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -179,6 +223,126 @@ class User implements UserInterface
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getAddressBefore(): ?Address
+    {
+        return $this->addressBefore;
+    }
+
+    public function setAddressBefore(?Address $addressBefore): self
+    {
+        $this->addressBefore = $addressBefore;
+
+        return $this;
+    }
+
+    public function getAddressAfter(): ?Address
+    {
+        return $this->addressAfter;
+    }
+
+    public function setAddressAfter(?Address $addressAfter): self
+    {
+        $this->addressAfter = $addressAfter;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Housing[]
+     */
+    public function getHousings(): Collection
+    {
+        return $this->housings;
+    }
+
+    public function addHousing(Housing $housing): self
+    {
+        if (!$this->housings->contains($housing)) {
+            $this->housings[] = $housing;
+            $housing->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHousing(Housing $housing): self
+    {
+        if ($this->housings->removeElement($housing)) {
+            // set the owning side to null (unless already changed)
+            if ($housing->getOwner() === $this) {
+                $housing->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contract[]
+     */
+    public function getOwnerContracts(): Collection
+    {
+        return $this->ownerContracts;
+    }
+
+    public function addOwnerContract(Contract $ownerContract): self
+    {
+        if (!$this->ownerContracts->contains($ownerContract)) {
+            $this->ownerContracts[] = $ownerContract;
+            $ownerContract->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnerContract(Contract $ownerContract): self
+    {
+        if ($this->ownerContracts->removeElement($ownerContract)) {
+            // set the owning side to null (unless already changed)
+            if ($ownerContract->getOwner() === $this) {
+                $ownerContract->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTenantContract(): ?Contract
+    {
+        return $this->tenantContract;
+    }
+
+    public function setTenantContract(?Contract $tenantContract): self
+    {
+        $this->tenantContract = $tenantContract;
+
+        return $this;
+    }
+
+    public function getGuarantyContract(): ?Contract
+    {
+        return $this->guarantyContract;
+    }
+
+    public function setGuarantyContract(?Contract $guarantyContract): self
+    {
+        $this->guarantyContract = $guarantyContract;
 
         return $this;
     }
