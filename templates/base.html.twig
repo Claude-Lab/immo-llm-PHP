@@ -14,37 +14,57 @@
 		<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/style.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/notyf.min.css') }}"/>
-		<link rel="stylesheet" href="{{ asset('assets/styles.css') }}"/>
-		<script src="{{ asset('assets/jquery.min.js') }}"></script>
-		<script src="{{ asset('assets/dashboard/js/uikit.min.js') }}"></script>
-		<script src="{{ asset('assets/dashboard/js/uikit-icons.min.js') }}"></script>
+		<link rel="stylesheet" href="{{ asset('assets/styles.css') }}"/> 
+		{% block stylesheets %}
+		{% endblock %}
 
-		{% block stylesheets %}{% endblock %}
+		{% block extraCss %}
+		{% endblock %}
+		
 
-		{% block extraCss %}{% endblock %}
+		</head>
+		<body>
 
-	</head>
-	<body>
-		{% if app.user %}
-			{% include 'includes/nav.html.twig' %}
-			{% include 'includes/side.html.twig' %}
-		{% endif %}
+			{% if app.user %}
+				{% include 'includes/nav.html.twig' %}
+				{% include 'includes/side.html.twig' %}
+			{% endif %}
 
+			{% block frame %}
+				<div class="content-padder content-background">
+					<div class="uk-section-small">
+						<div
+							class="uk-container uk-container-large">
 
-		{% block body %}{% endblock %}
+							{# affiche les éventuels messages flash #}
+							{% for label, messages in app.flashes %}
+								{% for message in messages %}
+									<div class="uk-alert-success" uk-alert>
+										<a class="uk-alert-close" uk-close></a>
+										<p>{{ message }}</p>
+									</div>
+								{% endfor %}
+							{% endfor %}
+							{% block body %}{% endblock %}
+						</div>
+					</div>
+				</div>
+			{% endblock %}
+			<script src="{{ asset('assets/jquery.min.js') }}"></script>
+			<script src="{{ asset('assets/dashboard/js/uikit.min.js') }}"></script>
+			<script src="{{ asset('assets/dashboard/js/uikit-icons.min.js') }}"></script>
+			<script src="{{ asset('assets/dashboard/js/Chart.min.js') }}"></script>
+			<script src="{{ asset('assets/dashboard/js/jquery.transit.min.js') }}"></script>
+			<script src="{{ asset('assets/dashboard/js/notyf.min.js') }}"></script>
+			<!-- Required Overall Script -->
+			<script src="{{ asset('assets/dashboard/js/script.js') }}"></script>
+			<!-- Status Updater -->
+			<script src="{{ asset('assets/dashboard/js/status.js') }}"></script>
+			<!-- Sample Charts -->
+			<script src="{{ asset('assets/dashboard/js/charts.js') }}"></script>
 
-		<script src="{{ asset('assets/dashboard/js/Chart.min.js') }}"></script>
-		<script src="{{ asset('assets/dashboard/js/jquery.transit.min.js') }}"></script>
-		<script src="{{ asset('assets/dashboard/js/notyf.min.js') }}"></script>
-		<!-- Required Overall Script -->
-		<script src="{{ asset('assets/dashboard/js/script.js') }}"></script>
-		<!-- Status Updater -->
-		<script src="{{ asset('assets/dashboard/js/status.js') }}"></script>
-		<!-- Sample Charts -->
-		<script src="{{ asset('assets/dashboard/js/charts.js') }}"></script>
+			{% block javascripts %}{% endblock %}
 
-		{% block javascripts %}{% endblock %}
-
-		{% block extraJs %}{% endblock %}
-	</body>
-</html>
+			{% block extraJs %}{% endblock %}
+		</body>
+	</html>

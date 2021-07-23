@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\AdminUpdateProfileType;
 use App\Form\CreateOwnerType;
+use App\Form\CreateTenantType;
+use App\Form\OwnerUpdateProfileType;
 use App\Repository\UserRepository;
 use App\Utils\UploadProfilePic;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,7 +36,7 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('/user/profile', name: 'user_profile')]
+    #[Route('/admin/user/profile', name: 'user_admin_profile')]
     public function editProfile(Request $request): Response
     {
 
@@ -74,6 +76,46 @@ class UserController extends AbstractController
         }
     }
 
+    #[Route('/owner/profile', name: 'user_owner_profile')]
+    public function editOwnerProfile(Request $request): Response
+    {
+
+        $owner = $this->getUser();
+        $ownerId = $owner->getId();
+        $owner = $this->userRepository->find($ownerId);
+        $userForm = $this->createForm(OwnerUpdateProfileType::class, $owner);
+        $userForm->handleRequest($request);
+
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
+
+            $firstPasswordField = $userForm->get('plainPassword')->getData();
+            if ($firstPasswordField) {
+                $owner->setPassword($this->passwordEncoder->encodePassword($owner,  $firstPasswordField));
+            }
+
+            $avatar = $userForm->get('avatar')->getData();
+            if ($avatar) {
+                $imageDirectory = $this->getParameter('upload_profile_avatar');
+                $imageName = $owner->getFirstname() . $owner->getLastname() . $owner->getId();
+                $owner->setAvatar($this->uploadProfilePic->save($imageName, $avatar, $imageDirectory));
+            }
+
+            $this->entityManager->persist($owner);
+            $this->entityManager->flush();
+            $this->addFlash("Edition", "Profil édité avec succès");
+
+            return $this->redirectToRoute('dashboard', [
+                'owner' => $owner
+            ]);
+        } else {
+
+            return $this->render('user/editOwnerProfile.html.twig', [
+                'owner' => $owner,
+                'userForm' => $userForm->createView()
+            ]);
+        }
+    }
+
     #[Route('/user/createOwner', name: 'user_create_owner')]
     public function createOwner(Request $request): Response
     {
@@ -101,6 +143,37 @@ class UserController extends AbstractController
             return $this->render('user/createOwner.html .twig', [
                 'owner' => $owner,
                 'ownerForm' => $ownerForm->createView()
+            ]);
+        }
+    }
+
+    #[Route('/user/createTenant', name: 'user_create_tenant')]
+    public function createTenant(Request $request): Response
+    {
+        $tenant = new User();
+        $tenantForm = $this->createForm(CreateTenantType::class, $tenant);
+        $tenantForm->handleRequest($request);
+
+        if ($tenantForm->isSubmitted() && $tenantForm->isValid()) {
+
+            $password = random_bytes(10);
+            $tenant->setPassword($this->passwordEncoder->encodePassword($tenant,  $password));
+
+            $role = ['ROLE_TENANT'];
+            $tenant->setRoles($role);
+
+            $this->entityManager->persist($tenant);
+            $this->entityManager->flush();
+            $this->addFlash("Création", "Succès de la création du locataire");
+
+            return $this->redirectToRoute('dashboard', [
+                'tenant' => $tenant
+            ]);
+        } else {
+
+            return $this->render('user/createTenant.html.twig', [
+                'tenant' => $tenant,
+                'tenantForm' => $tenantForm->createView()
             ]);
         }
     }

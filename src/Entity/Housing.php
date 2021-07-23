@@ -40,11 +40,6 @@ class Housing
     private $rentalLoad;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $securityDeposit;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="housings")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -72,11 +67,6 @@ class Housing
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity=Option::class, mappedBy="housing")
-     */
-    private $options;
-
-    /**
      * @ORM\OneToMany(targetEntity=Tax::class, mappedBy="housing")
      */
     private $taxes;
@@ -90,6 +80,46 @@ class Housing
      * @ORM\OneToMany(targetEntity=Document::class, mappedBy="housing")
      */
     private $photos;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $floor;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $attic;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $cellar;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $pool;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $box;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $landSurface;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbFloor;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $elevator;
 
     public function __construct()
     {
@@ -149,18 +179,6 @@ class Housing
     public function setRentalLoad(?float $rentalLoad): self
     {
         $this->rentalLoad = $rentalLoad;
-
-        return $this;
-    }
-
-    public function getSecurityDeposit(): ?float
-    {
-        return $this->securityDeposit;
-    }
-
-    public function setSecurityDeposit(?float $securityDeposit): self
-    {
-        $this->securityDeposit = $securityDeposit;
 
         return $this;
     }
@@ -244,36 +262,6 @@ class Housing
     public function setType(?HousingType $type): self
     {
         $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Option[]
-     */
-    public function getOptions(): Collection
-    {
-        return $this->options;
-    }
-
-    public function addOption(Option $option): self
-    {
-        if (!$this->options->contains($option)) {
-            $this->options[] = $option;
-            $option->setHousing($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOption(Option $option): self
-    {
-        if ($this->options->removeElement($option)) {
-            // set the owning side to null (unless already changed)
-            if ($option->getHousing() === $this) {
-                $option->setHousing(null);
-            }
-        }
 
         return $this;
     }
@@ -364,6 +352,101 @@ class Housing
                 $photo->setHousing(null);
             }
         }
+        return $this;
+    }
+
+    public function getFloor(): ?int
+    {
+        return $this->floor;
+    }
+
+    public function setFloor(?int $floor): self
+    {
+        $this->floor = $floor;
+
+        return $this;
+    }
+
+    public function getAttic(): ?bool
+    {
+        return $this->attic;
+    }
+
+    public function setAttic(bool $attic): self
+    {
+        $this->attic = $attic;
+
+        return $this;
+    }
+
+    public function getCellar(): ?bool
+    {
+        return $this->cellar;
+    }
+
+    public function setCellar(bool $cellar): self
+    {
+        $this->cellar = $cellar;
+
+        return $this;
+    }
+
+    public function getPool(): ?bool
+    {
+        return $this->pool;
+    }
+
+    public function setPool(bool $pool): self
+    {
+        $this->pool = $pool;
+
+        return $this;
+    }
+
+    public function getBox(): ?bool
+    {
+        return $this->box;
+    }
+
+    public function setBox(bool $box): self
+    {
+        $this->box = $box;
+
+        return $this;
+    }
+
+    public function getLandSurface(): ?float
+    {
+        return $this->landSurface;
+    }
+
+    public function setLandSurface(?float $landSurface): self
+    {
+        $this->landSurface = $landSurface;
+
+        return $this;
+    }
+
+    public function getNbFloor(): ?int
+    {
+        return $this->nbFloor;
+    }
+
+    public function setNbFloor(?int $nbFloor): self
+    {
+        $this->nbFloor = $nbFloor;
+
+        return $this;
+    }
+
+    public function getElevator(): ?bool
+    {
+        return $this->elevator;
+    }
+
+    public function setElevator(bool $elevator): self
+    {
+        $this->elevator = $elevator;
 
         return $this;
     }

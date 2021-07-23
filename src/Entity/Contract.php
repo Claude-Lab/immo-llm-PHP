@@ -56,6 +56,11 @@ class Contract
      */
     private $documents;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $securityDeposit;
+
     public function __construct()
     {
         $this->receipts = new ArrayCollection();
@@ -184,6 +189,18 @@ class Contract
                 $document->setContract(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSecurityDeposit(): ?float
+    {
+        return $this->securityDeposit;
+    }
+
+    public function setSecurityDeposit(float $securityDeposit): self
+    {
+        $this->securityDeposit = $securityDeposit;
 
         return $this;
     }

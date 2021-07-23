@@ -34,63 +34,63 @@
 		<li class="uk-nav-header">
 			<a href="{{ path('dashboard') }}">Accueil</a>
 		</li>
+		{% if app.user.roles[0] == 'ROLE_ADMIN' %}
+			<li class="uk-nav-header">
+				Administration
+			</li>
+			<li>
+				<a href="{{ path('user_list_all') }}">Liste des comptes</a>
+			</li>
+			<li>
+				<a href="{{ path('user_create_owner') }}">Créer un propriétaire</a>
+			</li>
+			<li>
+				<a href="{{ path('user_create_tenant') }}">Créer un locataire</a>
+			</li>
+		{% endif %}
 
-		<li class="uk-nav-header">
-			Administration
-		</li>
+		{% if app.user.roles[0] == 'ROLE_TENANT' %}
+			<li class="uk-nav-header">
+				Mes données
+			</li>
+			<li>
+				<a href="#">Mon contrat</a>
+			</li>
+			<li>
+				<a href="#">Mes fichiers partagés</a>
+			</li>
+			<li>
+				<a href="#">Mes quittances de loyers</a>
+			</li>
+		{% endif %}
 
-		<li>
-			<a href="{{ path('user_list_all') }}">Liste des comptes</a>
+		{% if app.user.roles[0] == 'ROLE_OWNER' %}
+			<li class="uk-nav-header">
+				Mes logements
+			</li>
+			<li>
+				<a href="{{ path('housing_list') }}">Liste de mes logements</a>
+			</li>
+			<li>
+				<a href="#">Liste de mes locataires</a>
+			</li>
+			<li>
+				<a href="#">Liste des contrats</a>
+			</li>
+		{% endif %}
 
-		</li>
-		<li>
-			<a href="{{ path('user_create_owner') }}">Créer un propriétaire</a>
+		{% if (app.user.roles[0] == 'ROLE_OWNER') or (app.user.roles[0] == 'ROLE_ADMIN') %}
+			<li class="uk-nav-header">
+				Mon mobilier
+			</li>
+			<li>
+				<a href="{{ path('equipment_list') }}">Mes équipements disponibles</a>
 
-		</li>
+			</li>
+			<li>
+				<a href="#">Modes de chauffage</a>
+			</li>
+		{% endif %}
 
-
-		<li class="uk-nav-header">
-			Mes données
-		</li>
-
-		<li>
-			<a href="#">Mon contrat</a>
-		</li>
-
-		<li>
-			<a href="#">Mes fichiers partagés</a>
-		</li>
-
-		<li>
-			<a href="#">Mes quittances de loyers</a>
-		</li>
-
-		<li class="uk-nav-header">
-			Mes logements
-		</li>
-
-		<li>
-			<a href="#">Liste des logements</a>
-		</li>
-
-		<li>
-			<a href="#">Liste des locataire</a>
-		</li>
-
-		<li>
-			<a href="#">Liste des contrats</a>
-		</li>
-
-		<li class="uk-nav-header">
-			Mon mobilier
-		</li>
-
-		<li>
-			<a href="#">Mes équipements disponibles</a>
-		</li>
-
-		<li>
-			<a href="#">Modes de chauffage</a>
-		</li>
 	</ul>
 </div>
