@@ -30,7 +30,6 @@ class EquipmentController extends AbstractController
     #[Route('/equipment/create', name: 'equipment_create')]
     public function create(Request $request): Response
     {
-        $equipments = $this->equipmentRepository->findAll();
         $equipment = new Equipment();
         $equipmentForm = $this->createForm(EquipmentType::class, $equipment);
         $equipmentForm->handleRequest($request);
@@ -43,9 +42,7 @@ class EquipmentController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash("Création", "Succès de la création d'un équipement'");
 
-            return $this->redirectToRoute('equipment_list', [
-                'equipments' => $equipments
-            ]);
+            return $this->redirectToRoute('equipment_list');
         } else {
 
             return $this->render('equipment/create.html.twig', [

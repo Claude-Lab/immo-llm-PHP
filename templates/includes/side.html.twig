@@ -47,6 +47,10 @@
 			<li>
 				<a href="{{ path('user_create_tenant') }}">Créer un locataire</a>
 			</li>
+			<li>
+				<a href="{{ path('user_create_tenant') }}">Créer un garant</a>
+			</li>
+
 		{% endif %}
 
 		{% if app.user.roles[0] == 'ROLE_TENANT' %}
@@ -64,6 +68,16 @@
 			</li>
 		{% endif %}
 
+		{% if app.user.roles[0] == 'ROLE_ADMIN' %}
+			<li class="uk-nav-header">
+				Liste des logements
+			</li>
+			<li>
+				<a href="{{ path('housing_list') }}">Liste des logements</a>
+			</li>
+		{% endif %}
+
+
 		{% if app.user.roles[0] == 'ROLE_OWNER' %}
 			<li class="uk-nav-header">
 				Mes logements
@@ -79,7 +93,21 @@
 			</li>
 		{% endif %}
 
-		{% if (app.user.roles[0] == 'ROLE_OWNER') or (app.user.roles[0] == 'ROLE_ADMIN') %}
+		{% if (app.user.roles[0] == 'ROLE_ADMIN') %}
+			<li class="uk-nav-header">
+				Mobilier
+			</li>
+			<li>
+				<a href="{{ path('equipment_list') }}">Liste des équipements disponibles</a>
+
+			</li>
+			<li>
+				<a href="#">Modes de chauffage</a>
+			</li>
+		{% endif %}
+
+
+		{% if (app.user.roles[0] == 'ROLE_OWNER')%}
 			<li class="uk-nav-header">
 				Mon mobilier
 			</li>
