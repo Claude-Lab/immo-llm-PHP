@@ -45,14 +45,25 @@ abstract class User implements UserInterface
     private $address;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Contract::class, mappedBy="users")
+     * @ORM\OneToOne(targetEntity=Contract::class, inversedBy="tenantUser", cascade={"persist", "remove"})
      */
-    private $contracts;
+    private $tenantContract;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="ownerUser")
+     */
+    private $ownerContract;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Contract::class, inversedBy="guarantyUser", cascade={"persist", "remove"})
+     */
+    private $guarantyContract;
 
     public function __construct()
     {
-        $this->contracts = new ArrayCollection();
+        $this->ownerContract = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -147,29 +158,56 @@ abstract class User implements UserInterface
         return $this;
     }
 
+    public function getTenantContract(): ?Contract
+    {
+        return $this->tenantContract;
+    }
+
+    public function setTenantContract(?Contract $tenantContract): self
+    {
+        $this->tenantContract = $tenantContract;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Contract[]
      */
-    public function getContracts(): Collection
+    public function getOwnerContract(): Collection
     {
-        return $this->contracts;
+        return $this->ownerContract;
     }
 
-    public function addContract(Contract $contract): self
+    public function addOwnerContract(Contract $ownerContract): self
     {
-        if (!$this->contracts->contains($contract)) {
-            $this->contracts[] = $contract;
-            $contract->addUser($this);
+        if (!$this->ownerContract->contains($ownerContract)) {
+            $this->ownerContract[] = $ownerContract;
+            $ownerContract->setOwnerUser($this);
         }
 
         return $this;
     }
 
-    public function removeContract(Contract $contract): self
+    public function removeOwnerContract(Contract $ownerContract): self
     {
-        if ($this->contracts->removeElement($contract)) {
-            $contract->removeUser($this);
+        if ($this->ownerContract->removeElement($ownerContract)) {
+            // set the owning side to null (unless already changed)
+            if ($ownerContract->getOwnerUser() === $this) {
+                $ownerContract->setOwnerUser(null);
+            }
         }
+
+        return $this;
+    }
+
+    public function getGuarantyContract(): ?Contract
+    {
+        return $this->guarantyContract;
+    }
+
+    public function setGuarantyContract(?Contract $guarantyContract): self
+    {
+        $this->guarantyContract = $guarantyContract;
 
         return $this;
     }

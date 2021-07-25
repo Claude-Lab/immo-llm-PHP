@@ -35,6 +35,21 @@ class Contract
      */
     private $users;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="tenantContract", cascade={"persist", "remove"})
+     */
+    private $tenantUser;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ownerContract")
+     */
+    private $ownerUser;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="guarantyContract", cascade={"persist", "remove"})
+     */
+    private $guarantyUser;
+
     public function __construct()
     {
         $this->receipts = new ArrayCollection();
@@ -109,6 +124,62 @@ class Contract
     public function removeUser(User $user): self
     {
         $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    public function getTenantUser(): ?User
+    {
+        return $this->tenantUser;
+    }
+
+    public function setTenantUser(?User $tenantUser): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($tenantUser === null && $this->tenantUser !== null) {
+            $this->tenantUser->setTenantContract(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($tenantUser !== null && $tenantUser->getTenantContract() !== $this) {
+            $tenantUser->setTenantContract($this);
+        }
+
+        $this->tenantUser = $tenantUser;
+
+        return $this;
+    }
+
+    public function getOwnerUser(): ?User
+    {
+        return $this->ownerUser;
+    }
+
+    public function setOwnerUser(?User $ownerUser): self
+    {
+        $this->ownerUser = $ownerUser;
+
+        return $this;
+    }
+
+    public function getGuarantyUser(): ?User
+    {
+        return $this->guarantyUser;
+    }
+
+    public function setGuarantyUser(?User $guarantyUser): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($guarantyUser === null && $this->guarantyUser !== null) {
+            $this->guarantyUser->setGuarantyContract(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($guarantyUser !== null && $guarantyUser->getGuarantyContract() !== $this) {
+            $guarantyUser->setGuarantyContract($this);
+        }
+
+        $this->guarantyUser = $guarantyUser;
 
         return $this;
     }
