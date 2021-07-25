@@ -4,12 +4,10 @@ namespace App\Form;
 
 use App\Entity\Equipment;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EquipmentUpdateType extends AbstractType
+class EquipmentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -22,22 +20,22 @@ class EquipmentUpdateType extends AbstractType
                     'class'                 => 'uk-input'
                 ]
             ])
-            ->add('description', TextareaType::class, [
+            ->add('brand', TextType::class, [
                 'label'                     => false,
                 'required'                  => true,
                 'attr'                      => [
-                    'placeholder'           => 'Donnez une déscription de l\'équipement (type, n° de série, etc)',
-                    'class'                 => 'uk-input description'
+                    'placeholder'           => 'Marque',
+                    'class'                 => 'uk-input'
                 ]
             ])
-            ->add('modality', TextareaType::class, [
+            ->add('serialNumber', TextType::class, [
                 'label'                     => false,
                 'required'                  => true,
                 'attr'                      => [
-                    'placeholder'           => 'Indiquez une modalité (prêt gracieux, intégré au meublé, etc.)',
-                    'class'                 => 'uk-input description'
+                    'placeholder'           => 'Numéro de série',
+                    'class'                 => 'uk-input'
                 ]
-            ]);;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

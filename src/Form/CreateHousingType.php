@@ -3,7 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Housing;
+use Doctrine\DBAL\Types\BooleanType;
+use Doctrine\DBAL\Types\IntegerType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

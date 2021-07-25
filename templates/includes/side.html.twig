@@ -2,7 +2,7 @@
 	<center>
 		<div class="user">
 			{% if app.user.avatar %}
-				<img id="avatar" width="100" class="uk-border-circle" src="{{ asset('documents/images/avatars/' ~ app.user.avatar) }}"/>
+				<img id="avatar" width="100" class="uk-border-circle" src="{{ asset('documents/images/users/avatars/' ~ app.user.avatar) }}"/>
 			{% else %}
 				<img id="avatar" width="100" class="uk-border-circle" src="{{ asset('documents/images/avatars/default.png') }}"/>
 			{% endif %}
