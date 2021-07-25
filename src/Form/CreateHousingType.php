@@ -12,22 +12,60 @@ class CreateHousingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nbRoom')
-            ->add('surface')
-            ->add('rental')
-            ->add('housingLoad')
-            ->add('floor')
-            ->add('attic')
-            ->add('cellar')
-            ->add('pool')
-            ->add('box')
-            ->add('landSurface')
-            ->add('nbFloor')
-            ->add('elevator')
-            ->add('address')
-            ->add('sort')
-            ->add('heat')
-        ;
+            ->add('nbRoom', IntegerType::class, [
+                'label'             => false
+            ])
+            ->add('surface', NumberType::class, [
+                'label'             => false
+            ])
+            ->add('rental', NumberType::class, [
+                'label'             => false
+            ])
+            ->add('rentalLoad', NumberType::class, [
+                'label'             => false
+            ])
+            ->add('floor', IntegerType::class, [
+                'label'             => false
+            ])
+            ->add('attic', BooleanType::class, [
+                'label'             => false
+            ])
+            ->add('cellar', BooleanType::class, [
+                'label'             => false
+            ])
+            ->add('pool', BooleanType::class, [
+                'label'             => false
+            ])
+            ->add('box', BooleanType::class, [
+                'label'             => false
+            ])
+            ->add('landSurface', NumberType::class, [
+                'label'             => false
+            ])
+            ->add('nbFloor', IntegerType::class, [
+                'label'             => false
+            ])
+            ->add('elevator', BooleanType::class, [
+                'label'             => false
+            ])
+            ->add('owner', EntityType::class, [
+                'label'             => false,
+                'class'             => User::class,
+                'choice_label'      => 'firstname' . ' ' . 'lastname'
+            ])
+            ->add('contract', EntityType::class, [
+                'label'             => false,
+                'class'             => ContractType::class,
+                'choice_label'      => 'id'
+            ])
+            ->add('address', AddressType::class, [
+                'label'             => false
+            ])
+            ->add('type', EntityType::class, [
+                'label'             => false,
+                'class'             => HousingType::class,
+                'choice_label'      => 'name'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

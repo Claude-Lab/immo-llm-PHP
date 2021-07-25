@@ -1,42 +1,99 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}
+	{{ parent() }}
+	| Connexion
+{% endblock %}
 
-{% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+{% block frame %}
+	<body
+		class="login uk-cover-container uk-background-secondary uk-flex uk-flex-center uk-flex-middle uk-height-viewport uk-overflow-hidden uk-light" data-uk-height-viewport>
+		<!-- overlay -->
+		<div class="uk-position-cover uk-overlay-primary"></div>
+		<!-- /overlay -->
+		<div class="uk-position-bottom-center uk-position-small uk-visible@m uk-position-z-index">
+			<span class="uk-text-small uk-text-muted">©
+				{{ 'now' | date("Y")}}
+				- Created by
+				<a href="https://claude-lusseau.fr/" target="_blank">Claude Lusseau</a>
+			</span>
+		</div>
+		<div class="uk-width-medium uk-padding-small uk-position-z-index" uk-scrollspy="cls: uk-animation-fade">
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+			<div class="uk-text-center uk-margin">
+				<img src="/documents/images/site/login-logo.png" alt="Logo">
+			</div>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+			<!-- login -->
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+			{% if app.user %}
+				<div class="mb-3">
+					Vous êtes dejà connecté
+					{{ app.user.username }},
+					<a href="{{ path('app_logout') }}">Deconnexion</a>
+				</div>
+			{% endif %}
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+			<form class="toggle-class" method="POST">
+				<fieldset class="uk-fieldset">
+					<div class="uk-margin-small">
+						<div class="uk-inline uk-width-1-1">
+							<span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: user"></span>
+							<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="uk-input uk-border-pill" autocomplete="email" placeholder="Email" required autofocus>
+						</div>
+					</div>
+					<div class="uk-margin-small">
+						<div class="uk-inline uk-width-1-1">
+							<span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: lock"></span>
+							<input type="password" name="password" id="inputPassword" class="uk-input uk-border-pill" autocomplete="current-password" placeholder="Mot de passe" required>
+						</div>
+					</div>
+					<div class="uk-margin-small">
+						<label><input class="uk-checkbox" type="checkbox">
+							Rester connecté</label>
+					</div>
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+					<div class="uk-margin-bottom">
+						<button type="submit" class="uk-button uk-button-primary uk-border-pill uk-width-1-1">Connexion</button>
+					</div>
+				</fieldset>
+			</form>
+			<!-- /login -->
+
+			<!-- recover password -->
+			<form class="toggle-class" action="login-dark.html" hidden>
+				<div class="uk-margin-small">
+					<div class="uk-inline uk-width-1-1">
+						<span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: mail"></span>
+						<input class="uk-input uk-border-pill" placeholder="E-mail" required type="text">
+					</div>
+				</div>
+				<div class="uk-margin-bottom">
+					<button type="submit" class="uk-button uk-button-primary uk-border-pill uk-width-1-1">M'envoyer le mot de passe</button>
+				</div>
+			</form>
+			<!-- /recover password -->
+
+			<!-- action buttons -->
+			<div>
+				<div class="uk-text-center">
+					<a class="uk-link-reset uk-text-small toggle-class" data-uk-toggle="target: .toggle-class ;animation: uk-animation-fade">Mot de passe oublié ?</a>
+					<a class="uk-link-reset uk-text-small toggle-class" data-uk-toggle="target: .toggle-class ;animation: uk-animation-fade" hidden>
+						<span data-uk-icon="arrow-left"></span>
+						Retour à la page de connexion</a>
+				</div>
+			</div>
+			<!-- action buttons -->
+		</div>
+
+		<!-- JS FILES -->
+		<script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit-icons.min.js"></script>
+	</body>
+
 {% endblock %}
