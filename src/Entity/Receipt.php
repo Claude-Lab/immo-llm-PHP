@@ -37,6 +37,12 @@ class Receipt
      */
     private $rentalLoad;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Contract::class, inversedBy="receipts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $contract;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +92,18 @@ class Receipt
     public function setRentalLoad(float $rentalLoad): self
     {
         $this->rentalLoad = $rentalLoad;
+
+        return $this;
+    }
+
+    public function getContract(): ?Contract
+    {
+        return $this->contract;
+    }
+
+    public function setContract(?Contract $contract): self
+    {
+        $this->contract = $contract;
 
         return $this;
     }

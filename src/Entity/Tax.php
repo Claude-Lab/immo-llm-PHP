@@ -32,6 +32,11 @@ class Tax
      */
     private $dateTax;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Housing::class, inversedBy="taxes")
+     */
+    private $housing;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class Tax
     public function setDateTax(\DateTimeInterface $dateTax): self
     {
         $this->dateTax = $dateTax;
+
+        return $this;
+    }
+
+    public function getHousing(): ?Housing
+    {
+        return $this->housing;
+    }
+
+    public function setHousing(?Housing $housing): self
+    {
+        $this->housing = $housing;
 
         return $this;
     }

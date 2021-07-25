@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\HousingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -76,6 +78,52 @@ class Housing
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $elevator;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $address;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="housing")
+     */
+    private $contracts;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Equipment::class, mappedBy="housing")
+     */
+    private $equipments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Sort::class, inversedBy="housings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $sort;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Heat::class, inversedBy="housings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $heat;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Tax::class, mappedBy="housing")
+     */
+    private $taxes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PropertyLoad::class, mappedBy="housing")
+     */
+    private $propertyLoads;
+
+    public function __construct()
+    {
+        $this->contracts = new ArrayCollection();
+        $this->equipments = new ArrayCollection();
+        $this->taxes = new ArrayCollection();
+        $this->propertyLoads = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -222,6 +270,162 @@ class Housing
     public function setElevator(?bool $elevator): self
     {
         $this->elevator = $elevator;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contract[]
+     */
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function addContract(Contract $contract): self
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts[] = $contract;
+            $contract->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): self
+    {
+        if ($this->contracts->removeElement($contract)) {
+            // set the owning side to null (unless already changed)
+            if ($contract->getHousing() === $this) {
+                $contract->setHousing(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Equipment[]
+     */
+    public function getEquipments(): Collection
+    {
+        return $this->equipments;
+    }
+
+    public function addEquipment(Equipment $equipment): self
+    {
+        if (!$this->equipments->contains($equipment)) {
+            $this->equipments[] = $equipment;
+            $equipment->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEquipment(Equipment $equipment): self
+    {
+        if ($this->equipments->removeElement($equipment)) {
+            // set the owning side to null (unless already changed)
+            if ($equipment->getHousing() === $this) {
+                $equipment->setHousing(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSort(): ?Sort
+    {
+        return $this->sort;
+    }
+
+    public function setSort(?Sort $sort): self
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    public function getHeat(): ?Heat
+    {
+        return $this->heat;
+    }
+
+    public function setHeat(?Heat $heat): self
+    {
+        $this->heat = $heat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tax[]
+     */
+    public function getTaxes(): Collection
+    {
+        return $this->taxes;
+    }
+
+    public function addTax(Tax $tax): self
+    {
+        if (!$this->taxes->contains($tax)) {
+            $this->taxes[] = $tax;
+            $tax->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTax(Tax $tax): self
+    {
+        if ($this->taxes->removeElement($tax)) {
+            // set the owning side to null (unless already changed)
+            if ($tax->getHousing() === $this) {
+                $tax->setHousing(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PropertyLoad[]
+     */
+    public function getPropertyLoads(): Collection
+    {
+        return $this->propertyLoads;
+    }
+
+    public function addPropertyLoad(PropertyLoad $propertyLoad): self
+    {
+        if (!$this->propertyLoads->contains($propertyLoad)) {
+            $this->propertyLoads[] = $propertyLoad;
+            $propertyLoad->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removePropertyLoad(PropertyLoad $propertyLoad): self
+    {
+        if ($this->propertyLoads->removeElement($propertyLoad)) {
+            // set the owning side to null (unless already changed)
+            if ($propertyLoad->getHousing() === $this) {
+                $propertyLoad->setHousing(null);
+            }
+        }
 
         return $this;
     }

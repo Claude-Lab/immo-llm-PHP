@@ -37,6 +37,11 @@ class Equipment
      */
     private $inUse;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Housing::class, inversedBy="equipments")
+     */
+    private $housing;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class Equipment
     public function setInUse(bool $inUse): self
     {
         $this->inUse = $inUse;
+
+        return $this;
+    }
+
+    public function getHousing(): ?Housing
+    {
+        return $this->housing;
+    }
+
+    public function setHousing(?Housing $housing): self
+    {
+        $this->housing = $housing;
 
         return $this;
     }

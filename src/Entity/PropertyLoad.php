@@ -32,6 +32,11 @@ class PropertyLoad
      */
     private $dateLoad;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Housing::class, inversedBy="propertyLoads")
+     */
+    private $housing;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class PropertyLoad
     public function setDateLoad(\DateTimeInterface $dateLoad): self
     {
         $this->dateLoad = $dateLoad;
+
+        return $this;
+    }
+
+    public function getHousing(): ?Housing
+    {
+        return $this->housing;
+    }
+
+    public function setHousing(?Housing $housing): self
+    {
+        $this->housing = $housing;
 
         return $this;
     }
