@@ -24,7 +24,7 @@
 							<thead>
 								<tr>
 									<th>Prénom Nom</th>
-									<th>Nb de propriété</th>
+									{# <th>Nb de propriété</th> #}
 									<th>Mobile</th>
 									<th>Email</th>
 									<th>Ville</th>
@@ -37,7 +37,7 @@
 									<tr>
 										<td>{{ user.firstname }}
 											{{ user.lastname }}</td>
-										<td>{{ user.housings | length }}</td>
+										{# <td>{{ user.housings | length }}</td> #}
 										<td>{{ user.mobile }}</td>
 										<td>{{ user.email }}</td>
 										<td>{{ user.address.city }}</td>

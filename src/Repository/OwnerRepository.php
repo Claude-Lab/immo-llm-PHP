@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Owner;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Owner|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +19,17 @@ class OwnerRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Owner::class);
+    }
+
+     public function getHousings(UserInterface $user) {
+
+        if (!$user instanceof Owner) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+        }
+
+        $queryBuider = $this->createQueryBuilder('housing')
+        ->select('owner')
+        ->innerJoin('owner.id', 'user');
     }
 
     // /**

@@ -117,6 +117,12 @@ class Housing
      */
     private $propertyLoads;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="housings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+
     public function __construct()
     {
         $this->contracts = new ArrayCollection();
@@ -426,6 +432,18 @@ class Housing
                 $propertyLoad->setHousing(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }
