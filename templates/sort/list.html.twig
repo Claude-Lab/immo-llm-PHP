@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Tout les comptes
+{% endblock %}
+
+{% block body %}
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Liste des types de logements
+					<a href="{{ path('sort_create') }}">
+						<button type="button" class="uk-button uk-button-primary uk-button-small uk-align-right@m">Créer un type de logement</button>
+					</a>
+				</div>
+				<div class="uk-card-body">
+					{% if sorts is empty %}
+						<div class="uk-placeholder uk-text-center ">
+							<h5>Aucun type à afficher</h5>
+							<p>Il semblerait qu'il n'y ait pas de type correspondant à votre recherche.</p>
+						</div>
+					{% else %}
+
+						<table class="uk-table uk-table-striped">
+							<thead>
+								<tr>
+									<th>Nom du type</th>
+									<th>Detail</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for sort in sorts %}
+									<tr>
+										<td>{{ sort.name }}</td>
+										<td>
+											<a href="{{ path('sort_detail', {'id' : sort.id}) }}">Détail</td>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

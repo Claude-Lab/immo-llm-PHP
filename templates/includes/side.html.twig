@@ -75,6 +75,10 @@
 			<li>
 				<a href="{{ path('housing_list') }}">Liste des logements</a>
 			</li>
+			<li>
+				<a href="{{ path('sort_list') }}">Liste des types de logements</a>
+			</li>
+
 		{% endif %}
 
 
@@ -91,6 +95,10 @@
 			<li>
 				<a href="#">Liste des contrats</a>
 			</li>
+			<li>
+				<a href="{{ path('sort_list') }}">Liste des types de logements</a>
+			</li>
+
 		{% endif %}
 
 		{% if (app.user.roles[0] == 'ROLE_ADMIN') %}

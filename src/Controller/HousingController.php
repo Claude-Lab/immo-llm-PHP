@@ -6,6 +6,7 @@ use App\Entity\Housing;
 use App\Entity\User;
 use App\Form\CreateHousingType;
 use App\Repository\HousingRepository;
+use App\Repository\OwnerRepository;
 use App\Repository\SortRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,13 +41,41 @@ class HousingController extends AbstractController
     }
 
     #[Route('/housing/createHousing', name: 'housing_create')]
-    public function createHousing(Request $request, SortRepository $typeRepository, UserRepository $userRepository, string $role): Response
+    public function createHousing(Request $request, SortRepository $typeRepository, OwnerRepository $ownerRepository, string $role): Response
     {
         $housing = new Housing();
 
-        $role = 'ROLE_OWNER';
 
-        $owners = $userRepository->findByRoles($role);
+        $owners = $ownerRepository->findAll();
+        $sorts = $typeRepository->findAll();
+
+        $housingForm = $this->createForm(CreateHousingType::class, $housing);
+        $housingForm->handleRequest($request);
+
+        if ($housingForm->isSubmitted() && $housingForm->isValid()) {
+
+            $this->entityManager->persist($housing);
+            $this->entityManager->flush();
+            $this->addFlash("Création", "Succès de la création du logement");
+
+            return $this->redirectToRoute('housing_list');
+        } else {
+
+            return $this->render('housing/createHousing.html.twig', [
+                'housing'       => $housing,
+                'owners'        => $owners,
+                'sorts'         => $sorts,
+                'housingForm'   => $housingForm->createView()
+            ]);
+        }
+    }
+
+    #[Route('/admin/housing/createHousing', name: 'housing_admin_create')]
+    public function createAdminHousing(Request $request, SortRepository $typeRepository, OwnerRepository $ownerRepository, string $role): Response
+    {
+        $housing = new Housing();
+
+        $owners = $ownerRepository->findAll();
         $sorts = $typeRepository->findAll();
 
         $housingForm = $this->createForm(CreateHousingType::class, $housing);

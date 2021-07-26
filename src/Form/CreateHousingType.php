@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Housing;
+use App\Entity\Owner;
+use App\Entity\Sort;
 use Doctrine\DBAL\Types\BooleanType;
 use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -54,20 +56,15 @@ class CreateHousingType extends AbstractType
             ])
             ->add('owner', EntityType::class, [
                 'label'             => false,
-                'class'             => User::class,
+                'class'             => Owner::class,
                 'choice_label'      => 'firstname' . ' ' . 'lastname'
-            ])
-            ->add('contract', EntityType::class, [
-                'label'             => false,
-                'class'             => ContractType::class,
-                'choice_label'      => 'id'
             ])
             ->add('address', AddressType::class, [
                 'label'             => false
             ])
             ->add('type', EntityType::class, [
                 'label'             => false,
-                'class'             => HousingType::class,
+                'class'             => Sort::class,
                 'choice_label'      => 'name'
             ]);
     }
