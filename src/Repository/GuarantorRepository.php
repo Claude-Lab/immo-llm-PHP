@@ -2,17 +2,17 @@
 
 namespace App\Repository;
 
-use App\Entity\Guaranty;
+use App\Entity\Guarantor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Guaranty|null find($id, $lockMode = null, $lockVersion = null)
- * @method Guaranty|null findOneBy(array $criteria, array $orderBy = null)
- * @method Guaranty[]    findAll()
- * @method Guaranty[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Guarantor|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Guarantor|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Guarantor[]    findAll()
+ * @method Guarantor[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class GuarantyRepository extends ServiceEntityRepository
+class GuarantorRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

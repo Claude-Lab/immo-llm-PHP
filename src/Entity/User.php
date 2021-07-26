@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({"owner" = "Owner", "tenant" = "Tenant", "guaranty" = "Guaranty", "admin" = "Admin"})
+ * @ORM\DiscriminatorMap({"owner" = "Owner", "tenant" = "Tenant", "guarantor" = "Guarantor", "admin" = "Admin"})
  */
 abstract class User implements UserInterface
 {
@@ -55,11 +55,6 @@ abstract class User implements UserInterface
     private $ownerContract;
 
     /**
-     * @ORM\OneToOne(targetEntity=Contract::class, inversedBy="guarantyUser", cascade={"persist", "remove"})
-     */
-    private $guarantyContract;
-
-    /**
      * @ORM\Column(type="string", length=150)
      */
     private $firstname;
@@ -88,6 +83,11 @@ abstract class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="owner")
      */
     private $housings;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Contract::class, inversedBy="guarantorUser")
+     */
+    private $guarantorContract;
 
     public function __construct()
     {
@@ -231,18 +231,6 @@ abstract class User implements UserInterface
         return $this;
     }
 
-    public function getGuarantyContract(): ?Contract
-    {
-        return $this->guarantyContract;
-    }
-
-    public function setGuarantyContract(?Contract $guarantyContract): self
-    {
-        $this->guarantyContract = $guarantyContract;
-
-        return $this;
-    }
-
     public function getFirstname(): ?string
     {
         return $this->firstname;
@@ -332,4 +320,17 @@ abstract class User implements UserInterface
 
         return $this;
     }
+
+    public function getGuarantorContract(): ?Contract
+    {
+        return $this->guarantorContract;
+    }
+
+    public function setGuarantorContract(?Contract $guarantorContract): self
+    {
+        $this->guarantorContract = $guarantorContract;
+
+        return $this;
+    }
+
 }

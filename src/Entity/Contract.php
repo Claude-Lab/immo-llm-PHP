@@ -46,14 +46,15 @@ class Contract
     private $ownerUser;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, mappedBy="guarantyContract", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="guarantorContract")
      */
-    private $guarantyUser;
+    private $guarantorUser;
 
     public function __construct()
     {
         $this->receipts = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->guarantorUser = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,25 +163,34 @@ class Contract
         return $this;
     }
 
-    public function getGuarantyUser(): ?User
+    /**
+     * @return Collection|User[]
+     */
+    public function getGuarantorUser(): Collection
     {
-        return $this->guarantyUser;
+        return $this->guarantorUser;
     }
 
-    public function setGuarantyUser(?User $guarantyUser): self
+    public function addGuarantorUser(User $guarantorUser): self
     {
-        // unset the owning side of the relation if necessary
-        if ($guarantyUser === null && $this->guarantyUser !== null) {
-            $this->guarantyUser->setGuarantyContract(null);
+        if (!$this->guarantorUser->contains($guarantorUser)) {
+            $this->guarantorUser[] = $guarantorUser;
+            $guarantorUser->setGuarantorContract($this);
         }
-
-        // set the owning side of the relation if necessary
-        if ($guarantyUser !== null && $guarantyUser->getGuarantyContract() !== $this) {
-            $guarantyUser->setGuarantyContract($this);
-        }
-
-        $this->guarantyUser = $guarantyUser;
 
         return $this;
     }
+
+    public function removeGuarantorUser(User $guarantorUser): self
+    {
+        if ($this->guarantorUser->removeElement($guarantorUser)) {
+            // set the owning side to null (unless already changed)
+            if ($guarantorUser->getGuarantorContract() === $this) {
+                $guarantorUser->setGuarantorContract(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

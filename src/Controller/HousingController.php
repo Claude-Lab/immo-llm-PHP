@@ -6,7 +6,7 @@ use App\Entity\Housing;
 use App\Entity\User;
 use App\Form\CreateHousingType;
 use App\Repository\HousingRepository;
-use App\Repository\HousingTypeRepository;
+use App\Repository\SortRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,14 +40,14 @@ class HousingController extends AbstractController
     }
 
     #[Route('/housing/createHousing', name: 'housing_create')]
-    public function createHousing(Request $request, HousingTypeRepository $typeRepository, UserRepository $userRepository, string $role): Response
+    public function createHousing(Request $request, SortRepository $typeRepository, UserRepository $userRepository, string $role): Response
     {
         $housing = new Housing();
 
         $role = 'ROLE_OWNER';
 
         $owners = $userRepository->findByRoles($role);
-        $types = $typeRepository->findAll();
+        $sorts = $typeRepository->findAll();
 
         $housingForm = $this->createForm(CreateHousingType::class, $housing);
         $housingForm->handleRequest($request);
@@ -64,7 +64,7 @@ class HousingController extends AbstractController
             return $this->render('housing/createHousing.html.twig', [
                 'housing'       => $housing,
                 'owners'        => $owners,
-                'types'         => $types,
+                'sorts'         => $sorts,
                 'housingForm'   => $housingForm->createView()
             ]);
         }

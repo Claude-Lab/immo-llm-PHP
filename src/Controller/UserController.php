@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Guarantor;
+use App\Entity\Owner;
+use App\Entity\Tenant;
 use App\Entity\User;
 use App\Form\AdminUpdateProfileType;
 use App\Form\CreateOwnerType;
@@ -120,7 +123,7 @@ class UserController extends AbstractController
     #[Route('/user/createOwner', name: 'user_create_owner')]
     public function createOwner(Request $request): Response
     {
-        $owner = new User();
+        $owner = new Owner();
         $ownerForm = $this->createForm(CreateOwnerType::class, $owner);
         $ownerForm->handleRequest($request);
 
@@ -129,7 +132,10 @@ class UserController extends AbstractController
             $password = random_bytes(10);
             $owner->setPassword($this->passwordEncoder->encodePassword($owner,  $password));
 
+            $avatar = 'default.png';
             $role = ['ROLE_OWNER'];
+
+            $owner->setAvatar($avatar);
             $owner->setRoles($role);
 
             $this->entityManager->persist($owner);
@@ -151,7 +157,7 @@ class UserController extends AbstractController
     #[Route('/user/createTenant', name: 'user_create_tenant')]
     public function createTenant(Request $request): Response
     {
-        $tenant = new User();
+        $tenant = new Tenant();
         $tenantForm = $this->createForm(CreateTenantType::class, $tenant);
         $tenantForm->handleRequest($request);
 
@@ -160,7 +166,10 @@ class UserController extends AbstractController
             $password = random_bytes(10);
             $tenant->setPassword($this->passwordEncoder->encodePassword($tenant,  $password));
 
+            $avatar = 'default.png';
             $role = ['ROLE_TENANT'];
+
+            $tenant->setAvatar($avatar);
             $tenant->setRoles($role);
 
             $this->entityManager->persist($tenant);
@@ -175,6 +184,40 @@ class UserController extends AbstractController
             return $this->render('user/createTenant.html.twig', [
                 'tenant' => $tenant,
                 'tenantForm' => $tenantForm->createView()
+            ]);
+        }
+    }
+
+    #[Route('/user/createGuarantor', name: 'user_create_guarantor')]
+    public function createGuarantor(Request $request): Response
+    {
+        $guarantor = new Guarantor();
+        $guarantorForm = $this->createForm(CreateTenantType::class, $guarantor);
+        $guarantorForm->handleRequest($request);
+
+        if ($guarantorForm->isSubmitted() && $guarantorForm->isValid()) {
+
+            $password = random_bytes(10);
+            $guarantor->setPassword($this->passwordEncoder->encodePassword($guarantor,  $password));
+
+            $avatar = 'default.png';
+            $role = ['ROLE_GUARANTOR'];
+
+            $guarantor->setAvatar($avatar);
+            $guarantor->setRoles($role);
+
+            $this->entityManager->persist($guarantor);
+            $this->entityManager->flush();
+            $this->addFlash("Création", "Succès de la création du locataire");
+
+            return $this->redirectToRoute('dashboard', [
+                'guarantor' => $guarantor
+            ]);
+        } else {
+
+            return $this->render('user/createTenant.html.twig', [
+                'guarantor' => $guarantor,
+                'guarantorForm' => $guarantorForm->createView()
             ]);
         }
     }
