@@ -21,15 +21,32 @@ class OwnerRepository extends ServiceEntityRepository
         parent::__construct($registry, Owner::class);
     }
 
-     public function getHousings(UserInterface $user) {
+    // public function getHousings(UserInterface $user)
+    // {
 
-        if (!$user instanceof Owner) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
-        }
+    //     if (!$user instanceof Owner) {
+    //         throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+    //     }
 
-        $queryBuider = $this->createQueryBuilder('housing')
-        ->select('owner')
-        ->innerJoin('owner.id', 'user');
+    //     $queryBuider = $this->createQueryBuilder('housing')
+    //         ->select('owner')
+    //         ->innerJoin('owner.id', 'user');
+    // }
+
+    public function getOwner()
+    {
+        /*
+        * @var string
+        */
+        $owner = 'owner';
+
+        return $this->createQueryBuilder('o')
+            ->join('user', 'u')
+            ->andWhere('u.type = :owner')
+            ->setParameter('owner', $owner)
+            ->orderBy('u.lastname', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
     // /**
