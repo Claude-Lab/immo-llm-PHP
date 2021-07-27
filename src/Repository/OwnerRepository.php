@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Owner;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,9 +17,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class OwnerRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    protected $em;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Owner::class);
+        $this->em = $em;
     }
 
     // public function getHousings(UserInterface $user)
@@ -33,38 +38,29 @@ class OwnerRepository extends ServiceEntityRepository
     //         ->innerJoin('owner.id', 'user');
     // }
 
-    public function getOwner()
+    public function findOwner()
     {
-        /*
-        * @var string
-        */
-        $owner = 'owner';
 
         return $this->createQueryBuilder('o')
-            ->join('user', 'u')
-            ->andWhere('u.type = :owner')
-            ->setParameter('owner', $owner)
-            ->orderBy('u.lastname', 'ASC')
+            ->join('App\Entity\User', 'u')
+            ->where('o.id = u.id')
+            ->andWhere('App\Entity\Owner INSTANCE OF App\Entity\User')
             ->getQuery()
             ->getResult();
     }
 
-    // /**
-    //  * @return Owner[] Returns an array of Owner objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Owner[] Returns an array of Owner objects
+     */
+    public function findByOwner()
     {
+        $value = ["ROLE_OWNER"];
+
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+            ->where('o.roles = :val')
+            ->setParameter('val', $value);
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Owner

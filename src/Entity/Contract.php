@@ -31,30 +31,21 @@ class Contract
     private $receipts;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="contracts")
+     * @ORM\OneToMany(targetEntity=Tenant::class, mappedBy="contract")
      */
-    private $users;
+    private $tenant;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, mappedBy="tenantContract", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Guarantor::class, mappedBy="contract")
      */
-    private $tenantUser;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ownerContract")
-     */
-    private $ownerUser;
-
-    /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="guarantorContract")
-     */
-    private $guarantorUser;
+    private $guarantor;
 
     public function __construct()
     {
         $this->receipts = new ArrayCollection();
-        $this->users = new ArrayCollection();
         $this->guarantorUser = new ArrayCollection();
+        $this->tenant = new ArrayCollection();
+        $this->guarantor = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,87 +97,59 @@ class Contract
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Tenant[]
      */
-    public function getUsers(): Collection
+    public function getTenant(): Collection
     {
-        return $this->users;
+        return $this->tenant;
     }
 
-    public function addUser(User $user): self
+    public function addTenant(Tenant $tenant): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
+        if (!$this->tenant->contains($tenant)) {
+            $this->tenant[] = $tenant;
+            $tenant->setContract($this);
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeTenant(Tenant $tenant): self
     {
-        $this->users->removeElement($user);
-
-        return $this;
-    }
-
-    public function getTenantUser(): ?User
-    {
-        return $this->tenantUser;
-    }
-
-    public function setTenantUser(?User $tenantUser): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($tenantUser === null && $this->tenantUser !== null) {
-            $this->tenantUser->setTenantContract(null);
+        if ($this->tenant->removeElement($tenant)) {
+            // set the owning side to null (unless already changed)
+            if ($tenant->getContract() === $this) {
+                $tenant->setContract(null);
+            }
         }
-
-        // set the owning side of the relation if necessary
-        if ($tenantUser !== null && $tenantUser->getTenantContract() !== $this) {
-            $tenantUser->setTenantContract($this);
-        }
-
-        $this->tenantUser = $tenantUser;
-
-        return $this;
-    }
-
-    public function getOwnerUser(): ?User
-    {
-        return $this->ownerUser;
-    }
-
-    public function setOwnerUser(?User $ownerUser): self
-    {
-        $this->ownerUser = $ownerUser;
 
         return $this;
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Guarantor[]
      */
-    public function getGuarantorUser(): Collection
+    public function getGuarantor(): Collection
     {
-        return $this->guarantorUser;
+        return $this->guarantor;
     }
 
-    public function addGuarantorUser(User $guarantorUser): self
+    public function addGuarantor(Guarantor $guarantor): self
     {
-        if (!$this->guarantorUser->contains($guarantorUser)) {
-            $this->guarantorUser[] = $guarantorUser;
-            $guarantorUser->setGuarantorContract($this);
+        if (!$this->guarantor->contains($guarantor)) {
+            $this->guarantor[] = $guarantor;
+            $guarantor->setContract($this);
         }
 
         return $this;
     }
 
-    public function removeGuarantorUser(User $guarantorUser): self
+    public function removeGuarantor(Guarantor $guarantor): self
     {
-        if ($this->guarantorUser->removeElement($guarantorUser)) {
+        if ($this->guarantor->removeElement($guarantor)) {
             // set the owning side to null (unless already changed)
-            if ($guarantorUser->getGuarantorContract() === $this) {
-                $guarantorUser->setGuarantorContract(null);
+            if ($guarantor->getContract() === $this) {
+                $guarantor->setContract(null);
             }
         }
 

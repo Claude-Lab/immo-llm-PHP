@@ -21,6 +21,11 @@ class Tenant extends User
      */
     private $addressAfter;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Contract::class, inversedBy="tenant")
+     */
+    private $contract;
+
     public function getAddressBefore(): ?Address
     {
         return $this->addressBefore;
@@ -41,6 +46,18 @@ class Tenant extends User
     public function setAddressAfter(?Address $addressAfter): self
     {
         $this->addressAfter = $addressAfter;
+
+        return $this;
+    }
+
+    public function getContract(): ?Contract
+    {
+        return $this->contract;
+    }
+
+    public function setContract(?Contract $contract): self
+    {
+        $this->contract = $contract;
 
         return $this;
     }

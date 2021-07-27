@@ -118,8 +118,7 @@ class Housing
     private $propertyLoads;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="housings")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Owner::class, inversedBy="housings")
      */
     private $owner;
 
@@ -436,12 +435,12 @@ class Housing
         return $this;
     }
 
-    public function getOwner(): ?User
+    public function getOwner(): ?Owner
     {
         return $this->owner;
     }
 
-    public function setOwner(?User $owner): self
+    public function setOwner(?Owner $owner): self
     {
         $this->owner = $owner;
 

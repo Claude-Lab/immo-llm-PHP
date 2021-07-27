@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"owner" = "Owner", "tenant" = "Tenant", "guarantor" = "Guarantor", "admin" = "Admin"})
  */
@@ -45,16 +45,6 @@ abstract class User implements UserInterface
     private $address;
 
     /**
-     * @ORM\OneToOne(targetEntity=Contract::class, inversedBy="tenantUser", cascade={"persist", "remove"})
-     */
-    private $tenantContract;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="ownerUser")
-     */
-    private $ownerContract;
-
-    /**
      * @ORM\Column(type="string", length=150)
      */
     private $firstname;
@@ -78,23 +68,6 @@ abstract class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $avatar;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="owner")
-     */
-    private $housings;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Contract::class, inversedBy="guarantorUser")
-     */
-    private $guarantorContract;
-
-    public function __construct()
-    {
-        $this->ownerContract = new ArrayCollection();
-        $this->housings = new ArrayCollection();
-    }
-
 
     public function getId(): ?int
     {
@@ -189,47 +162,6 @@ abstract class User implements UserInterface
         return $this;
     }
 
-    public function getTenantContract(): ?Contract
-    {
-        return $this->tenantContract;
-    }
-
-    public function setTenantContract(?Contract $tenantContract): self
-    {
-        $this->tenantContract = $tenantContract;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Contract[]
-     */
-    public function getOwnerContract(): Collection
-    {
-        return $this->ownerContract;
-    }
-
-    public function addOwnerContract(Contract $ownerContract): self
-    {
-        if (!$this->ownerContract->contains($ownerContract)) {
-            $this->ownerContract[] = $ownerContract;
-            $ownerContract->setOwnerUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOwnerContract(Contract $ownerContract): self
-    {
-        if ($this->ownerContract->removeElement($ownerContract)) {
-            // set the owning side to null (unless already changed)
-            if ($ownerContract->getOwnerUser() === $this) {
-                $ownerContract->setOwnerUser(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getFirstname(): ?string
     {
@@ -290,47 +222,4 @@ abstract class User implements UserInterface
 
         return $this;
     }
-
-    /**
-     * @return Collection|Housing[]
-     */
-    public function getHousings(): Collection
-    {
-        return $this->housings;
-    }
-
-    public function addHousing(Housing $housing): self
-    {
-        if (!$this->housings->contains($housing)) {
-            $this->housings[] = $housing;
-            $housing->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHousing(Housing $housing): self
-    {
-        if ($this->housings->removeElement($housing)) {
-            // set the owning side to null (unless already changed)
-            if ($housing->getOwner() === $this) {
-                $housing->setOwner(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getGuarantorContract(): ?Contract
-    {
-        return $this->guarantorContract;
-    }
-
-    public function setGuarantorContract(?Contract $guarantorContract): self
-    {
-        $this->guarantorContract = $guarantorContract;
-
-        return $this;
-    }
-
 }

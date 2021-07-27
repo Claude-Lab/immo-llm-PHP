@@ -10,5 +10,20 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Guarantor extends User
 {
+    /**
+     * @ORM\ManyToOne(targetEntity=Contract::class, inversedBy="guarantor")
+     */
+    private $contract;
 
+    public function getContract(): ?Contract
+    {
+        return $this->contract;
+    }
+
+    public function setContract(?Contract $contract): self
+    {
+        $this->contract = $contract;
+
+        return $this;
+    }
 }

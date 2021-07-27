@@ -25,13 +25,22 @@ class HousingController extends AbstractController
         $this->housingRepository   = $housingRepository;
     }
 
-
     #[Route('/owner/housings', name: 'housing_list')]
     public function listHousings(): Response
     {
         $owner = $this->getUser();
         $ownerId = $owner->getId();
         $housings = $this->housingRepository->findByOwner($ownerId);
+
+        return $this->render('housing/listOwnerHousings.html.twig', [
+            'housings' => $housings,
+        ]);
+    }
+
+    #[Route('/admin/housing/list', name: 'housing_list')]
+    public function listAdminHousings(): Response
+    {
+        $housings = $this->housingRepository->findAll();
 
         return $this->render('housing/listOwnerHousings.html.twig', [
             'housings' => $housings,
@@ -89,4 +98,6 @@ class HousingController extends AbstractController
             ]);
         }
     }
+
+    
 }
