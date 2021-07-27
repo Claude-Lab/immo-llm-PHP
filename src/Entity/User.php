@@ -71,17 +71,12 @@ class User implements UserInterface
     /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
      */
-    private $addressBefore;
+    private $tenantAddressBefore;
 
     /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
      */
-    private $addressAfter;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="owner")
-     */
-    private $housings;
+    private $tenantAddressAfter;
 
     /**
      * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="owner")
@@ -103,10 +98,16 @@ class User implements UserInterface
      */
     private $guarantorContract;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="owner")
+     */
+    private $ownerHousings;
+
     public function __construct()
     {
         $this->housings = new ArrayCollection();
         $this->ownerContracts = new ArrayCollection();
+        $this->ownerHousings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -250,56 +251,26 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getAddressBefore(): ?Address
+    public function getTenantAddressBefore(): ?Address
     {
-        return $this->addressBefore;
+        return $this->tenantAddressBefore;
     }
 
-    public function setAddressBefore(?Address $addressBefore): self
+    public function setTenantAddressBefore(?Address $tenantAddressBefore): self
     {
-        $this->addressBefore = $addressBefore;
+        $this->tenantAddressBefore = $tenantAddressBefore;
 
         return $this;
     }
 
-    public function getAddressAfter(): ?Address
+    public function getTenantAddressAfter(): ?Address
     {
-        return $this->addressAfter;
+        return $this->tenantAddressAfter;
     }
 
-    public function setAddressAfter(?Address $addressAfter): self
+    public function setTenantAddressAfter(?Address $tenantAddressAfter): self
     {
-        $this->addressAfter = $addressAfter;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Housing[]
-     */
-    public function getHousings(): Collection
-    {
-        return $this->housings;
-    }
-
-    public function addHousing(Housing $housing): self
-    {
-        if (!$this->housings->contains($housing)) {
-            $this->housings[] = $housing;
-            $housing->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHousing(Housing $housing): self
-    {
-        if ($this->housings->removeElement($housing)) {
-            // set the owning side to null (unless already changed)
-            if ($housing->getOwner() === $this) {
-                $housing->setOwner(null);
-            }
-        }
+        $this->tenantAddressAfter = $tenantAddressAfter;
 
         return $this;
     }
@@ -366,6 +337,36 @@ class User implements UserInterface
     public function setGuarantorContract(?Contract $guarantorContract): self
     {
         $this->guarantorContract = $guarantorContract;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Housing[]
+     */
+    public function getOwnerHousings(): Collection
+    {
+        return $this->ownerHousings;
+    }
+
+    public function addOwnerHousing(Housing $ownerHousing): self
+    {
+        if (!$this->ownerHousings->contains($ownerHousing)) {
+            $this->ownerHousings[] = $ownerHousing;
+            $ownerHousing->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnerHousing(Housing $ownerHousing): self
+    {
+        if ($this->ownerHousings->removeElement($ownerHousing)) {
+            // set the owning side to null (unless already changed)
+            if ($ownerHousing->getOwner() === $this) {
+                $ownerHousing->setOwner(null);
+            }
+        }
 
         return $this;
     }

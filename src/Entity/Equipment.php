@@ -23,11 +23,6 @@ class Equipment
     private $name;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $description;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $modality;
@@ -42,6 +37,16 @@ class Equipment
      */
     private $housing;
 
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $brandt;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $serialNumber;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -55,18 +60,6 @@ class Equipment
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }
@@ -103,6 +96,30 @@ class Equipment
     public function setHousing(?Housing $housing): self
     {
         $this->housing = $housing;
+
+        return $this;
+    }
+
+    public function getBrandt(): ?string
+    {
+        return $this->brandt;
+    }
+
+    public function setBrandt(string $brandt): self
+    {
+        $this->brandt = $brandt;
+
+        return $this;
+    }
+
+    public function getSerialNumber(): ?string
+    {
+        return $this->serialNumber;
+    }
+
+    public function setSerialNumber(?string $serialNumber): self
+    {
+        $this->serialNumber = $serialNumber;
 
         return $this;
     }

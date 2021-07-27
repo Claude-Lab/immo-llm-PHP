@@ -40,12 +40,6 @@ class Housing
     private $rentalLoad;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="housings")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $owner;
-
-    /**
      * @ORM\OneToOne(targetEntity=Contract::class, mappedBy="housing", cascade={"persist", "remove"})
      */
     private $contract;
@@ -121,6 +115,13 @@ class Housing
      */
     private $elevator;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ownerHousings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+
+
     public function __construct()
     {
         $this->equipments = new ArrayCollection();
@@ -179,18 +180,6 @@ class Housing
     public function setRentalLoad(?float $rentalLoad): self
     {
         $this->rentalLoad = $rentalLoad;
-
-        return $this;
-    }
-
-    public function getOwner(): ?User
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(?User $owner): self
-    {
-        $this->owner = $owner;
 
         return $this;
     }
@@ -447,6 +436,18 @@ class Housing
     public function setElevator(bool $elevator): self
     {
         $this->elevator = $elevator;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }
