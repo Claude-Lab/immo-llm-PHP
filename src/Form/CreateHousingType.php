@@ -141,11 +141,11 @@ class CreateHousingType extends AbstractType
                 'choice_label'      => 'name',
             ])
             ->add('owner', EntityType::class, [
-                'class'             => Owner::class,
+                'class'             => User::class,
                 'mapped'            => false,
                 'label'             => 'Selectionnez le propriétaire',
-                'query_builder'     => function (OwnerRepository $repository) {
-                    return $repository->findByOwner();
+                'query_builder'     => function (UserRepository $repository) {
+                    return $repository->findByRoleAdmin();
                         
                 },
                 "attr"              => [

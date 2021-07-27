@@ -26,41 +26,6 @@ class OwnerRepository extends ServiceEntityRepository
         $this->em = $em;
     }
 
-    // public function getHousings(UserInterface $user)
-    // {
-
-    //     if (!$user instanceof Owner) {
-    //         throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
-    //     }
-
-    //     $queryBuider = $this->createQueryBuilder('housing')
-    //         ->select('owner')
-    //         ->innerJoin('owner.id', 'user');
-    // }
-
-    public function findOwner()
-    {
-
-        return $this->createQueryBuilder('o')
-            ->join('App\Entity\User', 'u')
-            ->where('o.id = u.id')
-            ->andWhere('App\Entity\Owner INSTANCE OF App\Entity\User')
-            ->getQuery()
-            ->getResult();
-    }
-
-    /**
-     * @return Owner[] Returns an array of Owner objects
-     */
-    public function findByOwner()
-    {
-        $value = ["ROLE_OWNER"];
-
-        return $this->createQueryBuilder('o')
-            ->where('o.roles = :val')
-            ->setParameter('val', $value);
-        ;
-    }
 
     /*
     public function findOneBySomeField($value): ?Owner
