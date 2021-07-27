@@ -12,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method HousingType[]    findAll()
  * @method HousingType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class HousingTypeRepository extends ServiceEntityRepository
+class SortRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

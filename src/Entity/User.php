@@ -94,14 +94,14 @@ class User implements UserInterface
     private $tenantContract;
 
     /**
-     * @ORM\OneToOne(targetEntity=Contract::class)
-     */
-    private $guarantyContract;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Contract::class, inversedBy="guarantor", cascade={"persist", "remove"})
+     */
+    private $guarantorContract;
 
     public function __construct()
     {
@@ -346,18 +346,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getGuarantyContract(): ?Contract
-    {
-        return $this->guarantyContract;
-    }
-
-    public function setGuarantyContract(?Contract $guarantyContract): self
-    {
-        $this->guarantyContract = $guarantyContract;
-
-        return $this;
-    }
-
     public function getAvatar(): ?string
     {
         return $this->avatar;
@@ -366,6 +354,18 @@ class User implements UserInterface
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getGuarantorContract(): ?Contract
+    {
+        return $this->guarantorContract;
+    }
+
+    public function setGuarantorContract(?Contract $guarantorContract): self
+    {
+        $this->guarantorContract = $guarantorContract;
 
         return $this;
     }

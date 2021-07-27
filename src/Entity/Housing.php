@@ -62,7 +62,7 @@ class Housing
     private $equipments;
 
     /**
-     * @ORM\ManyToOne(targetEntity=HousingType::class, inversedBy="housings")
+     * @ORM\ManyToOne(targetEntity=Sort::class, inversedBy="housings")
      */
     private $type;
 
@@ -254,12 +254,12 @@ class Housing
         return $this;
     }
 
-    public function getType(): ?HousingType
+    public function getType(): ?Sort
     {
         return $this->type;
     }
 
-    public function setType(?HousingType $type): self
+    public function setType(?Sort $type): self
     {
         $this->type = $type;
 

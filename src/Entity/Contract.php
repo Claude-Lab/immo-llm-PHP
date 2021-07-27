@@ -61,6 +61,11 @@ class Contract
      */
     private $securityDeposit;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="guarantorContract", cascade={"persist", "remove"})
+     */
+    private $guarantor;
+
     public function __construct()
     {
         $this->receipts = new ArrayCollection();
@@ -201,6 +206,28 @@ class Contract
     public function setSecurityDeposit(float $securityDeposit): self
     {
         $this->securityDeposit = $securityDeposit;
+
+        return $this;
+    }
+
+    public function getGuarantor(): ?User
+    {
+        return $this->guarantor;
+    }
+
+    public function setGuarantor(?User $guarantor): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($guarantor === null && $this->guarantor !== null) {
+            $this->guarantor->setGuarantorContract(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($guarantor !== null && $guarantor->getGuarantorContract() !== $this) {
+            $guarantor->setGuarantorContract($this);
+        }
+
+        $this->guarantor = $guarantor;
 
         return $this;
     }
