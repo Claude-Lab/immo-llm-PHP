@@ -122,6 +122,11 @@ class Housing
      */
     private $sort;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isRented;
+
 
     public function __construct()
     {
@@ -449,6 +454,18 @@ class Housing
     public function setSort(?Sort $sort): self
     {
         $this->sort = $sort;
+
+        return $this;
+    }
+
+    public function getIsRented(): ?bool
+    {
+        return $this->isRented;
+    }
+
+    public function setIsRented(bool $isRented): self
+    {
+        $this->isRented = $isRented;
 
         return $this;
     }

@@ -41,3 +41,7 @@ body.login {
 .uk-checkbox, .uk-radio {
     margin-left: 2rem;
 }
+
+.hide {
+    display: none;
+}
