@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\HousingType;
+use App\Entity\Sort;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,7 +16,7 @@ class SortRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, HousingType::class);
+        parent::__construct($registry, Sort::class);
     }
 
     // /**

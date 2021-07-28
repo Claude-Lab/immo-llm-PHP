@@ -37,3 +37,7 @@ body.login {
 .bandeau-admin {
     max-width: 2rem;
 }
+
+.uk-checkbox, .uk-radio {
+    margin-left: 2rem;
+}

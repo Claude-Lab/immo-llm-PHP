@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Housing;
-use App\Entity\User;
 use App\Form\CreateHousingType;
 use App\Repository\HousingRepository;
-use App\Repository\HousingTypeRepository;
+use App\Repository\SortRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,30 +26,33 @@ class HousingController extends AbstractController
     }
 
 
-    #[Route('/owner/housings', name: 'housing_list')]
+    #[Route('/admin/housing/list', name: 'housing_list_admin')]
     public function listHousings(): Response
     {
-        $owner = $this->getUser();
-        $ownerId = $owner->getId();
-        $housings = $this->housingRepository->findByOwner($ownerId);
+        $housings = $this->housingRepository->findall();
 
-        return $this->render('housing/listOwnerHousings.html.twig', [
+        return $this->render('housing/listAdminHousings.html.twig', [
             'housings' => $housings,
         ]);
     }
 
     #[Route('/housing/createHousing', name: 'housing_create')]
-    public function createHousing(Request $request, HousingTypeRepository $typeRepository, UserRepository $userRepository, string $role): Response
+    public function createHousing(Request $request, SortRepository $sortRepository, UserRepository $userRepository, string $role): Response
     {
         $housing = new Housing();
-        
+
+        /*
+        * @var string $role
+        */
         $role = 'ROLE_OWNER';
 
-        $owners = $userRepository->findByRoles($role);
-        $types = $typeRepository->findAll();
+        $owner = $userRepository->findByRole($role);
+        
+        $sort = $sortRepository->findAll();
 
         $housingForm = $this->createForm(CreateHousingType::class, $housing);
         $housingForm->handleRequest($request);
+        
 
         if ($housingForm->isSubmitted() && $housingForm->isValid()) {
 
@@ -58,18 +60,54 @@ class HousingController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash("Création", "Succès de la création du logement");
 
-            return $this->redirectToRoute('housing_list');
+            return $this->redirectToRoute('housing_list_admin');
 
         } else {
 
             return $this->render('housing/createHousing.html.twig', [
                 'housing'       => $housing,
-                'owners'        => $owners,
-                'types'         => $types,
+                'owner'         => $owner,
+                'sort'          => $sort,
                 'housingForm'   => $housingForm->createView()
             ]);
         }
     }
 
+    #[Route('/admin/housing/createHousing', name: 'housing_create_admin')]
+    public function adminCreateHousing(Request $request, SortRepository $sortRepository, UserRepository $userRepository): Response
+    {
+        $housing = new Housing();
+
+        $owner = $userRepository->findByRole('ROLE_OWNER');
+        dump($owner);
+        
+        $housingForm = $this->createForm(CreateHousingType::class, $housing);
+        $housingForm->handleRequest($request);
+        
+        if ($housingForm->isSubmitted() && $housingForm->isValid()) {
+
+            $this->entityManager->persist($housing);
+            $this->entityManager->flush();
+            $this->addFlash("Création", "Succès de la création du logement");
+
+            return $this->redirectToRoute('housing_list_admin');
+        } else {
+
+            return $this->render('housing/createAdminHousing.html.twig', [
+                'housing'               => $housing,
+                'housingForm'           => $housingForm->createView()
+            ]);
+        }
+    }
+
+    #[Route('/admin/housing/detail/{id}', name: 'housing_admin_detail')]
+    public function housingDetail(int $id): Response
+    {
+        $housing = $this->housingRepository->find($id);
+
+        return $this->render('housing/detailAdminHousings.html.twig', [
+            'housing' => $housing,
+        ]);
+    }
     
 }

@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\AdminUpdateProfileType;
 use App\Form\CreateOwnerType;
 use App\Form\CreateTenantType;
+use App\Form\CreateUserType;
 use App\Form\OwnerUpdateProfileType;
 use App\Repository\UserRepository;
 use App\Utils\UploadProfilePic;
@@ -116,68 +117,6 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/user/createOwner', name: 'user_create_owner')]
-    public function createOwner(Request $request): Response
-    {
-        $owner = new User();
-        $ownerForm = $this->createForm(CreateOwnerType::class, $owner);
-        $ownerForm->handleRequest($request);
-
-        if ($ownerForm->isSubmitted() && $ownerForm->isValid()) {
-
-            $password = random_bytes(10);
-            $owner->setPassword($this->passwordEncoder->encodePassword($owner,  $password));
-
-            $role = ['ROLE_OWNER'];
-            $owner->setRoles($role);
-
-            $this->entityManager->persist($owner);
-            $this->entityManager->flush();
-            $this->addFlash("Création", "Succès de la création du propriétaire");
-
-            return $this->redirectToRoute('dashboard', [
-                'owner' => $owner
-            ]);
-        } else {
-
-            return $this->render('user/createOwner.html .twig', [
-                'owner' => $owner,
-                'ownerForm' => $ownerForm->createView()
-            ]);
-        }
-    }
-
-    #[Route('/user/createTenant', name: 'user_create_tenant')]
-    public function createTenant(Request $request): Response
-    {
-        $tenant = new User();
-        $tenantForm = $this->createForm(CreateTenantType::class, $tenant);
-        $tenantForm->handleRequest($request);
-
-        if ($tenantForm->isSubmitted() && $tenantForm->isValid()) {
-
-            $password = random_bytes(10);
-            $tenant->setPassword($this->passwordEncoder->encodePassword($tenant,  $password));
-
-            $role = ['ROLE_TENANT'];
-            $tenant->setRoles($role);
-
-            $this->entityManager->persist($tenant);
-            $this->entityManager->flush();
-            $this->addFlash("Création", "Succès de la création du locataire");
-
-            return $this->redirectToRoute('dashboard', [
-                'tenant' => $tenant
-            ]);
-        } else {
-
-            return $this->render('user/createTenant.html.twig', [
-                'tenant' => $tenant,
-                'tenantForm' => $tenantForm->createView()
-            ]);
-        }
-    }
-
     #[Route('/admin/user/listAll', name: 'user_list_all')]
     public function listAllUser(): Response
     {
@@ -202,6 +141,34 @@ class UserController extends AbstractController
         return $this->render('user/userDetail.html.twig', [
             'user' => $user
         ]);
+    }
+
+    #[Route('/admin/user/create', name: 'user_create')]
+    public function createUser(Request $request): Response
+    {
+        $user = new User();
+        $userForm = $this->createForm(CreateUserType::class, $user);
+        $userForm->handleRequest($request);
+
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
+
+            $password = random_bytes(10);
+            $user->setPassword($this->passwordEncoder->encodePassword($user,  $password));
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            $this->addFlash("Création", "Succès de la création de l'utilisateur");
+
+            return $this->redirectToRoute('user_list_all', [
+                'user' => $user
+            ]);
+        } else {
+
+            return $this->render('user/createUser.html.twig', [
+                'user' => $user,
+                'userForm' => $userForm->createView()
+            ]);
+        }
     }
 
 

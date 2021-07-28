@@ -37,7 +37,7 @@ class AddressType extends AbstractType
                     'class'                 => 'uk-input'
                 ]
             ])
-            ->add('state', TextType::class, [
+            ->add('country', TextType::class, [
                 'label'                     => false,
                 'required'                  => true,
                 'attr'                      => [

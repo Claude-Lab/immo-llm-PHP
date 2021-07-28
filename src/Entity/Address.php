@@ -35,7 +35,7 @@ class Address
     /**
      * @ORM\Column(type="string", length=180)
      */
-    private $state;
+    private $country;
     
     public function getId(): ?int
     {
@@ -78,14 +78,14 @@ class Address
         return $this;
     }
 
-    public function getState(): ?string
+    public function getCountry(): ?string
     {
-        return $this->state;
+        return $this->country;
     }
 
-    public function setState(string $state): self
+    public function setCountry(string $country): self
     {
-        $this->state = $state;
+        $this->country = $country;
 
         return $this;
     }

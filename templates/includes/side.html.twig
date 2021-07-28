@@ -42,13 +42,7 @@
 				<a href="{{ path('user_list_all') }}">Liste des comptes</a>
 			</li>
 			<li>
-				<a href="{{ path('user_create_owner') }}">Créer un propriétaire</a>
-			</li>
-			<li>
-				<a href="{{ path('user_create_tenant') }}">Créer un locataire</a>
-			</li>
-			<li>
-				<a href="{{ path('user_create_tenant') }}">Créer un garant</a>
+				<a href="{{ path('user_create') }}">Créer un utilisateur</a>
 			</li>
 
 		{% endif %}
@@ -73,7 +67,7 @@
 				Liste des logements
 			</li>
 			<li>
-				<a href="{{ path('housing_list') }}">Liste des logements</a>
+				<a href="{{ path('housing_list_admin') }}">Liste des logements</a>
 			</li>
 		{% endif %}
 
@@ -83,7 +77,7 @@
 				Mes logements
 			</li>
 			<li>
-				<a href="{{ path('housing_list') }}">Liste de mes logements</a>
+				<a href="{{ path('housing_list_admin') }}">Liste de mes logements</a>
 			</li>
 			<li>
 				<a href="#">Liste de mes locataires</a>
@@ -99,13 +93,11 @@
 			</li>
 			<li>
 				<a href="{{ path('equipment_list') }}">Liste des équipements disponibles</a>
-
 			</li>
 			<li>
 				<a href="#">Modes de chauffage</a>
 			</li>
 		{% endif %}
-
 
 		{% if (app.user.roles[0] == 'ROLE_OWNER')%}
 			<li class="uk-nav-header">

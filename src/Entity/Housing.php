@@ -56,11 +56,6 @@ class Housing
     private $equipments;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Sort::class, inversedBy="housings")
-     */
-    private $type;
-
-    /**
      * @ORM\OneToMany(targetEntity=Tax::class, mappedBy="housing")
      */
     private $taxes;
@@ -120,6 +115,12 @@ class Housing
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Sort::class, inversedBy="housings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $sort;
 
 
     public function __construct()
@@ -239,18 +240,6 @@ class Housing
                 $equipment->setHousing(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getType(): ?Sort
-    {
-        return $this->type;
-    }
-
-    public function setType(?Sort $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -451,4 +440,17 @@ class Housing
 
         return $this;
     }
+
+    public function getSort(): ?Sort
+    {
+        return $this->sort;
+    }
+
+    public function setSort(?Sort $sort): self
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
 }

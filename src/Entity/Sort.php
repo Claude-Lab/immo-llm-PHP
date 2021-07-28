@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\HousingTypeRepository;
+use App\Repository\SortRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +25,7 @@ class Sort
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="type")
+     * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="sort")
      */
     private $housings;
 
@@ -63,7 +63,7 @@ class Sort
     {
         if (!$this->housings->contains($housing)) {
             $this->housings[] = $housing;
-            $housing->setType($this);
+            $housing->setSort($this);
         }
 
         return $this;
@@ -73,11 +73,12 @@ class Sort
     {
         if ($this->housings->removeElement($housing)) {
             // set the owning side to null (unless already changed)
-            if ($housing->getType() === $this) {
-                $housing->setType(null);
+            if ($housing->getSort() === $this) {
+                $housing->setSort(null);
             }
         }
 
         return $this;
     }
+
 }

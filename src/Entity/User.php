@@ -79,16 +79,6 @@ class User implements UserInterface
     private $tenantAddressAfter;
 
     /**
-     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="owner")
-     */
-    private $ownerContracts;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Contract::class)
-     */
-    private $tenantContract;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
@@ -103,10 +93,16 @@ class User implements UserInterface
      */
     private $ownerHousings;
 
+    private $fullname;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Contract::class, inversedBy="tenants")
+     */
+    private $tenantsContract;
+
+
     public function __construct()
     {
-        $this->housings = new ArrayCollection();
-        $this->ownerContracts = new ArrayCollection();
         $this->ownerHousings = new ArrayCollection();
     }
 
@@ -275,47 +271,6 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Contract[]
-     */
-    public function getOwnerContracts(): Collection
-    {
-        return $this->ownerContracts;
-    }
-
-    public function addOwnerContract(Contract $ownerContract): self
-    {
-        if (!$this->ownerContracts->contains($ownerContract)) {
-            $this->ownerContracts[] = $ownerContract;
-            $ownerContract->setOwner($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOwnerContract(Contract $ownerContract): self
-    {
-        if ($this->ownerContracts->removeElement($ownerContract)) {
-            // set the owning side to null (unless already changed)
-            if ($ownerContract->getOwner() === $this) {
-                $ownerContract->setOwner(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getTenantContract(): ?Contract
-    {
-        return $this->tenantContract;
-    }
-
-    public function setTenantContract(?Contract $tenantContract): self
-    {
-        $this->tenantContract = $tenantContract;
-
-        return $this;
-    }
 
     public function getAvatar(): ?string
     {
@@ -370,4 +325,22 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getFullname(): ?string
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
+    public function getTenantsContract(): ?Contract
+    {
+        return $this->tenantsContract;
+    }
+
+    public function setTenantsContract(?Contract $tenantsContract): self
+    {
+        $this->tenantsContract = $tenantsContract;
+
+        return $this;
+    }
+
 }

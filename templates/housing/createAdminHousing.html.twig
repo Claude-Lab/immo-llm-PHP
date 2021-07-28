@@ -34,11 +34,10 @@
 					</div>
 
 					<div class="uk-margin">
-						{{ form_widget(housingForm.address.state) }}
-
+						{{ form_widget(housingForm.address.country) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_widget(housingForm.type) }}
+						{{ form_widget(housingForm.sort) }}
 					</div>
 					<div class="uk-margin">
 						{{ form_widget(housingForm.nbRoom) }}
@@ -50,25 +49,10 @@
 						{{ form_widget(housingForm.rental) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_widget(housingForm.rental) }}
-					</div>
-					<div class="uk-margin">
 						{{ form_widget(housingForm.rentalLoad) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_widget(housingForm.florr) }}
-					</div>
-					<div class="uk-margin">
-						{{ form_widget(housingForm.attic) }}
-					</div>
-					<div class="uk-margin">
-						{{ form_widget(housingForm.cellar) }}
-					</div>
-					<div class="uk-margin">
-						{{ form_widget(housingForm.pool) }}
-					</div>
-					<div class="uk-margin">
-						{{ form_widget(housingForm.box) }}
+						{{ form_widget(housingForm.floor) }}
 					</div>
 					<div class="uk-margin">
 						{{ form_widget(housingForm.landSurface) }}
@@ -77,12 +61,23 @@
 						{{ form_widget(housingForm.nbFloor) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_widget(housingForm.elevator) }}
+						{{ form_row(housingForm.attic) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.cellar) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.pool) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.box) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.elevator) }}
 					</div>
 
-
 					<button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Enregistrer</button>
-					<a href="{{ path('housing_list') }}">
+					<a href="{{ path('housing_list_admin') }}">
 						<button type="button" class="uk-button uk-button-secondary uk-width-1-1">Annuler</button>
 					</a>
 

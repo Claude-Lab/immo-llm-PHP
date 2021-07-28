@@ -35,12 +35,6 @@ class Contract
     private $endDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ownerContracts")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $owner;
-
-    /**
      * @ORM\OneToOne(targetEntity=Housing::class, inversedBy="contract", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -66,10 +60,16 @@ class Contract
      */
     private $guarantor;
 
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="tenantsContract")
+     */
+    private $tenants;
+
     public function __construct()
     {
         $this->receipts = new ArrayCollection();
         $this->documents = new ArrayCollection();
+        $this->tenants = new ArrayCollection();
         
     }
 
@@ -114,17 +114,6 @@ class Contract
         return $this;
     }
 
-    public function getOwner(): ?User
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(?User $owner): self
-    {
-        $this->owner = $owner;
-
-        return $this;
-    }
 
     public function getHousing(): ?Housing
     {
@@ -228,6 +217,36 @@ class Contract
         }
 
         $this->guarantor = $guarantor;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getTenants(): Collection
+    {
+        return $this->tenants;
+    }
+
+    public function addTenant(User $tenant): self
+    {
+        if (!$this->tenants->contains($tenant)) {
+            $this->tenants[] = $tenant;
+            $tenant->setTenantsContract($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTenant(User $tenant): self
+    {
+        if ($this->tenants->removeElement($tenant)) {
+            // set the owning side to null (unless already changed)
+            if ($tenant->getTenantsContract() === $this) {
+                $tenant->setTenantsContract(null);
+            }
+        }
 
         return $this;
     }
