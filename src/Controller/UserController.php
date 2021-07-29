@@ -237,11 +237,14 @@ class UserController extends AbstractController
         ]);
     }
 
-    // #[Route('/admin/user/create', name: 'user_create')]
-    // public function createUser(Request $request): Response
+    // #[Route('/admin/user/createManager', name: 'user_create_manager')]
+    // public function createManager(Request $request): Response
     // {
     //     $user = new User();
-    //     $userForm = $this->createForm(CreateType::class, $user);
+    //     $userForm = $this->createForm(CreateManagerType::class, $user);
+            // $role = ['ROLE_MANAGER'];
+            // $guarantor->setRoles($role);
+
     //     $userForm->handleRequest($request);
 
     //     if ($userForm->isSubmitted() && $userForm->isValid()) {

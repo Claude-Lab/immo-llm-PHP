@@ -3,7 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Equipment;
+use App\Entity\Housing;
+use App\Repository\EquipmentRepository;
 use Doctrine\DBAL\Types\BooleanType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -12,6 +15,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EquipmentType extends AbstractType
 {
+    protected $repo;
+
+    public function __construct(EquipmentRepository $repo)
+    {
+        $this->repo = $repo;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -23,20 +33,28 @@ class EquipmentType extends AbstractType
                     'class'                 => 'uk-input'
                 ]
             ])
-            ->add('description', TextareaType::class, [
+            ->add('serialNumber', TextType::class, [
                 'label'                     => false,
-                'required'                  => true,
+                'required'                  => false,
                 'attr'                      => [
-                    'placeholder'           => 'Donnez une déscription de l\'équipement (type, n° de série, etc)',
-                    'class'                 => 'uk-input description'
+                    'placeholder'           => 'Numéro de série',
+                    'class'                 => 'uk-input'
                 ]
             ])
             ->add('modality', TextareaType::class, [
                 'label'                     => false,
+                'required'                  => false,
+                'attr'                      => [
+                    'placeholder'           => 'Indiquez l\'état de l\'équipement)',
+                    'class'                 => 'uk-input'
+                ]
+            ])
+            ->add('brandt', TextType::class, [
+                'label'                     => false,
                 'required'                  => true,
                 'attr'                      => [
-                    'placeholder'           => 'Indiquez une modalité (prêt gracieux, intégré au meublé, etc.)',
-                    'class'                 => 'uk-input description'
+                    'placeholder'           => 'Marque',
+                    'class'                 => 'uk-input'
                 ]
             ]);
     }

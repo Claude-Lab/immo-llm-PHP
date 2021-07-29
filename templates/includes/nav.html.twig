@@ -21,6 +21,12 @@
 										<a href="{{ path('user_admin_profile') }} ">Mon compte</a>
 									{% elseif app.user.roles[0] == 'ROLE_OWNER' %}
 										<a href="{{ path('user_owner_profile') }} ">Mon compte</a>
+									{% elseif app.user.roles[0] == 'ROLE_TENANT' %}
+										<a href="{{ path('user_owner_profile') }} ">Mon compte</a>
+									{% elseif app.user.roles[0] == 'ROLE_GUARANTOR' %}
+										<a href="{{ path('user_owner_profile') }} ">Mon compte</a>
+									{% elseif app.user.roles[0] == 'ROLE_MANAGER' %}
+										<a href="{{ path('user_owner_profile') }} ">Mon compte</a>
 									{% endif %}
 								</li>
 								<li class="uk-nav-header">Actions</li>

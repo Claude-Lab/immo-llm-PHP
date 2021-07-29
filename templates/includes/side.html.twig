@@ -21,6 +21,8 @@
 					Locataire
 				{% elseif app.user.roles[0] == 'ROLE_GUARANTY' %}
 					Caution solidaire
+				{% elseif app.user.roles[0] == 'ROLE_MANAGER' %}
+					Gestionnaire
 				{% endif %}
 			</div>
 
@@ -34,7 +36,7 @@
 		<li class="uk-nav-header">
 			<a href="{{ path('dashboard') }}">Accueil</a>
 		</li>
-		{% if app.user.roles[0] == 'ROLE_ADMIN' %}
+		{% if (app.user.roles[0] == 'ROLE_ADMIN') or (app.user.roles[0] == 'ROLE_MANAGER') %}
 			<li class="uk-nav-header">
 				Administration
 			</li>
@@ -68,13 +70,17 @@
 			</li>
 		{% endif %}
 
-		{% if app.user.roles[0] == 'ROLE_ADMIN' %}
+		{% if app.user.roles[0] == 'ROLE_MANAGER' %}
 			<li class="uk-nav-header">
 				Liste des logements
 			</li>
 			<li>
 				<a href="{{ path('housing_list_admin') }}">Liste des logements</a>
 			</li>
+			<li>
+				<a href="{{ path('contract_list') }}">Liste des contrats</a>
+			</li>
+
 		{% endif %}
 
 
@@ -89,11 +95,11 @@
 				<a href="#">Liste de mes locataires</a>
 			</li>
 			<li>
-				<a href="#">Liste des contrats</a>
+				<a href="{{ path('contract_list') }}">Liste des contrats</a>
 			</li>
 		{% endif %}
 
-		{% if (app.user.roles[0] == 'ROLE_ADMIN') %}
+		{% if (app.user.roles[0] == 'ROLE_MANAGER') %}
 			<li class="uk-nav-header">
 				Mobilier
 			</li>

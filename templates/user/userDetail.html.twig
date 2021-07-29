@@ -52,6 +52,8 @@
 								Locataire
 							{% elseif user.roles[0] == 'ROLE_GUARANTOR' %}
 								Garant
+							{% elseif user.roles[0] == 'ROLE_MANAGER' %}
+								Gestionnaire
 							{% endif %}
 						</dd>
 					</dl>

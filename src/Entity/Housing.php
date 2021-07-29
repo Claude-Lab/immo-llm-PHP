@@ -51,11 +51,6 @@ class Housing
     private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity=Equipment::class, mappedBy="housing")
-     */
-    private $equipments;
-
-    /**
      * @ORM\OneToMany(targetEntity=Tax::class, mappedBy="housing")
      */
     private $taxes;
@@ -127,10 +122,8 @@ class Housing
      */
     private $isRented;
 
-
     public function __construct()
     {
-        $this->equipments = new ArrayCollection();
         $this->options = new ArrayCollection();
         $this->taxes = new ArrayCollection();
         $this->propertyLoads = new ArrayCollection();
@@ -215,36 +208,6 @@ class Housing
     public function setAddress(Address $address): self
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Equipment[]
-     */
-    public function getEquipments(): Collection
-    {
-        return $this->equipments;
-    }
-
-    public function addEquipment(Equipment $equipment): self
-    {
-        if (!$this->equipments->contains($equipment)) {
-            $this->equipments[] = $equipment;
-            $equipment->setHousing($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEquipment(Equipment $equipment): self
-    {
-        if ($this->equipments->removeElement($equipment)) {
-            // set the owning side to null (unless already changed)
-            if ($equipment->getHousing() === $this) {
-                $equipment->setHousing(null);
-            }
-        }
 
         return $this;
     }

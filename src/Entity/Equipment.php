@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EquipmentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,16 +30,6 @@ class Equipment
     private $modality;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $inUse;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Housing::class, inversedBy="equipments")
-     */
-    private $housing;
-
-    /**
      * @ORM\Column(type="string", length=100)
      */
     private $brandt;
@@ -46,6 +38,22 @@ class Equipment
      * @ORM\Column(type="string", length=150, nullable=true)
      */
     private $serialNumber;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isUsed;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Contract::class, mappedBy="equipments")
+     */
+    private $contracts;
+
+    public function __construct()
+    {
+        $this->contracts = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -76,30 +84,6 @@ class Equipment
         return $this;
     }
 
-    public function getInUse(): ?bool
-    {
-        return $this->inUse;
-    }
-
-    public function setInUse(bool $inUse): self
-    {
-        $this->inUse = $inUse;
-
-        return $this;
-    }
-
-    public function getHousing(): ?Housing
-    {
-        return $this->housing;
-    }
-
-    public function setHousing(?Housing $housing): self
-    {
-        $this->housing = $housing;
-
-        return $this;
-    }
-
     public function getBrandt(): ?string
     {
         return $this->brandt;
@@ -123,4 +107,44 @@ class Equipment
 
         return $this;
     }
+
+    public function getIsUsed(): ?bool
+    {
+        return $this->isUsed;
+    }
+
+    public function setIsUsed(bool $isUsed): self
+    {
+        $this->isUsed = $isUsed;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contract[]
+     */
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function addContract(Contract $contract): self
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts[] = $contract;
+            $contract->addEquipment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): self
+    {
+        if ($this->contracts->removeElement($contract)) {
+            $contract->removeEquipment($this);
+        }
+
+        return $this;
+    }
+
 }

@@ -36,7 +36,7 @@ class EquipmentController extends AbstractController
 
         if ($equipmentForm->isSubmitted() && $equipmentForm->isValid()) {
 
-            $equipment->setInUse(false);
+            $equipment->setIsUsed(false);
 
             $this->entityManager->persist($equipment);
             $this->entityManager->flush();
