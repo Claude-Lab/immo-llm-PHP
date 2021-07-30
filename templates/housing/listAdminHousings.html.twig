@@ -25,11 +25,11 @@
 						<table class="uk-table uk-table-striped">
 							<thead>
 								<tr>
+									<th>Nom</th>
 									<th>Ville</th>
 									<th>Pièces</th>
 									<th>Surface</th>
 									<th>Type</th>
-									<th>Locataires</th>
 									<th>Propriétaire</th>
 									<th>Detail</th>
 								</tr>
@@ -37,15 +37,11 @@
 							<tbody>
 								{% for housing in housings %}
 									<tr>
+										<td>{{ housing.name }}</td>
 										<td>{{ housing.address.city }}</td>
 										<td>{{ housing.nbRoom }}</td>
 										<td>{{ housing.surface }} m²</td>
 										<td>{{ housing.sort.name }}</td>
-										{% if housing.contract != null %}
-											<td>{{ housing.contract.tenants }}</td>
-										{% else %}
-											<td>Aucun locataire</td>
-										{% endif %}
 										<td>{{ housing.owner.fullname }}</td>
 										<td>
 											<a href="{{ path('housing_admin_detail', {'id' : housing.id}) }}">Détail</td>

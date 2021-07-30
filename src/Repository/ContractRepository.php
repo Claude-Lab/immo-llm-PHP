@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Contract;
+use App\Entity\Housing;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,17 @@ class ContractRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Contract::class);
+    }
+
+    public function findAllByOwner()
+    {
+        return $this->_em->createQueryBuilder()
+            ->select('c', 'h', 'u', 'e')
+            ->from($this->_entityName, 'c')
+            ->join('c.housing', 'h')
+            ->innerJoin('h.owner', 'u')
+            ->leftJoin('c.equipment', 'e')
+            ->orderBy('c.id', 'ASC');
     }
 
     // /**

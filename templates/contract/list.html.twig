@@ -26,14 +26,32 @@
 						<table class="uk-table uk-table-striped">
 							<thead>
 								<tr>
+									<th>Nom du contrat</th>
 									<th>Propriétaire</th>
 									<th>Locataire</th>
-									<th>Date de début du contrat</th>
+									<th>Début du contrat</th>
 									<th>Nom du logement</th>
 									<th>Detail</th>
 								</tr>
 							</thead>
 							<tbody>
+								{% for contract in contracts %}
+									<tr>
+										<td>{{ contract.name }}</td>
+										<td>{{ contract.housing.owner.fullname }}</td>
+										<td>
+											{% for tenant in contract.tenants %}
+												{{ tenant.fullname }},
+											{% endfor %}
+										</td>
+										<td>{{ contract.startDate | date('d/m/Y', 'Europe/Paris') }}</td>
+										<td>{{ contract.housing.name }}</td>
+										<td>
+											<a href="{{ path('contract_admin_detail', {'id' : contract.id}) }}">Détail</td>
+										</td>
+									</tr>
+								{% endfor %}
+
 							</tbody>
 						</table>
 					{% endif %}

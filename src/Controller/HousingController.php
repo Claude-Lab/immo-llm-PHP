@@ -74,18 +74,16 @@ class HousingController extends AbstractController
     }
 
     #[Route('/admin/housing/createHousing', name: 'housing_create_admin')]
-    public function adminCreateHousing(Request $request, SortRepository $sortRepository, UserRepository $userRepository): Response
+    public function adminCreateHousing(Request $request): Response
     {
         $housing = new Housing();
-
-        $owner = $userRepository->findByRole('ROLE_OWNER');
-        dump($owner);
         
         $housingForm = $this->createForm(CreateHousingType::class, $housing);
         $housingForm->handleRequest($request);
         
         if ($housingForm->isSubmitted() && $housingForm->isValid()) {
 
+            $housing->setIsRented(false);
             $this->entityManager->persist($housing);
             $this->entityManager->flush();
             $this->addFlash("Création", "Succès de la création du logement");

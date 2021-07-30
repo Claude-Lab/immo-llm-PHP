@@ -36,10 +36,10 @@
 									<tr>
 										<td>{{ equipment.name }}</td>
 										<td>
-											{% if equipment.isUsed == false %}
+											{% if (equipment.contracts.startDate > "now"|date) %}
 												Non
 											{% else %}
-												Oui
+												{{ equipment.contract.name }}
 											{% endif %}
 										</td>
 										<td>

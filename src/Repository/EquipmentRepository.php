@@ -19,9 +19,14 @@ class EquipmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Equipment::class);
     }
 
-    public function findByHousings() {
-        return $this->createQueryBuilder('e')
-        ->leftJoin('housing', 'h')
-        ->orderBy('h.id', 'ASC');
+    public function findByContract()
+    {
+        return $this->_em->createQueryBuilder()
+            ->select('e')
+            ->from($this->_entityName, 'e')
+            ->leftJoin('contract', 'c')
+            ->where(' ')
+            ->orderBy('e.name', 'DESC');
     }
+
 }

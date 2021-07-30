@@ -40,11 +40,6 @@ class Equipment
     private $serialNumber;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isUsed;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Contract::class, mappedBy="equipments")
      */
     private $contracts;
@@ -104,18 +99,6 @@ class Equipment
     public function setSerialNumber(?string $serialNumber): self
     {
         $this->serialNumber = $serialNumber;
-
-        return $this;
-    }
-
-    public function getIsUsed(): ?bool
-    {
-        return $this->isUsed;
-    }
-
-    public function setIsUsed(bool $isUsed): self
-    {
-        $this->isUsed = $isUsed;
 
         return $this;
     }

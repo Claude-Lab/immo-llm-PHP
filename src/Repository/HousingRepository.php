@@ -18,10 +18,4 @@ class HousingRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Housing::class);
     }
-
-    public function findForTenant(){
-        return $this->_em->createQueryBuilder('h', 'a')
-            ->join('address', 'a')
-            ->orderBy('a.city', 'ASC');
-    }
 }

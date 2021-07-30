@@ -45,3 +45,9 @@ body.login {
 .hide {
     display: none;
 }
+
+.checkboxy {
+    list-style: none;
+    float: left;
+    margin: 0.4rem;
+}

@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -31,6 +32,13 @@ class CreateHousingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('name', TextType::class, [
+                'label'             => false,
+                'attr'              => [
+                    'placeholder'   => 'Indiquez un nom pour ce logement (résidence, propiétaire, etc.)',
+                    'class'         => 'uk-input'
+                ]
+            ])
             ->add('nbRoom', IntegerType::class, [
                 'label'             => false,
                 'attr'              => [
@@ -65,7 +73,8 @@ class CreateHousingType extends AbstractType
                 'attr'              => [
                     'placeholder'   => 'Etage',
                     'class'         => 'uk-input'
-                ]
+                ],
+                'required'          => false
             ])
             ->add('attic', CheckboxType::class, [
                 'label'             => 'Grenier',
@@ -126,12 +135,13 @@ class CreateHousingType extends AbstractType
             ])
             ->add('owner', EntityType::class, [
                 'class'             => User::class,
-                'label'             => 'Selectionnez le propriétaire',
+                'label'             => false,
+                'placeholder'       => '-- Selectionnez le propriétaire --',
                 "attr"              => [
-                    'class'         => 'uk-select'
+                    'class'         => 'uk-select',
                 ],
                 'query_builder'     => function () {
-                   return $this->repo->findByRole('ROLE_OWNER');
+                    return $this->repo->findByRole('ROLE_OWNER');
                 },
                 'choice_label'      => 'fullname'
             ])
@@ -139,10 +149,11 @@ class CreateHousingType extends AbstractType
                 'label'             => false
             ])
             ->add('sort', EntityType::class, [
-                'label'             => 'Selectionnez le type de logement',
+                'placeholder'       => '-- Selectionnez le type de logement --',
+                'label'             => false,
                 'class'             => Sort::class,
                 "attr"              => [
-                    'class'         => 'uk-select'
+                    'class'         => 'uk-select',
                 ],
                 'choice_label'      => 'name',
             ]);

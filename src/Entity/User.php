@@ -95,7 +95,7 @@ class User implements UserInterface
     private $fullname;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Contract::class, inversedBy="tenants")
+     * @ORM\ManyToOne(targetEntity=Contract::class, inversedBy="tenants", cascade={"persist"})
      */
     private $tenantsContract;
 

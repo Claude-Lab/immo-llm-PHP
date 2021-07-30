@@ -20,6 +20,11 @@ class Housing
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $nbRoom;
@@ -38,11 +43,6 @@ class Housing
      * @ORM\Column(type="float", nullable=true)
      */
     private $rentalLoad;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Contract::class, mappedBy="housing", cascade={"persist", "remove"})
-     */
-    private $contract;
 
     /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
@@ -118,9 +118,9 @@ class Housing
     private $sort;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="housing")
      */
-    private $isRented;
+    private $contracts;
 
     public function __construct()
     {
@@ -128,6 +128,7 @@ class Housing
         $this->taxes = new ArrayCollection();
         $this->propertyLoads = new ArrayCollection();
         $this->photos = new ArrayCollection();
+        $this->contracts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,23 +180,6 @@ class Housing
     public function setRentalLoad(?float $rentalLoad): self
     {
         $this->rentalLoad = $rentalLoad;
-
-        return $this;
-    }
-
-    public function getContract(): ?Contract
-    {
-        return $this->contract;
-    }
-
-    public function setContract(Contract $contract): self
-    {
-        // set the owning side of the relation if necessary
-        if ($contract->getHousing() !== $this) {
-            $contract->setHousing($this);
-        }
-
-        $this->contract = $contract;
 
         return $this;
     }
@@ -421,14 +405,44 @@ class Housing
         return $this;
     }
 
-    public function getIsRented(): ?bool
+    public function getName(): ?string
     {
-        return $this->isRented;
+        return $this->name;
     }
 
-    public function setIsRented(bool $isRented): self
+    public function setName(string $name): self
     {
-        $this->isRented = $isRented;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contract[]
+     */
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function addContract(Contract $contract): self
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts[] = $contract;
+            $contract->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): self
+    {
+        if ($this->contracts->removeElement($contract)) {
+            // set the owning side to null (unless already changed)
+            if ($contract->getHousing() === $this) {
+                $contract->setHousing(null);
+            }
+        }
 
         return $this;
     }
