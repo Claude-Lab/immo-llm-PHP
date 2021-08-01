@@ -57,7 +57,8 @@ class ContractController extends AbstractController
 
         if ($contractForm->isSubmitted() && $contractForm->isValid() && $contract->getStartDate()->is) {
 
-            $contractManager = new ContractManager($this->entityManager);
+            $contractManager = new ContractManager($this->entityManager, $this->housingRepository);
+            $contract = $contractManager->checkHousingAviability($contract, $contractForm);
             $contract = $contractManager->setContractToTenantsFromFormAndReturn($contract, $contractForm);
             $this->entityManager->persist($contract);
             $this->entityManager->flush();

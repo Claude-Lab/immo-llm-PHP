@@ -26,6 +26,7 @@ class Sort
 
     /**
      * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="sort")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $housings;
 

@@ -52,6 +52,13 @@
 			<li>
 				<a href="{{ path('user_create_guarantor') }}">Créer un garant</a>
 			</li>
+			<li>
+				<a href="{{ path('sort_list') }}">Gérer les types</a>
+			</li>
+			<li>
+				<a href="{{ path('state_list') }}">Gérer les etats</a>
+			</li>
+
 
 		{% endif %}
 
@@ -70,12 +77,13 @@
 			</li>
 		{% endif %}
 
-		{% if app.user.roles[0] == 'ROLE_MANAGER' %}
+		{% if app.user.roles[0] == 'ROLE_MANAGER' or (app.user.roles[0] == 'ROLE_ADMIN') %}
+
 			<li class="uk-nav-header">
 				Liste des logements
 			</li>
 			<li>
-				<a href="{{ path('housing_list_admin') }}">Liste des logements</a>
+				<a href="{{ path('housing_list') }}">Liste des logements</a>
 			</li>
 			<li>
 				<a href="{{ path('contract_list') }}">Liste des contrats</a>
@@ -89,7 +97,7 @@
 				Mes logements
 			</li>
 			<li>
-				<a href="{{ path('housing_list_admin') }}">Liste de mes logements</a>
+				<a href="{{ path('housing_list') }}">Liste de mes logements</a>
 			</li>
 			<li>
 				<a href="#">Liste de mes locataires</a>
@@ -99,7 +107,8 @@
 			</li>
 		{% endif %}
 
-		{% if (app.user.roles[0] == 'ROLE_MANAGER') %}
+		{% if (app.user.roles[0] == 'ROLE_MANAGER') or (app.user.roles[0] == 'ROLE_ADMIN') %}
+
 			<li class="uk-nav-header">
 				Mobilier
 			</li>

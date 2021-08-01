@@ -20,7 +20,8 @@
 						</div>
 					{% else %}
 
-						<table class="uk-table uk-table-striped">
+						<table class="uk-table uk-table-responsive uk-table-divider">
+
 							<thead>
 								<tr>
 									<th>Prénom Nom</th>
@@ -54,7 +55,10 @@
 										</td>
 
 										<td>
-											<a href="{{ path('user_detail', {'id' : user.id}) }}">Détail</td>
+											<a href="{{ path('user_detail', {'id' : user.id}) }}">
+												<button class="uk-button uk-button-primary uk-button-small">Détail</button>
+											</td>
+
 										</td>
 									</tr>
 								{% endfor %}

@@ -1,7 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-{{ parent() }} | Equipements
+	{{ parent() }}
+	| Etats
 {% endblock %}
 
 {% block body %}
@@ -9,34 +10,22 @@
 		<div class="uk-first-column">
 			<div class="uk-card uk-card-default">
 				<div class="uk-card-header">
-					Créer un équipement
+					Créer un Etat
 				</div>
 				<div class="uk-card-body">
 
-					{{ form_start(equipmentForm) }}
+					{{ form_start(stateForm) }}
 
 					<div class="uk-margin">
-						{{ form_widget(equipmentForm.name) }}
-					</div>
-
-					<div class="uk-margin">
-						{{ form_widget(equipmentForm.brandt) }}
-					</div>
-
-					<div class="uk-margin">
-						{{ form_widget(equipmentForm.serialNumber) }}
-					</div>
-
-					<div class="uk-margin">
-						{{ form_widget(equipmentForm.modality) }}
+						{{ form_widget(stateForm.name) }}
 					</div>
 
 					<button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Enregistrer</button>
-					<a href="{{ path('dashboard') }}">
+					<a href="{{ path('state_list') }}">
 						<button type="button" class="uk-button uk-button-secondary uk-width-1-1">Annuler</button>
 					</a>
 
-					{{ form_end(equipmentForm) }}
+					{{ form_end(stateForm) }}
 
 
 				</div>

@@ -51,3 +51,13 @@ body.login {
     float: left;
     margin: 0.4rem;
 }
+
+.uk-button-danger {
+    background-color: rgb(173, 0, 32);
+}
+
+.uk-button-valid {
+    background-color: rgb(20, 131, 0);
+    color: #F0F0F0;
+}
+

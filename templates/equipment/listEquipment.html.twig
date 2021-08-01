@@ -23,7 +23,8 @@
 						</div>
 					{% else %}
 
-						<table class="uk-table uk-table-striped">
+						<table class="uk-table uk-table-responsive uk-table-divider">
+
 							<thead>
 								<tr>
 									<th>Nom</th>
@@ -33,25 +34,21 @@
 							</thead>
 							<tbody>
 								{% for equipment in equipments %}
-									<tr>
-										<td>{{ equipment.name }}</td>
-										<td>
-											{% if (equipment.contracts.startDate > "now"|date) %}
-												Non
-											{% else %}
-												{{ equipment.contract.name }}
-											{% endif %}
+									<td>{{ equipment.name }}</td>
+									<td>{{equipment.state.name }}</td>
+									<td>{{ equipment.brandt }}</td>
+									<td>
+										<a href="{{ path('equipment_detail', {'id' : equipment.id}) }}">
+											<button class="uk-button uk-button-primary uk-button-small">Détail</button>
 										</td>
-										<td>
-											<a href="{{ path('equipment_detail', {'id' : equipment.id}) }}">Détail</td>
-										</td>
-									</tr>
-								{% endfor %}
+
+									</td>
+								</tbody>
 							</tbody>
-						</table>
-					{% endif %}
-				</div>
-			</div>
-		</div>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
 	</div>
-</div>{% endblock %}
+</div></div></div>{% endblock %}

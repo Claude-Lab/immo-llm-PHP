@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Détail d'un logement
+{% endblock %}
+
+{% block body %}
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Detail du logement "{{ housing.name }}"
+					<a href="{{ path('housing_edit', {'id' : housing.id}) }}">
+						<button type="button" class="uk-button uk-button-valid uk-button-small uk-align-right@m">Modifier ce logement</button>
+					</a>
+				</div>
+				<div class="uk-card-body">
+					<dl class="uk-description-list">
+
+						<dt>Nom du logement</dt>
+						<dd>{{ housing.name }}</dd>
+
+						<dt>Propriétaire</dt>
+						<dd>{{ housing.owner.fullname }}</dd>
+
+						<dt>Addresse</dt>
+
+						<dd>{{ housing.address.street }}</dd>
+						<dd>{{ housing.address.postCode }}
+							{{ housing.address.city }}</dd>
+						<dd>{{ housing.address.country }}</dd>
+
+						<dt>Type</dt>
+						<dd>{{ housing.sort.name }}</dd>
+
+						<dt></dt>
+						<dd></dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

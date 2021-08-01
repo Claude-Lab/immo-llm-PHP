@@ -25,10 +25,6 @@ class Contract
      */
     private $name;
 
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $rentWithLoad;
 
     /**
      * @ORM\OneToMany(targetEntity=Receipt::class, mappedBy="contract")
@@ -61,12 +57,6 @@ class Contract
     private $equipments;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Housing::class, inversedBy="contracts")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $housing;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $startDate;
@@ -78,6 +68,22 @@ class Contract
      *     message="La date de fin de contrat doit-être supérieur à la date de début !")
      */
     private $endDate;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Housing::class, inversedBy="contract", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $housing;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $rent;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $loadRent;
 
 
     public function __construct()
@@ -92,18 +98,6 @@ class Contract
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getRentWithLoad(): ?float
-    {
-        return $this->rentWithLoad;
-    }
-
-    public function setRentWithLoad(float $rentWithLoad): self
-    {
-        $this->rentWithLoad = $rentWithLoad;
-
-        return $this;
     }
 
     /**
@@ -266,18 +260,6 @@ class Contract
         return $this;
     }
 
-    public function getHousing(): ?Housing
-    {
-        return $this->housing;
-    }
-
-    public function setHousing(?Housing $housing): self
-    {
-        $this->housing = $housing;
-
-        return $this;
-    }
-
     public function getStartDate(): ?\DateTimeInterface
     {
         return $this->startDate;
@@ -298,6 +280,42 @@ class Contract
     public function setEndDate(?\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    public function getHousing(): ?Housing
+    {
+        return $this->housing;
+    }
+
+    public function setHousing(Housing $housing): self
+    {
+        $this->housing = $housing;
+
+        return $this;
+    }
+
+    public function getRent(): ?float
+    {
+        return $this->rent;
+    }
+
+    public function setRent(float $rent): self
+    {
+        $this->rent = $rent;
+
+        return $this;
+    }
+
+    public function getLoadRent(): ?float
+    {
+        return $this->loadRent;
+    }
+
+    public function setLoadRent(float $loadRent): self
+    {
+        $this->loadRent = $loadRent;
 
         return $this;
     }

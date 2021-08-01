@@ -35,16 +35,6 @@ class Housing
     private $surface;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $rental;
-
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $rentalLoad;
-
-    /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -118,9 +108,15 @@ class Housing
     private $sort;
 
     /**
-     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="housing")
+     * @ORM\OneToOne(targetEntity=Contract::class, mappedBy="housing", cascade={"persist", "remove"})
      */
-    private $contracts;
+    private $contract;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Heat::class, inversedBy="housings")
+     */
+    private $heat;
+
 
     public function __construct()
     {
@@ -128,7 +124,6 @@ class Housing
         $this->taxes = new ArrayCollection();
         $this->propertyLoads = new ArrayCollection();
         $this->photos = new ArrayCollection();
-        $this->contracts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -156,30 +151,6 @@ class Housing
     public function setSurface(?float $surface): self
     {
         $this->surface = $surface;
-
-        return $this;
-    }
-
-    public function getRental(): ?float
-    {
-        return $this->rental;
-    }
-
-    public function setRental(?float $rental): self
-    {
-        $this->rental = $rental;
-
-        return $this;
-    }
-
-    public function getRentalLoad(): ?float
-    {
-        return $this->rentalLoad;
-    }
-
-    public function setRentalLoad(?float $rentalLoad): self
-    {
-        $this->rentalLoad = $rentalLoad;
 
         return $this;
     }
@@ -417,34 +388,35 @@ class Housing
         return $this;
     }
 
-    /**
-     * @return Collection|Contract[]
-     */
-    public function getContracts(): Collection
+    public function getContract(): ?Contract
     {
-        return $this->contracts;
+        return $this->contract;
     }
 
-    public function addContract(Contract $contract): self
+    public function setContract(Contract $contract): self
     {
-        if (!$this->contracts->contains($contract)) {
-            $this->contracts[] = $contract;
+        // set the owning side of the relation if necessary
+        if ($contract->getHousing() !== $this) {
             $contract->setHousing($this);
         }
 
+        $this->contract = $contract;
+
         return $this;
     }
 
-    public function removeContract(Contract $contract): self
+    public function getHeat(): ?Heat
     {
-        if ($this->contracts->removeElement($contract)) {
-            // set the owning side to null (unless already changed)
-            if ($contract->getHousing() === $this) {
-                $contract->setHousing(null);
-            }
-        }
+        return $this->heat;
+    }
+
+    public function setHeat(?Heat $heat): self
+    {
+        $this->heat = $heat;
 
         return $this;
     }
+
+    
 
 }

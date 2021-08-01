@@ -27,7 +27,7 @@ class Equipment
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $modality;
+    private $description;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -43,6 +43,12 @@ class Equipment
      * @ORM\ManyToMany(targetEntity=Contract::class, mappedBy="equipments")
      */
     private $contracts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=State::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $state;
 
     public function __construct()
     {
@@ -67,14 +73,14 @@ class Equipment
         return $this;
     }
 
-    public function getModality(): ?string
+    public function getDescription(): ?string
     {
-        return $this->modality;
+        return $this->description;
     }
 
-    public function setModality(?string $modality): self
+    public function setDescription(?string $description): self
     {
-        $this->modality = $modality;
+        $this->description = $description;
 
         return $this;
     }
@@ -126,6 +132,18 @@ class Equipment
         if ($this->contracts->removeElement($contract)) {
             $contract->removeEquipment($this);
         }
+
+        return $this;
+    }
+
+    public function getState(): ?State
+    {
+        return $this->state;
+    }
+
+    public function setState(?State $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }

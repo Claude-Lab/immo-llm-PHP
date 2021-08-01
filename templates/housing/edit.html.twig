@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Edition d'un logement
+{% endblock %}
+
+{% block body %}
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Editer un logement
+				</div>
+				<div class="uk-card-body">
+
+					{{ form_start(housingForm) }}
+
+					<div class="uk-margin">
+						{{ form_row(housingForm.name) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.owner) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.address.street) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.address.city) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.address.postCode) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.address.country) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.sort) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.nbRoom) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.surface) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.floor) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.landSurface) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.nbFloor) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.attic) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.cellar) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.pool) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.box) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(housingForm.elevator) }}
+					</div>
+
+					<button type="submit" class="uk-button uk-button-valid uk-width-1-1 uk-margin-small-bottom">Enregistrer</button>
+
+					<a href="{{ path('housing_list') }}">
+						<button type="button" class="uk-button uk-button-secondary uk-width-1-1">Annuler</button>
+					</a>
+
+					{{ form_end(housingForm) }}
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

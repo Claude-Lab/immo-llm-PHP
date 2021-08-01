@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Equipment;
 use App\Entity\Housing;
+use App\Entity\State;
 use App\Repository\EquipmentRepository;
 use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -41,7 +42,7 @@ class EquipmentType extends AbstractType
                     'class'                 => 'uk-input'
                 ]
             ])
-            ->add('modality', TextareaType::class, [
+            ->add('description', TextareaType::class, [
                 'label'                     => false,
                 'required'                  => false,
                 'attr'                      => [
@@ -56,6 +57,15 @@ class EquipmentType extends AbstractType
                     'placeholder'           => 'Marque',
                     'class'                 => 'uk-input'
                 ]
+            ])
+            ->add('state', EntityType::class, [
+                'placeholder'       => '-- Selectionnez l\'état de l\'appareil --',
+                'label'             => false,
+                'class'             => State::class,
+                "attr"              => [
+                    'class'         => 'uk-select',
+                ],
+                'choice_label'      => 'name',
             ]);
     }
 

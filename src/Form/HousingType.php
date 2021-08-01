@@ -16,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CreateHousingType extends AbstractType
+class HousingType extends AbstractType
 {
 
     protected $em;
@@ -33,42 +33,42 @@ class CreateHousingType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label'             => false,
+                'label'             => 'Nom du logement',
                 'attr'              => [
                     'placeholder'   => 'Indiquez un nom pour ce logement (résidence, propiétaire, etc.)',
                     'class'         => 'uk-input'
                 ]
             ])
             ->add('nbRoom', IntegerType::class, [
-                'label'             => false,
+                'label'             => 'Nombre de pièces',
                 'attr'              => [
                     'placeholder'   => 'Nombre de pièces',
                     'class'         => 'uk-input'
                 ]
             ])
             ->add('surface', NumberType::class, [
-                'label'             => false,
+                'label'             => 'Surface totale',
                 'attr'              => [
                     'placeholder'   => 'Surface totale',
                     'class'         => 'uk-input'
                 ]
             ])
             ->add('rental', NumberType::class, [
-                'label'             => false,
+                'label'             => 'Loyer hors charges',
                 'attr'              => [
                     'placeholder'   => 'Loyer hors charges',
                     'class'         => 'uk-input'
                 ]
             ])
             ->add('rentalLoad', NumberType::class, [
-                'label'             => false,
+                'label'             => 'Charges',
                 'attr'              => [
                     'placeholder'   => 'Charges',
                     'class'         => 'uk-input'
                 ]
             ])
             ->add('floor', IntegerType::class, [
-                'label'             => false,
+                'label'             => 'Etage',
                 'required'          => false,
                 'attr'              => [
                     'placeholder'   => 'Etage',
@@ -109,7 +109,7 @@ class CreateHousingType extends AbstractType
                 'required'          => false
             ])
             ->add('landSurface', NumberType::class, [
-                'label'             => false,
+                'label'             => 'Surface de terrain',
                 'attr'              => [
                     'placeholder'   => 'Surface de terrain',
                     'class'         => 'uk-input'
@@ -117,7 +117,7 @@ class CreateHousingType extends AbstractType
                 'required'          => false,
             ])
             ->add('nbFloor', IntegerType::class, [
-                'label'             => false,
+                'label'             => 'Nombre de niveaux (étages)',
                 'attr'              => [
                     'placeholder'   => 'Nombre de niveaux (étages)',
                     'class'         => 'uk-input'

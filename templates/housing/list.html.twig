@@ -11,7 +11,7 @@
 			<div class="uk-card uk-card-default">
 				<div class="uk-card-header">
 					Liste de mes logements
-					<a href="{{ path('housing_create_admin') }}">
+					<a href="{{ path('housing_create') }}">
 						<button type="button" class="uk-button uk-button-primary uk-button-small uk-align-right@m">Créer un logement</button>
 					</a>
 				</div>
@@ -22,7 +22,8 @@
 							<p>Il semblerait qu'il n'y ait pas de logements correspondant à votre recherche.</p>
 						</div>
 					{% else %}
-						<table class="uk-table uk-table-striped">
+						<table class="uk-table uk-table-responsive uk-table-divider">
+
 							<thead>
 								<tr>
 									<th>Nom</th>
@@ -44,7 +45,12 @@
 										<td>{{ housing.sort.name }}</td>
 										<td>{{ housing.owner.fullname }}</td>
 										<td>
-											<a href="{{ path('housing_admin_detail', {'id' : housing.id}) }}">Détail</td>
+											<a href="{{ path('housing_detail', {'id' : housing.id}) }}">
+												<button class="uk-button uk-button-primary uk-button-small">Détail</button>
+
+											</a>
+
+
 										</td>
 									</tr>
 								{% endfor %}

@@ -36,8 +36,6 @@ class EquipmentController extends AbstractController
 
         if ($equipmentForm->isSubmitted() && $equipmentForm->isValid()) {
 
-            $equipment->setIsUsed(false);
-
             $this->entityManager->persist($equipment);
             $this->entityManager->flush();
             $this->addFlash("Création", "Succès de la création d'un équipement'");
