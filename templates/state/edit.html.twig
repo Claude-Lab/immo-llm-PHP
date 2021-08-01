@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Etat
+{% endblock %}
+
+{% block body %}
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Modifier un etat
+				</div>
+				<div class="uk-card-body">
+
+					{{ form_start(stateForm) }}
+
+					<div class="uk-margin">
+						{{ form_widget(stateForm.name) }}
+					</div>
+
+					<button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Enregistrer</button>
+					<a href="{{ path('state_list') }}">
+						<button type="button" class="uk-button uk-button-secondary uk-width-1-1">Annuler</button>
+					</a>
+
+					{{ form_end(stateForm) }}
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

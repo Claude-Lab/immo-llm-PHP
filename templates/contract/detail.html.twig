@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Détail d'un contrat
+{% endblock %}
+
+{% block body %}
+	<p uk-margin>
+		<a href="{{ path('contract_list') }}">
+			<button class="uk-button uk-button-default uk-button-small">Retour à la liste des contrats</button>
+		</a>
+	</p>
+
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Detail d'un équipement
+				</div>
+				<div class="uk-card-body">
+					<dl class="uk-description-list">
+						<dt>Nom</dt>
+						<dd>{{ equipment.name }}</dd>
+
+						<dt>Marque</dt>
+						<dd>{{ equipment.brandt }}</dd>
+
+						<dt>Etat</dt>
+						<dd>{{ equipment.modality }}</dd>
+
+						<dt>En utilisation</dt>
+						<dd>
+							{% if equipment.isUsed == false %}
+								Non
+							{% else %}
+								Oui
+								{{ equipment.contracts }}
+							{% endif %}
+						</dd>
+					</dd>
+				</dl>
+				<a href="{{ path('equipment_update', {'id' : equipment.id}) }}">
+					<button type="button" class="uk-button uk-button-primary uk-width-1-1 uk-margin">Modifier</button>
+				</a>
+				<a class="uk-button uk-button-danger uk-width-1-1 uk-toggle" uk-toggle="target: #modal-sections">Supprimer</a>
+
+
+				<div id="modal-sections" uk-modal>
+					<div class="uk-modal-dialog">
+						<button class="uk-modal-close-default" type="button" uk-close></button>
+						<div class="uk-modal-header">
+							<h2 class="uk-modal-title">Suppression d'un équipement</h2>
+						</div>
+						<div class="uk-modal-body">
+							<p>Êtes-vous certain de vouloir supprimer cet équipement ?</p>
+						</div>
+						<div class="uk-modal-footer uk-text-right">
+							<a href="{{ path('equipment_delete', {'id' : equipment.id}) }}">
+								<button class="uk-button uk-button-danger" type="button">Supprimer</button>
+							</a>
+							<button class="uk-button uk-button-primary uk-modal-close" type="button">Annuler</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	{% endblock %}

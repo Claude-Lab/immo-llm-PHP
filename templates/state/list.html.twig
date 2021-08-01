@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Etats
+{% endblock %}
+
+{% block body %}
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Liste de tout les états
+					<a href="{{ path('state_create') }}">
+						<button type="button" class="uk-button uk-button-primary uk-button-small uk-align-right@m">Créer un état</button>
+					</a>
+				</div>
+				<div class="uk-card-body">
+					{% if states is empty %}
+						<div class="uk-placeholder uk-text-center ">
+							<h5>Aucun état à afficher</h5>
+							<p>Il semblerait qu'il n'y ait pas d'état correspondant à votre recherche.</p>
+						</div>
+					{% else %}
+						<table class="uk-table uk-table-responsive uk-table-divider">
+							<thead>
+								<tr>
+									<th>Nom</th>
+									<th>Detail</th>
+									<th>Supprimer</th>
+								</tr>
+							</thead>
+							{% for state in states %}
+								<tbody>
+									<tr>
+										<td>{{ state.name }}</td>
+										<td>
+											<a href="{{ path('state_edit', {'id' : state.id}) }}">
+												<button class="uk-button uk-button-primary uk-button-small">Modifier</button>
+											</a>
+
+										</td>
+										<td>
+											<a href="#modal-delete{{state.id}}" data-entity-id="{{ state.id }}" uk-toggle>
+												<button class="uk-button uk-button-danger uk-button-small">Supprimer</button>
+
+											</a>
+
+										</td>
+									</tr>
+								</tbody>
+								<div id="modal-delete{{state.id}}" uk-modal>
+
+									<div class="uk-modal-dialog">
+										<button class="uk-modal-close-default" type="button" uk-close></button>
+										<div class="uk-modal-header">
+											<h2 class="uk-modal-title">Supprimer le type ?</h2>
+										</div>
+										<div class="uk-modal-body">
+											<p>Êtes-vous certain de vouloir supprimer ce type ?</p>
+										</div>
+										<div class="uk-modal-footer uk-text-right">
+											<button class="uk-button uk-button-primary uk-modal-close" type="button">Annuler</button>
+											<a href="{{ path('state_delete', {'id' : state.id}) }}">
+												<button class="uk-button uk-button-danger" type="button">Supprimer</button>
+											</a>
+										</a>
+									</div>
+								</div>
+
+							{% endfor %}
+						</table>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

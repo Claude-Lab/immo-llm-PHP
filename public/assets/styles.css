@@ -1,0 +1,63 @@
+.uk-navbar-container {
+    background-color: #5e0c0c !important;
+}
+
+.role {
+    font-style: italic;
+    font-weight: lighter;
+}
+
+.form-error {
+    font-size: x-large;
+    color: firebrick;
+}
+
+.description {
+    min-height: 8rem;
+}
+
+[class*="uk-align"] {
+    display: block;
+    margin-bottom: 0px;
+}
+
+.content-background {
+
+    /* min-height: calc(100% - 80px); */
+    background-image: '../documents/images/site/login.png';
+    background-color: #F0F0F0;
+}
+
+body.login {
+    background-image: url('../documents/images/site/login.png');
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+.bandeau-admin {
+    max-width: 2rem;
+}
+
+.uk-checkbox, .uk-radio {
+    margin-left: 2rem;
+}
+
+.hide {
+    display: none;
+}
+
+.checkboxy {
+    list-style: none;
+    float: left;
+    margin: 0.4rem;
+}
+
+.uk-button-danger {
+    background-color: rgb(173, 0, 32);
+}
+
+.uk-button-valid {
+    background-color: rgb(20, 131, 0);
+    color: #F0F0F0;
+}
+

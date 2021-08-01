@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Tout les comptes
+{% endblock %}
+
+{% block body %}
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Liste de tout les utilisateurs
+				</div>
+				<div class="uk-card-body">
+					{% if users is empty %}
+						<div class="uk-placeholder uk-text-center ">
+							<h5>Aucun utilisateur à afficher</h5>
+							<p>Il semblerait qu'il n'y ait pas d'utilisateur correspondant à votre recherche.</p>
+						</div>
+					{% else %}
+
+						<table class="uk-table uk-table-responsive uk-table-divider">
+
+							<thead>
+								<tr>
+									<th>Prénom Nom</th>
+									<th>Mobile</th>
+									<th>Email</th>
+									<th>Ville</th>
+									<th>Role</th>
+									<th>Detail</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for user in users %}
+									<tr>
+										<td>{{ user.firstname }}
+											{{ user.lastname }}</td>
+										<td>{{ user.mobile }}</td>
+										<td>{{ user.email }}</td>
+										<td>{{ user.address.city }}</td>
+										<td>
+											{% if user.roles[0] == 'ROLE_ADMIN' %}
+												Administrateur
+											{% elseif user.roles[0] == 'ROLE_OWNER' %}
+												Propriétaire
+											{% elseif user.roles[0] == 'ROLE_TENANT' %}
+												Locataire
+											{% elseif user.roles[0] == 'ROLE_GUARANTOR' %}
+												Garant
+											{% elseif user.roles[0] == 'ROLE_MANAGER' %}
+												Gestionnaire
+											{% endif %}
+										</td>
+
+										<td>
+											<a href="{{ path('user_detail', {'id' : user.id}) }}">
+												<button class="uk-button uk-button-primary uk-button-small">Détail</button>
+											</td>
+
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}
