@@ -85,7 +85,7 @@ class StateController extends AbstractController
         if ($stateForm->isSubmitted() && $stateForm->isValid()) {
             $this->entityManager->persist($state);
             $this->entityManager->flush();
-            $this->addFlash("Création", "Succès de la modification de l\'état");
+            $this->addFlash("Création", "Succès de la modification de l'état");
 
             return $this->redirectToRoute('state_list');
         } else {

@@ -2,10 +2,16 @@
 
 {% block title %}
 	{{ parent() }}
-	| Détail d'un équipement
+	| Détail d'un contrat
 {% endblock %}
 
 {% block body %}
+	<p uk-margin>
+		<a href="{{ path('contract_list') }}">
+			<button class="uk-button uk-button-default uk-button-small">Retour à la liste des contrats</button>
+		</a>
+	</p>
+
 	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
 		<div class="uk-first-column">
 			<div class="uk-card uk-card-default">

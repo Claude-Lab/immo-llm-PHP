@@ -75,7 +75,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    #[Route('/manage/equipment/update/{id}', name: 'equipment_update')]
+    #[Route('/manage/equipment/edit/{id}', name: 'equipment_edit')]
     public function edit(Request $request, int $id): Response
     {
         $equipments = $this->equipmentRepository->findAll();
