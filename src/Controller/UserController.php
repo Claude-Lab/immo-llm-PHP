@@ -36,7 +36,7 @@ class UserController extends AbstractController
         $this->uploadProfilePic = $uploadProfilePic;
     }
 
-    #[Route('/owner/profile', name: 'user_owner_profile')]
+    #[Route('/manage/owner/profile', name: 'user_owner_profile')]
     public function editOwnerProfile(Request $request): Response
     {
 
@@ -76,7 +76,7 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/admin/user/profile', name: 'user_admin_profile')]
+    #[Route('/manage/admin/user/profile', name: 'user_admin_profile')]
     public function editProfile(Request $request): Response
     {
 
@@ -118,7 +118,7 @@ class UserController extends AbstractController
 
     
 
-    #[Route('/admin/user/createOwner', name: 'user_create_owner')]
+    #[Route('/manage/user/createOwner', name: 'user_create_owner')]
     public function createOwner(Request $request): Response
     {
         $owner = new User();
@@ -149,7 +149,7 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/admin/user/createTenant', name: 'user_create_tenant')]
+    #[Route('/manage/user/createTenant', name: 'user_create_tenant')]
     public function createTenant(Request $request): Response
     {
         $tenant = new User();
@@ -180,7 +180,7 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/admin/user/createGuarantor', name: 'user_create_guarantor')]
+    #[Route('/manage/user/createGuarantor', name: 'user_create_guarantor')]
     public function createGuarantor(Request $request): Response
     {
         $guarantor = new User();
@@ -211,7 +211,7 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/admin/user/listAll', name: 'user_list_all')]
+    #[Route('/manage/user/listAll', name: 'user_list_all')]
     public function listAllUser(): Response
     {
 
@@ -222,7 +222,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/user/detail/{id}', name: 'user_detail')]
+    #[Route('/manage/user/detail/{id}', name: 'user_detail')]
     public function userDetail(int $id): Response
     {
 
@@ -237,7 +237,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    // #[Route('/admin/user/createManager', name: 'user_create_manager')]
+    // #[Route('/manage/user/createManager', name: 'user_create_manager')]
     // public function createManager(Request $request): Response
     // {
     //     $user = new User();

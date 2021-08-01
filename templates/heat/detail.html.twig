@@ -2,7 +2,7 @@
 
 {% block title %}
 	{{ parent() }}
-	| Détail d'un équipement
+	| Détail d'un système de chauffage
 {% endblock %}
 
 {% block body %}
@@ -10,31 +10,19 @@
 		<div class="uk-first-column">
 			<div class="uk-card uk-card-default">
 				<div class="uk-card-header">
-					Detail d'un équipement
+					Détail d'un système de chauffage
+
 				</div>
 				<div class="uk-card-body">
 					<dl class="uk-description-list">
 						<dt>Nom</dt>
-						<dd>{{ equipment.name }}</dd>
+						<dd>{{ heat.name }}</dd>
 
-						<dt>Marque</dt>
-						<dd>{{ equipment.brandt }}</dd>
-
-						<dt>Etat</dt>
-						<dd>{{ equipment.modality }}</dd>
-
-						<dt>En utilisation</dt>
-						<dd>
-							{% if equipment.isUsed == false %}
-								Non
-							{% else %}
-								Oui
-								{{ equipment.contracts }}
-							{% endif %}
-						</dd>
+						<dt>Description</dt>
+						<dd>{{ heat.facilitie }}</dd>
 					</dd>
 				</dl>
-				<a href="{{ path('equipment_update', {'id' : equipment.id}) }}">
+				<a href="{{ path('heat_edit', {'id' : heat.id}) }}">
 					<button type="button" class="uk-button uk-button-primary uk-width-1-1 uk-margin">Modifier</button>
 				</a>
 				<a class="uk-button uk-button-danger uk-width-1-1 uk-toggle" uk-toggle="target: #modal-sections">Supprimer</a>
@@ -44,13 +32,13 @@
 					<div class="uk-modal-dialog">
 						<button class="uk-modal-close-default" type="button" uk-close></button>
 						<div class="uk-modal-header">
-							<h2 class="uk-modal-title">Suppression d'un équipement</h2>
+							<h2 class="uk-modal-title">Suppression d'un système</h2>
 						</div>
 						<div class="uk-modal-body">
 							<p>Êtes-vous certain de vouloir supprimer cet équipement ?</p>
 						</div>
 						<div class="uk-modal-footer uk-text-right">
-							<a href="{{ path('equipment_delete', {'id' : equipment.id}) }}">
+							<a href="{{ path('heat_delete', {'id' : heat.id}) }}">
 								<button class="uk-button uk-button-danger" type="button">Supprimer</button>
 							</a>
 							<button class="uk-button uk-button-primary uk-modal-close" type="button">Annuler</button>

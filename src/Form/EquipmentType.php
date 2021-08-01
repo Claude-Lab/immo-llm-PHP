@@ -34,27 +34,27 @@ class EquipmentType extends AbstractType
                     'class'                 => 'uk-input'
                 ]
             ])
-            ->add('serialNumber', TextType::class, [
-                'label'                     => false,
-                'required'                  => false,
-                'attr'                      => [
-                    'placeholder'           => 'Numéro de série',
-                    'class'                 => 'uk-input'
-                ]
-            ])
             ->add('description', TextareaType::class, [
                 'label'                     => false,
                 'required'                  => false,
                 'attr'                      => [
-                    'placeholder'           => 'Indiquez l\'état de l\'équipement)',
-                    'class'                 => 'uk-input'
+                    'placeholder'           => 'Donnez une déscription de l\'équipement (facultatif)',
+                    'class'                 => 'uk-input description'
                 ]
             ])
             ->add('brandt', TextType::class, [
                 'label'                     => false,
                 'required'                  => true,
                 'attr'                      => [
-                    'placeholder'           => 'Marque',
+                    'placeholder'           => 'Indiquez la marque de l\'appareil',
+                    'class'                 => 'uk-input'
+                ]
+            ])
+            ->add('serialNumber', TextType::class, [
+                'label'                     => false,
+                'required'                  => false,
+                'attr'                      => [
+                    'placeholder'           => 'Indiquez le numéro de série de l\'appareil',
                     'class'                 => 'uk-input'
                 ]
             ])

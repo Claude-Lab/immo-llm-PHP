@@ -35,7 +35,7 @@
 							<tbody>
 								{% for equipment in equipments %}
 									<td>{{ equipment.name }}</td>
-									<td>{{equipment.state.name }}</td>
+									<td>{{ equipment.state.name }}</td>
 									<td>{{ equipment.brandt }}</td>
 									<td>
 										<a href="{{ path('equipment_detail', {'id' : equipment.id}) }}">
@@ -51,4 +51,4 @@
 			</table>
 		{% endif %}
 	</div>
-</div></div></div>{% endblock %}
+{% endblock %}

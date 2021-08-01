@@ -2,14 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Equipment;
+use App\Entity\Heat;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EquipmentUpdateType extends AbstractType
+class HeatType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -18,33 +18,24 @@ class EquipmentUpdateType extends AbstractType
                 'label'                     => false,
                 'required'                  => true,
                 'attr'                      => [
-                    'placeholder'           => 'Nom de l\'équipement',
+                    'placeholder'           => 'Nom du système de chauffage',
                     'class'                 => 'uk-input'
                 ]
             ])
-            ->add('description', TextareaType::class, [
+            ->add('facilitie', TextareaType::class, [
                 'label'                     => false,
                 'required'                  => true,
                 'attr'                      => [
-                    'placeholder'           => 'Donnez une déscription de l\'équipement (type, n° de série, etc)',
-                    'class'                 => 'uk-input description'
-                ]
-            ])
-            ->add('modality', TextareaType::class, [
-                'label'                     => false,
-                'required'                  => true,
-                'attr'                      => [
-                    'placeholder'           => 'Indiquez une modalité (prêt gracieux, intégré au meublé, etc.)',
-                    'class'                 => 'uk-input description'
+                    'placeholder'           => 'Appareillage du système de chauffage',
+                    'class'                 => 'uk-input'
                 ]
             ]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Equipment::class,
+            'data_class' => Heat::class,
         ]);
     }
 }
