@@ -32,11 +32,6 @@ class Housing
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $rental;
-
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
     private $housingLoad;
 
     /**
@@ -72,7 +67,7 @@ class Housing
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $nbFloor;
+    private $nbLevel;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -89,11 +84,6 @@ class Housing
      * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="housing")
      */
     private $contracts;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Equipment::class, mappedBy="housing")
-     */
-    private $equipments;
 
     /**
      * @ORM\ManyToOne(targetEntity=Sort::class, inversedBy="housings")
@@ -155,18 +145,6 @@ class Housing
     public function setSurface(float $surface): self
     {
         $this->surface = $surface;
-
-        return $this;
-    }
-
-    public function getRental(): ?float
-    {
-        return $this->rental;
-    }
-
-    public function setRental(?float $rental): self
-    {
-        $this->rental = $rental;
 
         return $this;
     }
@@ -255,14 +233,14 @@ class Housing
         return $this;
     }
 
-    public function getNbFloor(): ?int
+    public function getNbLevel(): ?int
     {
-        return $this->nbFloor;
+        return $this->nbLevel;
     }
 
-    public function setNbFloor(?int $nbFloor): self
+    public function setNbLevel(?int $nbLevel): self
     {
-        $this->nbFloor = $nbFloor;
+        $this->nbLevel = $nbLevel;
 
         return $this;
     }
@@ -315,36 +293,6 @@ class Housing
             // set the owning side to null (unless already changed)
             if ($contract->getHousing() === $this) {
                 $contract->setHousing(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Equipment[]
-     */
-    public function getEquipments(): Collection
-    {
-        return $this->equipments;
-    }
-
-    public function addEquipment(Equipment $equipment): self
-    {
-        if (!$this->equipments->contains($equipment)) {
-            $this->equipments[] = $equipment;
-            $equipment->setHousing($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEquipment(Equipment $equipment): self
-    {
-        if ($this->equipments->removeElement($equipment)) {
-            // set the owning side to null (unless already changed)
-            if ($equipment->getHousing() === $this) {
-                $equipment->setHousing(null);
             }
         }
 

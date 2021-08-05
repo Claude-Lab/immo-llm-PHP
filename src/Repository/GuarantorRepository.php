@@ -16,7 +16,7 @@ class GuarantorRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Guaranty::class);
+        parent::__construct($registry, Guarantor::class);
     }
 
     // /**

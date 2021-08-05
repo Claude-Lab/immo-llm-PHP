@@ -17,6 +17,12 @@ class Owner extends User
      */
     private $housings;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $address;
+
     public function __construct()
     {
         $this->housings = new ArrayCollection();
@@ -48,6 +54,18 @@ class Owner extends User
                 $housing->setOwner(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

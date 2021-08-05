@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -40,11 +38,6 @@ abstract class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
-     */
-    private $address;
-
-    /**
      * @ORM\Column(type="string", length=150)
      */
     private $firstname;
@@ -68,6 +61,8 @@ abstract class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $avatar;
+
+    private $fullname;
 
     public function getId(): ?int
     {
@@ -150,18 +145,6 @@ abstract class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getAddress(): ?Address
-    {
-        return $this->address;
-    }
-
-    public function setAddress(?Address $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
 
     public function getFirstname(): ?string
     {
@@ -221,5 +204,10 @@ abstract class User implements UserInterface
         $this->avatar = $avatar;
 
         return $this;
+    }
+
+    public function getFullname(): ?string
+    {
+        return $this->firstname . ' ' . $this->lastname;
     }
 }

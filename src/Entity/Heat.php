@@ -20,14 +20,14 @@ class Heat
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=180)
      */
-    private $energy;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $setup;
+    private $facilitie;
 
     /**
      * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="heat")
@@ -44,26 +44,26 @@ class Heat
         return $this->id;
     }
 
-    public function getEnergy(): ?string
+    public function getName(): ?string
     {
-        return $this->energy;
+        return $this->name;
     }
 
-    public function setEnergy(string $energy): self
+    public function setName(string $name): self
     {
-        $this->energy = $energy;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getSetup(): ?string
+    public function getFacilitie(): ?string
     {
-        return $this->setup;
+        return $this->facilitie;
     }
 
-    public function setSetup(string $setup): self
+    public function setFacilitie(string $facilitie): self
     {
-        $this->setup = $setup;
+        $this->facilitie = $facilitie;
 
         return $this;
     }

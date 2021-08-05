@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EquipmentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,29 +20,36 @@ class Equipment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180)
+     * @ORM\Column(type="string", length=150)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $brand;
+    private $description;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=100)
+     */
+    private $brandt;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
      */
     private $serialNumber;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\ManyToOne(targetEntity=State::class)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $inUse;
+    private $state;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Housing::class, inversedBy="equipments")
-     */
-    private $housing;
+    public function __construct()
+    {
+        $this->contracts = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -59,14 +68,26 @@ class Equipment
         return $this;
     }
 
-    public function getBrand(): ?string
+    public function getDescription(): ?string
     {
-        return $this->brand;
+        return $this->description;
     }
 
-    public function setBrand(string $brand): self
+    public function setDescription(?string $description): self
     {
-        $this->brand = $brand;
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getBrandt(): ?string
+    {
+        return $this->brandt;
+    }
+
+    public function setBrandt(string $brandt): self
+    {
+        $this->brandt = $brandt;
 
         return $this;
     }
@@ -83,26 +104,14 @@ class Equipment
         return $this;
     }
 
-    public function getInUse(): ?bool
+    public function getState(): ?State
     {
-        return $this->inUse;
+        return $this->state;
     }
 
-    public function setInUse(bool $inUse): self
+    public function setState(?State $state): self
     {
-        $this->inUse = $inUse;
-
-        return $this;
-    }
-
-    public function getHousing(): ?Housing
-    {
-        return $this->housing;
-    }
-
-    public function setHousing(?Housing $housing): self
-    {
-        $this->housing = $housing;
+        $this->state = $state;
 
         return $this;
     }

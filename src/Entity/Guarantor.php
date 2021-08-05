@@ -10,19 +10,43 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Guarantor extends User
 {
-    /**
-     * @ORM\ManyToOne(targetEntity=Contract::class, inversedBy="guarantor")
-     */
-    private $contract;
 
-    public function getContract(): ?Contract
+    /**
+     * @ORM\OneToOne(targetEntity=Tenant::class, mappedBy="guarantor", cascade={"persist", "remove"})
+     */
+    private $tenant;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $address;
+
+    public function getTenant(): ?Tenant
     {
-        return $this->contract;
+        return $this->tenant;
     }
 
-    public function setContract(?Contract $contract): self
+    public function setTenant(Tenant $tenant): self
     {
-        $this->contract = $contract;
+        // set the owning side of the relation if necessary
+        if ($tenant->getGuarantor() !== $this) {
+            $tenant->setGuarantor($this);
+        }
+
+        $this->tenant = $tenant;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

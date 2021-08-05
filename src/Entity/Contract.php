@@ -31,21 +31,15 @@ class Contract
     private $receipts;
 
     /**
-     * @ORM\OneToMany(targetEntity=Tenant::class, mappedBy="contract")
+     * @ORM\ManyToMany(targetEntity=Tenant::class, inversedBy="contracts")
      */
-    private $tenant;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Guarantor::class, mappedBy="contract")
-     */
-    private $guarantor;
+    private $tenants;
 
     public function __construct()
     {
         $this->receipts = new ArrayCollection();
         $this->guarantorUser = new ArrayCollection();
-        $this->tenant = new ArrayCollection();
-        $this->guarantor = new ArrayCollection();
+        $this->tenants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,16 +93,15 @@ class Contract
     /**
      * @return Collection|Tenant[]
      */
-    public function getTenant(): Collection
+    public function getTenants(): Collection
     {
-        return $this->tenant;
+        return $this->tenants;
     }
 
     public function addTenant(Tenant $tenant): self
     {
-        if (!$this->tenant->contains($tenant)) {
-            $this->tenant[] = $tenant;
-            $tenant->setContract($this);
+        if (!$this->tenants->contains($tenant)) {
+            $this->tenants[] = $tenant;
         }
 
         return $this;
@@ -116,44 +109,10 @@ class Contract
 
     public function removeTenant(Tenant $tenant): self
     {
-        if ($this->tenant->removeElement($tenant)) {
-            // set the owning side to null (unless already changed)
-            if ($tenant->getContract() === $this) {
-                $tenant->setContract(null);
-            }
-        }
+        $this->tenants->removeElement($tenant);
 
         return $this;
     }
 
-    /**
-     * @return Collection|Guarantor[]
-     */
-    public function getGuarantor(): Collection
-    {
-        return $this->guarantor;
-    }
-
-    public function addGuarantor(Guarantor $guarantor): self
-    {
-        if (!$this->guarantor->contains($guarantor)) {
-            $this->guarantor[] = $guarantor;
-            $guarantor->setContract($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGuarantor(Guarantor $guarantor): self
-    {
-        if ($this->guarantor->removeElement($guarantor)) {
-            // set the owning side to null (unless already changed)
-            if ($guarantor->getContract() === $this) {
-                $guarantor->setContract(null);
-            }
-        }
-
-        return $this;
-    }
 
 }

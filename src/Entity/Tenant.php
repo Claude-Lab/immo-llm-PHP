@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TenantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,13 +20,25 @@ class Tenant extends User
 
     /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $addressAfter;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Contract::class, inversedBy="tenant")
+     * @ORM\OneToOne(targetEntity=Guarantor::class, inversedBy="tenant", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $contract;
+    private $guarantor;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Contract::class, mappedBy="tenants")
+     */
+    private $contracts;
+
+    public function __construct()
+    {
+        $this->contracts = new ArrayCollection();
+    }
 
     public function getAddressBefore(): ?Address
     {
@@ -50,15 +64,44 @@ class Tenant extends User
         return $this;
     }
 
-    public function getContract(): ?Contract
+    public function getGuarantor(): ?Guarantor
     {
-        return $this->contract;
+        return $this->guarantor;
     }
 
-    public function setContract(?Contract $contract): self
+    public function setGuarantor(Guarantor $guarantor): self
     {
-        $this->contract = $contract;
+        $this->guarantor = $guarantor;
 
         return $this;
     }
+
+    /**
+     * @return Collection|Contract[]
+     */
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function addContract(Contract $contract): self
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts[] = $contract;
+            $contract->addTenant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): self
+    {
+        if ($this->contracts->removeElement($contract)) {
+            $contract->removeTenant($this);
+        }
+
+        return $this;
+    }
+
+    
 }

@@ -41,3 +41,34 @@ body.login {
 .uk-checkbox, .uk-radio {
     margin-left: 2rem;
 }
+
+.hide {
+    display: none;
+}
+
+.checkboxy {
+    list-style: none;
+    float: left;
+    margin: 0.4rem;
+}
+
+.uk-button-danger {
+    background-color: rgb(173, 0, 32);
+}
+
+.uk-button-valid {
+    background-color: rgb(20, 131, 0);
+    color: #F0F0F0;
+}
+
+.uk-card-address-after {
+    background: #ecca6b;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.uk-card-address-before {
+    background: #6bec92;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
