@@ -22,8 +22,8 @@ class EquipmentController extends AbstractController
         EntityManagerInterface $entityManager,
         EquipmentRepository $equipmentRepository,
     ) {
-        $this->entityManager    = $entityManager;
-        $this->equipmentRepository   = $equipmentRepository;
+        $this->entityManager        = $entityManager;
+        $this->equipmentRepository  = $equipmentRepository;
     }
 
 
@@ -31,12 +31,11 @@ class EquipmentController extends AbstractController
     public function create(Request $request): Response
     {
         $equipment = new Equipment();
-        $equipmentForm = $this->createForm(EquipmentType::class, $equipment);
-        $equipmentForm->handleRequest($request);
+        $form = $this->createForm(EquipmentType::class, $equipment);
+        $form->handleRequest($request);
 
-        if ($equipmentForm->isSubmitted() && $equipmentForm->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            $equipment->setInUse(false);
 
             $this->entityManager->persist($equipment);
             $this->entityManager->flush();
@@ -47,7 +46,7 @@ class EquipmentController extends AbstractController
 
             return $this->render('equipment/create.html.twig', [
                 'equipment' => $equipment,
-                'equipmentForm' => $equipmentForm->createView()
+                'form'      => $form->createView()
             ]);
         }
     }
@@ -88,20 +87,18 @@ class EquipmentController extends AbstractController
             throw $this->createNotFoundException("Ooop ! Cette équipment n'existe pas...");
         }
 
-        $equipmentForm = $this->createForm(EquipmentUpdateType::class, $equipment);
-        $equipmentForm->handleRequest($request);
+        $form = $this->createForm(EquipmentUpdateType::class, $equipment);
+        $form->handleRequest($request);
 
-        if ($equipmentForm->isSubmitted() && $equipmentForm->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($equipment);
             $this->entityManager->flush();
             $this->addFlash("Modification", "Succès de la modification d'un équipement'");
 
-            return $this->redirectToRoute('equipment_list', [
-                'equipments' => $equipments
-            ]);
+            return $this->redirectToRoute('equipment_list');
         } else {
             return $this->render('equipment/equipmentUpdate.html.twig', [
-                'equipmentForm' => $equipmentForm->createView()
+                'form' => $form->createView()
             ]);
         }
     }

@@ -25,19 +25,19 @@ class HousingController extends AbstractController
         $this->housingRepository   = $housingRepository;
     }
 
-    #[Route('/owner/housings', name: 'housing_list')]
+    #[Route('/manage/owner/housings', name: 'owner_housings')]
     public function listHousings(): Response
     {
         $owner = $this->getUser();
-        $ownerId = $owner->getId();
-        $housings = $this->housingRepository->findByOwner($ownerId);
+        $id = $owner->getId();
+        $housings = $this->housingRepository->findByOwner($id);
 
         return $this->render('housing/listOwnerHousings.html.twig', [
             'housings' => $housings,
         ]);
     }
 
-    #[Route('/admin/housing/list', name: 'housing_list')]
+    #[Route('/manage/housings', name: 'housing_list')]
     public function listAdminHousings(): Response
     {
         $housings = $this->housingRepository->findAll();
@@ -47,8 +47,8 @@ class HousingController extends AbstractController
         ]);
     }
 
-    #[Route('/housing/createHousing', name: 'housing_create')]
-    public function createHousing(Request $request, SortRepository $typeRepository, OwnerRepository $ownerRepository): Response
+    #[Route('/manage/housing/create', name: 'housing_create')]
+    public function create(Request $request, SortRepository $typeRepository, OwnerRepository $ownerRepository): Response
     {
         $housing = new Housing();
 
@@ -56,10 +56,10 @@ class HousingController extends AbstractController
         $owners = $ownerRepository->findAll();
         $sorts = $typeRepository->findAll();
 
-        $housingForm = $this->createForm(CreateHousingType::class, $housing);
-        $housingForm->handleRequest($request);
+        $form = $this->createForm(CreateHousingType::class, $housing);
+        $form->handleRequest($request);
 
-        if ($housingForm->isSubmitted() && $housingForm->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $this->entityManager->persist($housing);
             $this->entityManager->flush();
@@ -70,20 +70,20 @@ class HousingController extends AbstractController
 
             return $this->render('housing/createHousing.html.twig', [
                 'housing'       => $housing,
-                'housingForm'   => $housingForm->createView()
+                'form'   => $form->createView()
             ]);
         }
     }
 
-    #[Route('/admin/housing/createHousing', name: 'housing_admin_create')]
+    #[Route('/manage/housing/create', name: 'housing_create')]
     public function createAdminHousing(Request $request, SortRepository $typeRepository): Response
     {
         $housing = new Housing();
 
-        $housingForm = $this->createForm(CreateHousingType::class, $housing);
-        $housingForm->handleRequest($request);
+        $form = $this->createForm(CreateHousingType::class, $housing);
+        $form->handleRequest($request);
 
-        if ($housingForm->isSubmitted() && $housingForm->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $this->entityManager->persist($housing);
             $this->entityManager->flush();
@@ -92,9 +92,9 @@ class HousingController extends AbstractController
             return $this->redirectToRoute('housing_list');
         } else {
 
-            return $this->render('housing/createHousing.html.twig', [
+            return $this->render('housing/create.html.twig', [
                 'housing'       => $housing,
-                'housingForm'   => $housingForm->createView()
+                'form'          => $form->createView()
             ]);
         }
     }
