@@ -24,7 +24,7 @@ class SortController extends AbstractController
     }
 
 
-    #[Route('/sort/list', name: 'sort_list')]
+    #[Route('/manage/sort/list', name: 'sort_list')]
     public function index(): Response
     {
 
@@ -35,7 +35,7 @@ class SortController extends AbstractController
         ]);
     }
 
-    #[Route('/sort/create', name: 'sort_create')]
+    #[Route('/manage/sort/create', name: 'sort_create')]
     public function createSort(Request $request): Response
     {
         $sort = new Sort();
@@ -57,7 +57,7 @@ class SortController extends AbstractController
         }
     }
 
-    #[Route('/sort/detail/{id}', name: 'sort_detail')]
+    #[Route('/manage/sort/detail/{id}', name: 'sort_detail')]
     public function detailSort(int $id): Response
     {
         $sort = $this->sortRepository->find($id);

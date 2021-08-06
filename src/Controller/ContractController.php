@@ -38,7 +38,7 @@ class ContractController extends AbstractController
     }
 
 
-    #[Route('/admin/contract/list', name: 'contract_list')]
+    #[Route('/manage/contracts', name: 'contract_list')]
     public function list(): Response
     {
         $contracts = $this->contractRepository->findAll();
@@ -48,18 +48,18 @@ class ContractController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/contract/create', name: 'contract_create')]
+    #[Route('/manage/contract/create', name: 'contract_create')]
     public function create(Request $request): Response
     {
         $contract = new Contract();
-        $contractForm = $this->createForm(ContractType::class, $contract);
-        $contractForm->handleRequest($request);
+        $form = $this->createForm(ContractType::class, $contract);
+        $form->handleRequest($request);
 
-        if ($contractForm->isSubmitted() && $contractForm->isValid() && $contract->getStartDate()->is) {
+        if ($form->isSubmitted() && $form->isValid() && $contract->getStartDate()->is) {
 
             $contractManager = new ContractManager($this->entityManager, $this->housingRepository);
-            $contract = $contractManager->checkHousingAviability($contract, $contractForm);
-            $contract = $contractManager->setContractToTenantsFromFormAndReturn($contract, $contractForm);
+            $contract = $contractManager->checkHousingAviability($contract, $form);
+            $contract = $contractManager->setContractToTenantsFromFormAndReturn($contract, $form);
             $this->entityManager->persist($contract);
             $this->entityManager->flush();
 
@@ -71,12 +71,12 @@ class ContractController extends AbstractController
 
             return $this->render('contract/create.html.twig', [
                 'contract' => $contract,
-                'contractForm' => $contractForm->createView()
+                'contractForm' => $form->createView()
             ]);
         }
     }
 
-    #[Route('/admin/contract/detail/{id}', name: 'contract_admin_detail')]
+    #[Route('/manage/contract/detail/{id}', name: 'contract_admin_detail')]
     public function detail(int $id): Response
     {
         $contract = $this->contractRepository->find($id);
