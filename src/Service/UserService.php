@@ -2,6 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Guarantor;
+use App\Entity\Owner;
+use App\Entity\Tenant;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Utils\UploadProfilePic;
@@ -39,7 +42,7 @@ class UserService extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                  $password = random_bytes(10);
+                  $password = random_bytes(15);
                   $user->setPassword($this->passwordEncoder->encodePassword($user,  $password));
 
                   $avatar = 'default.png';
@@ -53,10 +56,27 @@ class UserService extends AbstractController
 
                   return $this->redirectToRoute('users_list');
             } else {
-                  return $this->render('user/owner/create.html.twig', [
-                        'user' => $user,
-                        'form' => $form->createView()
-                  ]);
+                  if ($entity == Owner::class) {
+                        return $this->render('user/owner/create.html.twig', [
+                              'user' => $user,
+                              'form' => $form->createView()
+                        ]);
+                  } else if ($entity == Tenant::class) {
+                        return $this->render('user/tenant/create.html.twig', [
+                              'user' => $user,
+                              'form' => $form->createView()
+                        ]);
+                  } else if ($entity == Guarantor::class) {
+                        return $this->render('user/guarantor/create.html.twig', [
+                              'user' => $user,
+                              'form' => $form->createView()
+                        ]);
+                  } else {
+                        return $this->render('user/admin/create.html.twig', [
+                              'user' => $user,
+                              'form' => $form->createView()
+                        ]);
+                  }
             }
       }
 
@@ -67,13 +87,6 @@ class UserService extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
-                  $avatar = $form->get('avatar')->getData();
-                  if ($avatar) {
-                        $imageDirectory = $this->getParameter('upload_profile_avatar');
-                        $imageName = $user->getFirstname() . $user->getLastname() . $user->getId();
-                        $user->setAvatar($this->uploadProfilePic->save($imageName, $avatar, $imageDirectory));
-                  }
 
                   $this->entityManager->persist($user);
                   $this->entityManager->flush();

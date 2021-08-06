@@ -22,7 +22,9 @@
 					{{ user.lastname }}
 				</div>
 				<div class="uk-card-body">
-					<dl class="uk-description-list">
+					<dl class="uk-description-list uk-column-1-2@s">
+
+
 						<dt>Prénom</dt>
 						<dd>{{ user.firstname }}</dd>
 
@@ -70,50 +72,50 @@
 
 							{% if user.addressAfter != null %}
 								<dt>Addresse de départ (après déménagement)</dt>
-								<dd>{{user.addressBefore.street }}</dd>
-								<dd>{{user.addressBefore.postCode }}
-									{{user.addressBefore.city }}</dd>
-								<dd>{{user.addressBefore.country }}</dd>
-							{% endif %}
-						{% endif %}
-						<dt>Type de compte</dt>
-						<dd>
-							{% if user.roles[0] == 'ROLE_ADMIN' %}
-								Administrateur
-							{% elseif user.roles[0] == 'ROLE_OWNER' %}
-								Propriétaire
-							{% elseif user.roles[0] == 'ROLE_TENANT' %}
-								Locataire
-							{% elseif user.roles[0] == 'ROLE_GUARANTOR' %}
-								Garant
-							{% endif %}
-						</dd>
-						{% if user.roles[0] == 'ROLE_GUARANTOR' %}
-							{% if user.tenant != null %}
-								<dt>Locataire lié au garant</dt>
-								<dd>
-									<a href="{{ path('user_detail', {'id' : user.tenant.id}) }}">{{ user.tenant.fullname }}</a>
-								</dd>
-							{% endif %}
-						{% endif %}
-						{% if user.roles[0] == 'ROLE_TENANT' %}
-							{% if user.guarantor != null %}
-								<dt>Garant du locataire</dt>
-								<dd>
-									<a href="{{ path('user_detail', {'id' : user.guarantor.id}) }}">{{ user.guarantor.fullname }}</a>
-								</dd>
-							{% endif %}
-						{% endif %}
+								<dd>{{user.addressAfter.street }}</dd>
+								<dd>{{user.addressAfter.postCode }}
+								{{user.addressAfter.city }}</dd>
+							<dd>{{user.addressAfter.country }}</dd>
 
-					</dl>
-
-					{% if app.user.roles[0] == 'ROLE_ADMIN' or app.user.roles[0] == 'ROLE_OWNER' %}
-						<a href="{{ path('user_edit', {'id' : user.id}) }}">
-							<button type="button" class="uk-button uk-button-primary uk-width-1-1 uk-margin">Modifier</button>
-						</a>
+						{% endif %}
 					{% endif %}
-				</div>
+					<dt>Type de compte</dt>
+					<dd>
+						{% if user.roles[0] == 'ROLE_ADMIN' %}
+							Administrateur
+						{% elseif user.roles[0] == 'ROLE_OWNER' %}
+							Propriétaire
+						{% elseif user.roles[0] == 'ROLE_TENANT' %}
+							Locataire
+						{% elseif user.roles[0] == 'ROLE_GUARANTOR' %}
+							Garant
+						{% endif %}
+					</dd>
+					{% if user.roles[0] == 'ROLE_GUARANTOR' %}
+						{% if user.tenant != null %}
+							<dt>Locataire lié au garant</dt>
+							<dd>
+								<a href="{{ path('user_detail', {'id' : user.tenant.id}) }}">{{ user.tenant.fullname }}</a>
+							</dd>
+						{% endif %}
+					{% endif %}
+					{% if user.roles[0] == 'ROLE_TENANT' %}
+						{% if user.guarantor != null %}
+							<dt>Garant du locataire</dt>
+							<dd>
+								<a href="{{ path('user_detail', {'id' : user.guarantor.id}) }}">{{ user.guarantor.fullname }}</a>
+							</dd>
+						{% endif %}
+					{% endif %}
+
+				</dl>
+
+				{% if app.user.roles[0] == 'ROLE_ADMIN' or app.user.roles[0] == 'ROLE_OWNER' %}
+					<a href="{{ path('user_edit', {'id' : user.id}) }}">
+						<button type="button" class="uk-button uk-button-primary uk-width-1-1 uk-margin">Modifier</button>
+					</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>
-{% endblock %}
+</div>{% endblock %}

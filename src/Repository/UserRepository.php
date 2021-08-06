@@ -36,54 +36,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    /**
-     * @param string $role
-     *
-     * @return array
-     */
-    public function findByRoleAdmin(): array
+    public function findByRole(string $role): array
     {
-        // The ResultSetMapping maps the SQL result to entities
-        $rsm = $this->createResultSetMappingBuilder('u');
+        $qb = $this->_em->createQueryBuilder();
 
-        $rawQuery = sprintf('
-            SELECT %u
-            FROM user u 
-            WHERE JSON_SEARCH(s.roles LIKE %ROLE_ADMIN%)',
-
-            $rsm->generateSelectClause()
-        );
-
-        $query = $this->getEntityManager()->createNativeQuery($rawQuery, $rsm);
-        return $query->getResult();
+        $qb->select('u')
+            ->from($this->_entityName, 'u')
+            ->where('u.roles LIKE :roles')
+            ->setParameter('roles', '%"' . $role . '"%');
+        return $qb->getQuery()->getResult();
     }
-
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

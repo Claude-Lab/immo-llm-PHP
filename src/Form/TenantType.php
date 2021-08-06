@@ -7,11 +7,9 @@ use App\Entity\Tenant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Image;
 
 class TenantType extends AbstractType
 {
@@ -73,19 +71,8 @@ class TenantType extends AbstractType
                 "attr"                      => [
                     'class'                 => 'uk-select',
                 ],
-                'choice_label'              => 'fullname'
-            ])
-            ->add('avatar', FileType::class, [
-                'mapped'                    => false,
-                'required'                  => false,
-                'label'                     => false,
-                'constraints'               => [
-                    new Image([
-                        'maxSize'           => '7000k',
-                        'mimeTypesMessage'  => "Format d'image non autorisé"
-                    ])
-
-                ]
+                'choice_label'              => 'fullname',
+                'required'                  => false
             ]);
     }
 

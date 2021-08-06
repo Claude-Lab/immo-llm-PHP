@@ -8,8 +8,8 @@
 {% block body %}
 	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
 		<div class="uk-first-column">
+			{% include 'user/formParts/_tab.html.twig'%}
 
-		
 			<div class="uk-card uk-card-default">
 				<div class="uk-card-header">
 					Liste des locataires
@@ -67,4 +67,12 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
+{% block extraJs %}
+	<script>
+		UIkit.switcher(element).show(users);
+		UIkit.switcher(element).show(owners);
+		UIkit.switcher(element).show(tenants);
+		UIkit.switcher(element).show(guarantors);
+	</script>
 {% endblock %}

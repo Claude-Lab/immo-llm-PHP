@@ -1,30 +1,20 @@
-
-{% if app.user.roles[0] == 'ROLE_ADMIN'  %}
-<ul uk-tab>
-	<li>
-		<a href="{{ path('users_list') }}">Tout</a>
-	</li>
-	<li>
-		<a href="{{ path('owners_list') }}">Propriétaires</a>
-	</li>
-	<li>
-		<a href="{{ path('tenants_list') }}">Locataires</a>
-	</li>
-	<li>
-		<a href="{{ path('guarantors_list') }}">Garants</a>
-	</li>
-</ul>
-
+{% if app.user.roles[0] == 'ROLE_ADMIN' %}
+	<ul uk-tab>
+		<li class="uk-active" id="users"><a href="{{ path('users_list') }}">Utilisateurs</a></li>
+		<li id="owners"><a href="{{ path('owners_list') }}">Propriétaires</a></li>
+		<li><a href="{{ path('tenants_list') }}">Locataires</a></li>
+		<li><a href="{{ path('guarantors_list') }}">Garants</a></li>
+	</ul>
 {% elseif app.user.roles[0] == 'ROLE_OWNER' %}
-<ul uk-tab>
-	<li>
-		<a href="{{ path('users_list') }}">Tout</a>
-	</li>
-	<li>
-		<a href="{{ path('tenants_list') }}">Locataires</a>
-	</li>
-	<li>
-		<a href="{{ path('guarantors_list') }}">Garants</a>
-	</li>
-</ul>
- {% endif %}
+	<ul uk-tab>
+		<li><a href="{{ path('tenants_list') }}">Locataires</a></li>
+		<li><a href="{{ path('guarantors_list') }}">Garants</a></li>
+	</ul>
+{% endif %}
+<script>
+	UIkit.switcher(element).show(users);
+	UIkit.switcher(element).show(owners);
+	UIkit.switcher(element).show(tenants);
+	UIkit.switcher(element).show(guarantors);
+</script>
+

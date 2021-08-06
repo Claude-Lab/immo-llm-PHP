@@ -1,0 +1,13 @@
+{% if app.user.roles[0] == 'ROLE_ADMIN' %}
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+            <li id="1"><a href="{{ path('users_list') }}">Utilisateurs</a></li>
+            <li id="2"><a href="{{ path('owners_list') }}">Propriétaires</a></li>
+            <li id="3"><a href="{{ path('tenants_list') }}">Locataires</a></li>
+            <li id="4"><a href="{{ path('guarantors_list') }}">Garants</a></li>
+      </ul>
+{% elseif app.user.roles[0] == 'ROLE_OWNER' %}
+      <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+            <li id="3"><a href="{{ path('tenants_list') }}">Locataires</a></li>
+            <li id="4"><a href="{{ path('guarantors_list') }}">Garants</a></li>
+      </ul>
+{% endif %}

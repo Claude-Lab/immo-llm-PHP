@@ -2,17 +2,17 @@
 
 {% block title %}
 	{{ parent() }}
-	| listes comptes
+	| Liste des propriétaires
 {% endblock %}
 
 {% block body %}
 	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
 		<div class="uk-first-column">
-			{% include 'user/formParts/_switch.html.twig'%}
+			{% include 'user/formParts/_tab.html.twig'%}
 
 			<div class="uk-card uk-card-default">
 				<div class="uk-card-header">
-					Liste de tout les utilisateurs
+					Liste des propriétaires
 				</div>
 				<div class="uk-card-body">
 					{% if users is empty %}

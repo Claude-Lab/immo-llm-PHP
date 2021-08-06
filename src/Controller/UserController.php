@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Admin;
 use App\Entity\Guarantor;
 use App\Entity\Owner;
 use App\Entity\Tenant;
 use App\Form\AdminType;
 use App\Form\GuarantorType;
 use App\Form\OwnerType;
-use App\Form\OwnerUpdateProfileType;
 use App\Form\TenantType;
 use App\Repository\UserRepository;
 use App\Service\UserService;
@@ -49,16 +49,16 @@ class UserController extends AbstractController
         $entity = Owner::class;
         $formType = OwnerType::class;
         $role = 'ROLE_OWNER';
-        $this->sercive->userCreate($request, $entity, $formType, $role);
+        return $this->service->userCreate($request, $entity, $formType, $role);
     }
 
-    #[Route('/managme/tenant/create', name: 'create_tenant')]
+    #[Route('/manage/tenant/create', name: 'create_tenant')]
     public function createTenant(Request $request)
     {
         $entity = Tenant::class;
         $formType = TenantType::class;
         $role = 'ROLE_TENANT';
-        $this->service->userCreate($request, $entity, $formType, $role);
+        return $this->service->userCreate($request, $entity, $formType, $role);
     }
 
     #[Route('/manage/guarantor/create', name: 'create_guarantor')]
@@ -67,7 +67,16 @@ class UserController extends AbstractController
         $entity = Guarantor::class;
         $formType = GuarantorType::class;
         $role = 'ROLE_GUARANTOR';
-        $this->service->userCreate($request, $entity, $formType, $role);
+        return $this->service->userCreate($request, $entity, $formType, $role);
+    }
+
+    #[Route('/manage/admin/create', name: 'create_admin')]
+    public function createAdmin(Request $request)
+    {
+        $entity = Admin::class;
+        $formType = AdminType::class;
+        $role = 'ROLE_ADMIN';
+        return $this->service->userCreate($request, $entity, $formType, $role);
     }
     
     #[Route('/manage/user/edit/{id}', name: 'user_edit')]
@@ -95,6 +104,39 @@ class UserController extends AbstractController
         $users = $this->userRepository->findAll();
 
         return $this->render('user/list.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    #[Route('/manage/owners', name: 'owners_list')]
+    public function listOwners(): Response
+    {
+        $role = 'ROLE_OWNER';
+        $users = $this->userRepository->findByRole($role);
+
+        return $this->render('user/owner/owners.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    #[Route('/manage/tenants', name: 'tenants_list')]
+    public function listTenants(): Response
+    {
+        $role = 'ROLE_TENANT';
+        $users = $this->userRepository->findByRole($role);
+
+        return $this->render('user/tenant/tenants.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    #[Route('/manage/guarantors', name: 'guarantors_list')]
+    public function listGuarantors(): Response
+    {
+        $role = 'ROLE_GARANTORS';
+        $users = $this->userRepository->findByRole($role);
+
+        return $this->render('user/guarantor/guarantors.html.twig', [
             'users' => $users,
         ]);
     }
@@ -143,5 +185,7 @@ class UserController extends AbstractController
                 break;
         }
     }
+
+
 
 }

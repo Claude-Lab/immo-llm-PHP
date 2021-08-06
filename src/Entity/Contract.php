@@ -19,11 +19,6 @@ class Contract
      */
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Housing::class, inversedBy="contracts")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $housing;
 
     /**
      * @ORM\OneToMany(targetEntity=Receipt::class, mappedBy="contract")
@@ -34,6 +29,12 @@ class Contract
      * @ORM\ManyToMany(targetEntity=Tenant::class, inversedBy="contracts")
      */
     private $tenants;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Housing::class, inversedBy="contracts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $housing;
 
     public function __construct()
     {
@@ -47,19 +48,7 @@ class Contract
         return $this->id;
     }
 
-    public function getHousing(): ?Housing
-    {
-        return $this->housing;
-    }
-
-    public function setHousing(?Housing $housing): self
-    {
-        $this->housing = $housing;
-
-        return $this;
-    }
-
-
+  
     /**
      * @return Collection|Receipt[]
      */
@@ -110,6 +99,18 @@ class Contract
     public function removeTenant(Tenant $tenant): self
     {
         $this->tenants->removeElement($tenant);
+
+        return $this;
+    }
+
+    public function getHousing(): ?Housing
+    {
+        return $this->housing;
+    }
+
+    public function setHousing(?Housing $housing): self
+    {
+        $this->housing = $housing;
 
         return $this;
     }

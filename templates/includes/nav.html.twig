@@ -10,8 +10,11 @@
 			<div class="uk-navbar-right uk-light">
 				<ul class="uk-navbar-nav">
 					<li class="uk-active">
-						<a href="#">{{ app.user.firstname }}
-							{{ app.user.lastname }}&nbsp;<span class="ion-ios-arrow-down"></span>
+						<a href="#">
+							<img id="avatar" width="30" class="uk-border-circle uk-margin-medium-left" src="{{ asset('documents/images/users/avatars/' ~ app.user.avatar) }}"/>
+							&nbsp; &nbsp;{{ app.user.fullname }}&nbsp;<span class="ion-ios-arrow-down"></span>
+
+
 						</a>
 						<div uk-dropdown="pos: bottom-right; mode: click; offset: -17;">
 							<ul class="uk-nav uk-navbar-dropdown-nav">
