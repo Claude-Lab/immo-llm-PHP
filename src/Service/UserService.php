@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Utils\UploadProfilePic;
 use Doctrine\ORM\EntityManagerInterface;
@@ -59,19 +60,13 @@ class UserService extends AbstractController
             }
       }
 
-      public function userEdit(Request $request, int $id, string $formType)
+      public function userEdit(Request $request, User $user, string $formType): Response
       {
-            $user = $this->userRepository->find($id);
 
             $form = $this->createForm($formType, $user);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
-                  $firstPasswordField = $form->get('plainPassword')->getData();
-                  if ($firstPasswordField) {
-                        $user->setPassword($this->passwordEncoder->encodePassword($user,  $firstPasswordField));
-                  }
 
                   $avatar = $form->get('avatar')->getData();
                   if ($avatar) {
@@ -82,9 +77,45 @@ class UserService extends AbstractController
 
                   $this->entityManager->persist($user);
                   $this->entityManager->flush();
-                  $this->addFlash("success", "Utilisateur édité avec succès");
+                  $fullname = $user->getFullname();
+                  $this->addFlash("success", "Compte de \"" . $fullname .  "\" édité avec succès");
 
-                  return $this->redirectToRoute('users_list');
+                  return $this->redirectToRoute(
+                        'user_detail',
+                        array('id' => $user->getId())
+                  );
+            } else {
+
+                  return $this->render('user/edit.html.twig', [
+                        'user' => $user,
+                        'form' => $form->createView()
+                  ]);
+            }
+      }
+
+      public function profileEdit(Request $request, string $formType): Response
+      {
+
+            $user = $this->getUser();
+            $form = $this->createForm($formType, $user);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+
+                  $avatar = $form->get('avatar')->getData();
+                  if ($avatar) {
+                        $imageDirectory = $this->getParameter('upload_profile_avatar');
+                        $imageName = $user->getFirstname() . $user->getLastname() . $user->getId();
+                        $user->setAvatar($this->uploadProfilePic->save($imageName, $avatar, $imageDirectory));
+                  }
+
+                  $this->entityManager->persist($user);
+                  $this->entityManager->flush();
+                  $fullname = $user->getFullname();
+                  $this->addFlash("success", "Votre compte à été édité avec succès");
+
+                  return $this->redirectToRoute('user_profile');
             } else {
 
                   return $this->render('user/edit.html.twig', [

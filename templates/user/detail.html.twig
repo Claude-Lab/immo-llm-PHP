@@ -6,8 +6,9 @@
 {% endblock %}
 
 {% block body %}
+
 	<p uk-margin>
-		<a href="{{ path('equipment_list') }}">
+		<a href="{{ path('users_list') }}">
 			<button class="uk-button uk-button-default uk-button-small">Retour à la liste des comptes</button>
 		</a>
 	</p>
@@ -43,12 +44,38 @@
 						<dt>Téléphone mobile</dt>
 						<dd>{{user.mobile }}</dd>
 
-						<dt>Addresse</dt>
-						<dd>{{user.address.street }}</dd>
-						<dd>{{user.address.postCode }}
-							{{user.address.city }}</dd>
-						<dd>{{user.address.country }}</dd>
+						{% if user.roles[0] != 'ROLE_ADMIN' and user.roles[0] != 'ROLE_TENANT' %}
+							<dt>Addresse</dt>
+							<dd>{{user.address.street }}</dd>
+							<dd>{{user.address.postCode }}
+								{{user.address.city }}</dd>
+							<dd>{{user.address.country }}</dd>
 
+						{% elseif user.roles[0] == 'ROLE_TENANT' %}
+							{% if user.contracts != null %}
+								{% for contract in user.contracts %}
+									<dt>Addresse Actuelle (contrat de bail)</dt>
+									<dd>{{user.contract.address.street }}</dd>
+									<dd>{{user.contract.address.postCode }}
+										{{user.contract.address.city }}</dd>
+									<dd>{{user.contract.address.country }}</dd>
+								{% endfor %}
+							{% endif %}
+
+							<dt>Addresse Precedente (avant emménagement)</dt>
+							<dd>{{user.addressBefore.street }}</dd>
+							<dd>{{user.addressBefore.postCode }}
+								{{user.addressBefore.city }}</dd>
+							<dd>{{user.addressBefore.country }}</dd>
+
+							{% if user.addressAfter != null %}
+								<dt>Addresse de départ (après déménagement)</dt>
+								<dd>{{user.addressBefore.street }}</dd>
+								<dd>{{user.addressBefore.postCode }}
+									{{user.addressBefore.city }}</dd>
+								<dd>{{user.addressBefore.country }}</dd>
+							{% endif %}
+						{% endif %}
 						<dt>Type de compte</dt>
 						<dd>
 							{% if user.roles[0] == 'ROLE_ADMIN' %}
@@ -61,11 +88,30 @@
 								Garant
 							{% endif %}
 						</dd>
-					</dl>
-					<a href="{{ path('user_edit', {'id' : user.id}) }}">
-						<button type="button" class="uk-button uk-button-primary uk-width-1-1 uk-margin">Modifier</button>
-					</a>
+						{% if user.roles[0] == 'ROLE_GUARANTOR' %}
+							{% if user.tenant != null %}
+								<dt>Locataire lié au garant</dt>
+								<dd>
+									<a href="{{ path('user_detail', {'id' : user.tenant.id}) }}">{{ user.tenant.fullname }}</a>
+								</dd>
+							{% endif %}
+						{% endif %}
+						{% if user.roles[0] == 'ROLE_TENANT' %}
+							{% if user.guarantor != null %}
+								<dt>Garant du locataire</dt>
+								<dd>
+									<a href="{{ path('user_detail', {'id' : user.guarantor.id}) }}">{{ user.guarantor.fullname }}</a>
+								</dd>
+							{% endif %}
+						{% endif %}
 
+					</dl>
+
+					{% if app.user.roles[0] == 'ROLE_ADMIN' or app.user.roles[0] == 'ROLE_OWNER' %}
+						<a href="{{ path('user_edit', {'id' : user.id}) }}">
+							<button type="button" class="uk-button uk-button-primary uk-width-1-1 uk-margin">Modifier</button>
+						</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>

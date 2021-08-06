@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Guarantor;
 use App\Entity\Owner;
 use App\Entity\Tenant;
+use App\Form\AdminType;
 use App\Form\GuarantorType;
 use App\Form\OwnerType;
 use App\Form\OwnerUpdateProfileType;
@@ -75,57 +76,21 @@ class UserController extends AbstractController
         $user = $this->userRepository->find($id);
         $role = $user->getRoles();
         
-
-        if ($role = ['ROLE_OWNER']) {
-            return $this->service->userEdit($request, $id, OwnerType::class);
-        } else if ($role = ['ROLE_TENANT']) {
-            return $this->service->userEdit($request, $id, TenantType::class);
-        } else if ($role = ['ROLE_GUARANTOR']) {
-            return $this->service->userEdit($request, $id, GuarantorType::class);
-        }
-
-    }
-
-    #[Route('/profile', name: 'user_profile')]
-    public function editProfile(Request $request): Response
-    {
-
-        $user = $this->getUser();
-        $userId = $user->getId();
-        $user = $this->userRepository->find($userId);
-        $form = $this->createForm(OwnerUpdateProfileType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $firstPasswordField = $form->get('plainPassword')->getData();
-            if ($firstPasswordField) {
-                $user->setPassword($this->passwordEncoder->encodePassword($user,  $firstPasswordField));
-            }
-
-            $avatar = $form->get('avatar')->getData();
-            if ($avatar) {
-                $imageDirectory = $this->getParameter('upload_profile_avatar');
-                $imageName = $user->getFirstname() . $user->getLastname() . $user->getId();
-                $user->setAvatar($this->uploadProfilePic->save($imageName, $avatar, $imageDirectory));
-            }
-
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-            $this->addFlash("Edition", "Profil édité avec succès");
-
-            return $this->redirectToRoute('dashboard');
-        } else {
-
-            return $this->render('user/editOwnerProfile.html.twig', [
-                'user' => $user,
-                'form' => $form->createView()
-            ]);
+        switch (true) {
+            case ($role[0] == 'ROLE_OWNER'):
+                return $this->service->userEdit($request, $user, OwnerType::class);
+                break;
+            case ($role[0] == 'ROLE_TENANT'):
+                return $this->service->userEdit($request, $user, TenantType::class);
+                break;
+            case ($role[0] == 'ROLE_GUARANTOR'):
+                return $this->service->userEdit($request, $user, GuarantorType::class);
+                break;
         }
     }
 
     #[Route('/managment/users', name: 'users_list')]
-    public function listAllUser(): Response
+    public function listAllUsers(): Response
     {
         $users = $this->userRepository->findAll();
 
@@ -146,6 +111,37 @@ class UserController extends AbstractController
         return $this->render('user/detail.html.twig', [
             'user' => $user
         ]);
+    }
+
+    #[Route('/profile', name: 'user_profile')]
+    public function userProfile(): Response
+    {
+        $user = $this->getUser();
+
+        return $this->render('user/profile.html.twig', [
+            'user' => $user
+        ]);
+    }
+
+    #[Route('/profile/edit', name: 'profile_edit')]
+    public function profileEdit(Request $request)
+    {
+        $role = $this->getUser()->getRoles();
+
+        switch (true) {
+            case ($role[0] == 'ROLE_OWNER'):
+                return $this->service->profileEdit($request, OwnerType::class);
+                break;
+            case ($role[0] == 'ROLE_TENANT'):
+                return $this->service->profileEdit($request, TenantType::class);
+                break;
+            case ($role[0] == 'ROLE_GUARANTOR'):
+                return $this->service->profileEdit($request, GuarantorType::class);
+                break;
+            case ($role[0] == 'ROLE_ADMIN'):
+                return $this->service->profileEdit($request, AdminType::class);
+                break;
+        }
     }
 
 }

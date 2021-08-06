@@ -7,6 +7,7 @@ use App\Entity\Tenant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -57,7 +58,6 @@ class TenantType extends AbstractType
                     'class'                 => 'uk-input all'
                 ]
             ])
-            
             ->add('addressBefore', AddressType::class, [
                 'label'                     => 'Addresse précédant la location',
                 'required'                  => false

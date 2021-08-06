@@ -2,9 +2,9 @@
 	<center>
 		<div class="user">
 			{% if app.user.avatar %}
-				<img id="avatar" width="100" class="uk-border-circle" src="{{ asset('documents/images/avatars/' ~ app.user.avatar) }}"/>
+				<img id="avatar" width="100" class="uk-border-circle" src="{{ asset('documents/images/users/avatars/' ~ app.user.avatar) }}"/>
 			{% else %}
-				<img id="avatar" width="100" class="uk-border-circle" src="{{ asset('documents/images/avatars/default.png') }}"/>
+				<img id="avatar" width="100" class="uk-border-circle" src="{{ asset('documents/images/users/avatars/default.png') }}"/>
 			{% endif %}
 			<div class="uk-margin-top"></div>
 			<div id="name" class="uk-text-truncate">{{ app.user.firstname }}
@@ -25,11 +25,8 @@
 					Gestionnaire
 				{% endif %}
 			</div>
-
-
-			<span id="status" data-enabled="true" data-online-text="Online" data-away-text="Away" data-interval="10000" class="uk-margin-top uk-label uk-label-success"></span>
 		</div>
-		<br/>
+		<hr>
 	</center>
 	<ul class="uk-nav uk-nav-default">
 
