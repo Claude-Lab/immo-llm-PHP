@@ -103,7 +103,7 @@ class UserController extends AbstractController
     {
         $users = $this->userRepository->findAll();
 
-        return $this->render('user/list.html.twig', [
+        return $this->render('user/users.html.twig', [
             'users' => $users,
         ]);
     }
@@ -133,7 +133,7 @@ class UserController extends AbstractController
     #[Route('/manage/guarantors', name: 'guarantors_list')]
     public function listGuarantors(): Response
     {
-        $role = 'ROLE_GARANTORS';
+        $role = 'ROLE_GUARANTOR';
         $users = $this->userRepository->findByRole($role);
 
         return $this->render('user/guarantor/guarantors.html.twig', [

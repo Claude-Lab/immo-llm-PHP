@@ -8,8 +8,14 @@
 {% block body %}
 	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
 		<div class="uk-first-column">
-			{% include 'user/formParts/_tab.html.twig'%}
-
+			<div uk-margin>
+				{% if app.user.roles[0] == 'ROLE_ADMIN' %}
+					<a href='{{ path('users_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Tout les comptes</button></a>
+					<a href='{{ path('owners_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Propriétaires</button></a>
+				{% endif %}
+				<a href='{{ path('tenants_list') }}'><button class="uk-button uk-button-secondary uk-margin-small-right uk-margin-bottom">Locataires</button></a>
+				<a href='{{ path('guarantors_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Garants</button></a>
+			</div>
 			<div class="uk-card uk-card-default">
 				<div class="uk-card-header">
 					Liste des locataires
@@ -67,12 +73,4 @@
 			</div>
 		</div>
 	</div>
-{% endblock %}
-{% block extraJs %}
-	<script>
-		UIkit.switcher(element).show(users);
-		UIkit.switcher(element).show(owners);
-		UIkit.switcher(element).show(tenants);
-		UIkit.switcher(element).show(guarantors);
-	</script>
 {% endblock %}
