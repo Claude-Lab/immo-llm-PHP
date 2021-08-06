@@ -43,7 +43,7 @@ class UserController extends AbstractController
         $this->service          = $service;
     }
 
-    #[Route('/managment/owner/create', name: 'create_owner')]
+    #[Route('/manage/owner/create', name: 'create_owner')]
     public function createUser(Request $request)
     {
         $entity = Owner::class;
@@ -52,7 +52,7 @@ class UserController extends AbstractController
         $this->sercive->userCreate($request, $entity, $formType, $role);
     }
 
-    #[Route('/managment/tenant/create', name: 'create_tenant')]
+    #[Route('/managme/tenant/create', name: 'create_tenant')]
     public function createTenant(Request $request)
     {
         $entity = Tenant::class;
@@ -61,7 +61,7 @@ class UserController extends AbstractController
         $this->service->userCreate($request, $entity, $formType, $role);
     }
 
-    #[Route('/managment/guarantor/create', name: 'create_guarantor')]
+    #[Route('/manage/guarantor/create', name: 'create_guarantor')]
     public function createGuarantor(Request $request)
     {
         $entity = Guarantor::class;
@@ -70,7 +70,7 @@ class UserController extends AbstractController
         $this->service->userCreate($request, $entity, $formType, $role);
     }
     
-    #[Route('/managment/user/edit/{id}', name: 'user_edit')]
+    #[Route('/manage/user/edit/{id}', name: 'user_edit')]
     public function editUser(Request $request, int $id)
     {
         $user = $this->userRepository->find($id);
@@ -89,7 +89,7 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/managment/users', name: 'users_list')]
+    #[Route('/manage/users', name: 'users_list')]
     public function listAllUsers(): Response
     {
         $users = $this->userRepository->findAll();
@@ -99,7 +99,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/managment/user/{id}', name: 'user_detail')]
+    #[Route('/manage/user/{id}', name: 'user_detail')]
     public function detail(int $id): Response
     {
         $user = $this->userRepository->find($id);
