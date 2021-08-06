@@ -40,11 +40,6 @@ class Equipment
     private $serialNumber;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Contract::class, mappedBy="equipments")
-     */
-    private $contracts;
-
-    /**
      * @ORM\ManyToOne(targetEntity=State::class)
      * @ORM\JoinColumn(nullable=false)
      */
@@ -109,33 +104,6 @@ class Equipment
         return $this;
     }
 
-    /**
-     * @return Collection|Contract[]
-     */
-    public function getContracts(): Collection
-    {
-        return $this->contracts;
-    }
-
-    public function addContract(Contract $contract): self
-    {
-        if (!$this->contracts->contains($contract)) {
-            $this->contracts[] = $contract;
-            $contract->addEquipment($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContract(Contract $contract): self
-    {
-        if ($this->contracts->removeElement($contract)) {
-            $contract->removeEquipment($this);
-        }
-
-        return $this;
-    }
-
     public function getState(): ?State
     {
         return $this->state;
@@ -147,5 +115,4 @@ class Equipment
 
         return $this;
     }
-
 }

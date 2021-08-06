@@ -14,31 +14,88 @@ class Housing
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
     private $nbRoom;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float")
      */
     private $surface;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $housingLoad;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $floor;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $attic;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $cellar;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $pool;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $box;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $landSurface;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbLevel;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $elevator;
 
     /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $address;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="housing")
+     */
+    private $contracts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Sort::class, inversedBy="housings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $sort;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Heat::class, inversedBy="housings")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $heat;
 
     /**
      * @ORM\OneToMany(targetEntity=Tax::class, mappedBy="housing")
@@ -51,79 +108,16 @@ class Housing
     private $propertyLoads;
 
     /**
-     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="housing")
-     */
-    private $photos;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $floor;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $attic;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $cellar;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $pool;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $box;
-
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $landSurface;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $nbFloor;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $elevator;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ownerHousings")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Owner::class, inversedBy="housings")
      */
     private $owner;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Sort::class, inversedBy="housings")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $sort;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Contract::class, mappedBy="housing", cascade={"persist", "remove"})
-     */
-    private $contract;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Heat::class, inversedBy="housings")
-     */
-    private $heat;
-
-
     public function __construct()
     {
-        $this->options = new ArrayCollection();
+        $this->contracts = new ArrayCollection();
+        $this->equipments = new ArrayCollection();
         $this->taxes = new ArrayCollection();
         $this->propertyLoads = new ArrayCollection();
-        $this->photos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,7 +130,7 @@ class Housing
         return $this->nbRoom;
     }
 
-    public function setNbRoom(?int $nbRoom): self
+    public function setNbRoom(int $nbRoom): self
     {
         $this->nbRoom = $nbRoom;
 
@@ -148,9 +142,117 @@ class Housing
         return $this->surface;
     }
 
-    public function setSurface(?float $surface): self
+    public function setSurface(float $surface): self
     {
         $this->surface = $surface;
+
+        return $this;
+    }
+
+    public function getHousingLoad(): ?float
+    {
+        return $this->housingLoad;
+    }
+
+    public function setHousingLoad(?float $housingLoad): self
+    {
+        $this->housingLoad = $housingLoad;
+
+        return $this;
+    }
+
+    public function getFloor(): ?int
+    {
+        return $this->floor;
+    }
+
+    public function setFloor(?int $floor): self
+    {
+        $this->floor = $floor;
+
+        return $this;
+    }
+
+    public function getAttic(): ?bool
+    {
+        return $this->attic;
+    }
+
+    public function setAttic(?bool $attic): self
+    {
+        $this->attic = $attic;
+
+        return $this;
+    }
+
+    public function getCellar(): ?bool
+    {
+        return $this->cellar;
+    }
+
+    public function setCellar(?bool $cellar): self
+    {
+        $this->cellar = $cellar;
+
+        return $this;
+    }
+
+    public function getPool(): ?bool
+    {
+        return $this->pool;
+    }
+
+    public function setPool(?bool $pool): self
+    {
+        $this->pool = $pool;
+
+        return $this;
+    }
+
+    public function getBox(): ?bool
+    {
+        return $this->box;
+    }
+
+    public function setBox(?bool $box): self
+    {
+        $this->box = $box;
+
+        return $this;
+    }
+
+    public function getLandSurface(): ?float
+    {
+        return $this->landSurface;
+    }
+
+    public function setLandSurface(?float $landSurface): self
+    {
+        $this->landSurface = $landSurface;
+
+        return $this;
+    }
+
+    public function getNbLevel(): ?int
+    {
+        return $this->nbLevel;
+    }
+
+    public function setNbLevel(?int $nbLevel): self
+    {
+        $this->nbLevel = $nbLevel;
+
+        return $this;
+    }
+
+    public function getElevator(): ?bool
+    {
+        return $this->elevator;
+    }
+
+    public function setElevator(?bool $elevator): self
+    {
+        $this->elevator = $elevator;
 
         return $this;
     }
@@ -163,6 +265,60 @@ class Housing
     public function setAddress(Address $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contract[]
+     */
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function addContract(Contract $contract): self
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts[] = $contract;
+            $contract->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): self
+    {
+        if ($this->contracts->removeElement($contract)) {
+            // set the owning side to null (unless already changed)
+            if ($contract->getHousing() === $this) {
+                $contract->setHousing(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSort(): ?Sort
+    {
+        return $this->sort;
+    }
+
+    public function setSort(?Sort $sort): self
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    public function getHeat(): ?Heat
+    {
+        return $this->heat;
+    }
+
+    public function setHeat(?Heat $heat): self
+    {
+        $this->heat = $heat;
 
         return $this;
     }
@@ -227,196 +383,15 @@ class Housing
         return $this;
     }
 
-    /**
-     * @return Collection|Document[]
-     */
-    public function getPhotos(): Collection
-    {
-        return $this->photos;
-    }
-
-    public function addPhoto(Document $photo): self
-    {
-        if (!$this->photos->contains($photo)) {
-            $this->photos[] = $photo;
-            $photo->setHousing($this);
-        }
-
-        return $this;
-    }
-
-    public function removePhoto(Document $photo): self
-    {
-        if ($this->photos->removeElement($photo)) {
-            // set the owning side to null (unless already changed)
-            if ($photo->getHousing() === $this) {
-                $photo->setHousing(null);
-            }
-        }
-        return $this;
-    }
-
-    public function getFloor(): ?int
-    {
-        return $this->floor;
-    }
-
-    public function setFloor(?int $floor): self
-    {
-        $this->floor = $floor;
-
-        return $this;
-    }
-
-    public function getAttic(): ?bool
-    {
-        return $this->attic;
-    }
-
-    public function setAttic(bool $attic): self
-    {
-        $this->attic = $attic;
-
-        return $this;
-    }
-
-    public function getCellar(): ?bool
-    {
-        return $this->cellar;
-    }
-
-    public function setCellar(bool $cellar): self
-    {
-        $this->cellar = $cellar;
-
-        return $this;
-    }
-
-    public function getPool(): ?bool
-    {
-        return $this->pool;
-    }
-
-    public function setPool(bool $pool): self
-    {
-        $this->pool = $pool;
-
-        return $this;
-    }
-
-    public function getBox(): ?bool
-    {
-        return $this->box;
-    }
-
-    public function setBox(bool $box): self
-    {
-        $this->box = $box;
-
-        return $this;
-    }
-
-    public function getLandSurface(): ?float
-    {
-        return $this->landSurface;
-    }
-
-    public function setLandSurface(?float $landSurface): self
-    {
-        $this->landSurface = $landSurface;
-
-        return $this;
-    }
-
-    public function getNbFloor(): ?int
-    {
-        return $this->nbFloor;
-    }
-
-    public function setNbFloor(?int $nbFloor): self
-    {
-        $this->nbFloor = $nbFloor;
-
-        return $this;
-    }
-
-    public function getElevator(): ?bool
-    {
-        return $this->elevator;
-    }
-
-    public function setElevator(bool $elevator): self
-    {
-        $this->elevator = $elevator;
-
-        return $this;
-    }
-
-    public function getOwner(): ?User
+    public function getOwner(): ?Owner
     {
         return $this->owner;
     }
 
-    public function setOwner(?User $owner): self
+    public function setOwner(?Owner $owner): self
     {
         $this->owner = $owner;
 
         return $this;
     }
-
-    public function getSort(): ?Sort
-    {
-        return $this->sort;
-    }
-
-    public function setSort(?Sort $sort): self
-    {
-        $this->sort = $sort;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getContract(): ?Contract
-    {
-        return $this->contract;
-    }
-
-    public function setContract(Contract $contract): self
-    {
-        // set the owning side of the relation if necessary
-        if ($contract->getHousing() !== $this) {
-            $contract->setHousing($this);
-        }
-
-        $this->contract = $contract;
-
-        return $this;
-    }
-
-    public function getHeat(): ?Heat
-    {
-        return $this->heat;
-    }
-
-    public function setHeat(?Heat $heat): self
-    {
-        $this->heat = $heat;
-
-        return $this;
-    }
-
-    
-
 }

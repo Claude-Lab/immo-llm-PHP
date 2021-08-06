@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class StateFixtures extends Fixture 
+class StateFixtures extends Fixture
 {
       protected EntityManagerInterface $entityManager;
       public const STATE_REFERENCE = 'state';

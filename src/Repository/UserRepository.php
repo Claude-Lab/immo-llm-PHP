@@ -22,6 +22,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * Used to upgrade (rehash) the user's password automatically over time.
+     */
     public function upgradePassword(UserInterface $user, string $newHashedPassword): void
     {
         if (!$user instanceof User) {
@@ -34,16 +37,25 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * @return QueryBuilder
+     * @param string $role
+     *
+     * @return array
      */
-    public function findByRole($role)
+    public function findByRoleAdmin(): array
     {
-        return $this->_em->createQueryBuilder()
-            ->select('u')
-            ->from($this->_entityName, 'u')
-            ->where('u.roles LIKE :roles')
-            ->setParameter('roles', '%"' . $role . '"%')
-            ->orderBy('u.lastname', 'ASC');
+        // The ResultSetMapping maps the SQL result to entities
+        $rsm = $this->createResultSetMappingBuilder('u');
+
+        $rawQuery = sprintf('
+            SELECT %u
+            FROM user u 
+            WHERE JSON_SEARCH(s.roles LIKE %ROLE_ADMIN%)',
+
+            $rsm->generateSelectClause()
+        );
+
+        $query = $this->getEntityManager()->createNativeQuery($rawQuery, $rsm);
+        return $query->getResult();
     }
 
     // /**

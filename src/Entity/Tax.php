@@ -18,17 +18,17 @@ class Tax
     private $id;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", length=150)
      */
     private $propertyTax;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float")
      */
     private $rate;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      */
     private $dateTax;
 
@@ -42,12 +42,12 @@ class Tax
         return $this->id;
     }
 
-    public function getPropertyTax(): ?float
+    public function getPropertyTax(): ?string
     {
         return $this->propertyTax;
     }
 
-    public function setPropertyTax(?float $propertyTax): self
+    public function setPropertyTax(string $propertyTax): self
     {
         $this->propertyTax = $propertyTax;
 
@@ -59,7 +59,7 @@ class Tax
         return $this->rate;
     }
 
-    public function setRate(?float $rate): self
+    public function setRate(float $rate): self
     {
         $this->rate = $rate;
 
@@ -71,7 +71,7 @@ class Tax
         return $this->dateTax;
     }
 
-    public function setDateTax(?\DateTimeInterface $dateTax): self
+    public function setDateTax(\DateTimeInterface $dateTax): self
     {
         $this->dateTax = $dateTax;
 

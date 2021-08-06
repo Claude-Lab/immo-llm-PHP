@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Housing;
-use App\Form\HousingType;
+use App\Form\CreateHousingType;
 use App\Repository\HousingRepository;
+use App\Repository\OwnerRepository;
+use App\Repository\SortRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,25 +25,40 @@ class HousingController extends AbstractController
         $this->housingRepository   = $housingRepository;
     }
 
-
-    #[Route('/manage/housing/list', name: 'housing_list')]
+    #[Route('/owner/housings', name: 'housing_list')]
     public function listHousings(): Response
     {
-        $housings = $this->housingRepository->findall();
+        $owner = $this->getUser();
+        $ownerId = $owner->getId();
+        $housings = $this->housingRepository->findByOwner($ownerId);
 
-        return $this->render('housing/list.html.twig', [
+        return $this->render('housing/listOwnerHousings.html.twig', [
             'housings' => $housings,
         ]);
     }
 
-    #[Route('/manage/housing/create', name: 'housing_create')]
-    public function create(Request $request): Response
+    #[Route('/admin/housing/list', name: 'housing_list')]
+    public function listAdminHousings(): Response
+    {
+        $housings = $this->housingRepository->findAll();
+
+        return $this->render('housing/listOwnerHousings.html.twig', [
+            'housings' => $housings,
+        ]);
+    }
+
+    #[Route('/housing/createHousing', name: 'housing_create')]
+    public function createHousing(Request $request, SortRepository $typeRepository, OwnerRepository $ownerRepository): Response
     {
         $housing = new Housing();
-        
-        $housingForm = $this->createForm(HousingType::class, $housing);
+
+
+        $owners = $ownerRepository->findAll();
+        $sorts = $typeRepository->findAll();
+
+        $housingForm = $this->createForm(CreateHousingType::class, $housing);
         $housingForm->handleRequest($request);
-        
+
         if ($housingForm->isSubmitted() && $housingForm->isValid()) {
 
             $this->entityManager->persist($housing);
@@ -51,45 +68,36 @@ class HousingController extends AbstractController
             return $this->redirectToRoute('housing_list');
         } else {
 
-            return $this->render('housing/create.html.twig', [
-                'housing'               => $housing,
-                'housingForm'           => $housingForm->createView()
+            return $this->render('housing/createHousing.html.twig', [
+                'housing'       => $housing,
+                'housingForm'   => $housingForm->createView()
             ]);
         }
     }
 
-    #[Route('/manage/housing/detail/{id}', name: 'housing_detail')]
-    public function detail(int $id): Response
+    #[Route('/admin/housing/createHousing', name: 'housing_admin_create')]
+    public function createAdminHousing(Request $request, SortRepository $typeRepository): Response
     {
-        $housing = $this->housingRepository->find($id);
+        $housing = new Housing();
 
-        return $this->render('housing/detail.html.twig', [
-            'housing' => $housing,
-        ]);
-    }
-
-    #[Route('/manage/housing/edit/{id}', name: 'housing_edit')]
-    public function edit(Request $request, int $id): Response
-    {
-        $housing = $this->housingRepository->find($id);
-
-        $housingForm = $this->createForm(HousingType::class, $housing);
+        $housingForm = $this->createForm(CreateHousingType::class, $housing);
         $housingForm->handleRequest($request);
 
         if ($housingForm->isSubmitted() && $housingForm->isValid()) {
 
             $this->entityManager->persist($housing);
             $this->entityManager->flush();
-            $this->addFlash("Edition", "Succès de l\'édition du logement");
+            $this->addFlash("Création", "Succès de la création du logement");
 
             return $this->redirectToRoute('housing_list');
         } else {
 
-            return $this->render('housing/edit.html.twig', [
-                'housing'               => $housing,
-                'housingForm'           => $housingForm->createView()
+            return $this->render('housing/createHousing.html.twig', [
+                'housing'       => $housing,
+                'housingForm'   => $housingForm->createView()
             ]);
         }
     }
+
     
 }

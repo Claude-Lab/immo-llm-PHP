@@ -17,17 +17,7 @@
 							<ul class="uk-nav uk-navbar-dropdown-nav">
 								<li class="uk-nav-header">Options</li>
 								<li>
-									{% if app.user.roles[0] == 'ROLE_ADMIN' %}
-										<a href="{{ path('user_admin_profile') }} ">Mon compte</a>
-									{% elseif app.user.roles[0] == 'ROLE_OWNER' %}
-										<a href="{{ path('user_owner_profile') }} ">Mon compte</a>
-									{% elseif app.user.roles[0] == 'ROLE_TENANT' %}
-										<a href="{{ path('user_owner_profile') }} ">Mon compte</a>
-									{% elseif app.user.roles[0] == 'ROLE_GUARANTOR' %}
-										<a href="{{ path('user_owner_profile') }} ">Mon compte</a>
-									{% elseif app.user.roles[0] == 'ROLE_MANAGER' %}
-										<a href="{{ path('user_owner_profile') }} ">Mon compte</a>
-									{% endif %}
+									<a href="{{ path('user_profile') }} ">Mon compte</a>
 								</li>
 								<li class="uk-nav-header">Actions</li>
 								<li>

@@ -11,10 +11,11 @@
 			{% endblock %}
 		</title>
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/uikit.min.css') }}"/>
-		<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/ionicons.min.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/style.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/notyf.min.css') }}"/>
-		<link rel="stylesheet" href="{{ asset('assets/styles.css') }}"/> {% block stylesheets %}{% endblock %}{% block extraCss %}{% endblock %}
+		<link rel="stylesheet" href="{{ asset('assets/styles.css') }}"/>
+		 {% block stylesheets %}{% endblock %}{% block extraCss %}{% endblock %}
 
 
 		</head>

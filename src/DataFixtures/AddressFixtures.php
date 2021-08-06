@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class AddressFixtures extends Fixture 
+class AddressFixtures extends Fixture
 {
       protected EntityManagerInterface $entityManager;
 

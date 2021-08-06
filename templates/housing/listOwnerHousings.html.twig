@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Liste des logements
+{% endblock %}
+
+{% block body %}
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Liste de mes logements
+					<a href="{{ path('housing_admin_create') }}">
+						<button type="button" class="uk-button uk-button-primary uk-button-small uk-align-right@m">Créer un logement</button>
+					</a>
+				</div>
+				<div class="uk-card-body">
+					{% if housings is empty %}
+						<div class="uk-placeholder uk-text-center ">
+							<h5>Aucun logement à afficher</h5>
+							<p>Il semblerait qu'il n'y ait pas de logements correspondant à votre recherche.</p>
+						</div>
+					{% else %}
+						<table class="uk-table uk-table-striped">
+							<thead>
+								<tr>
+									<th>Adresse</th>
+									<th>Nombre de pièces</th>
+									<th>Surface</th>
+									<th>Locataires</th>
+									<th>Detail</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for housing in housings %}
+									<tr>
+										<td>{{ user.firstname }}
+											{{ user.lastname }}</td>
+										<td>{{ user.housings | length }}</td>
+										<td>{{ user.mobile }}</td>
+										<td>{{ user.email }}</td>
+										<td>{{ user.address.city }}</td>
+										<td>
+											<a href="{{ path('housing_detail', {'id' : housing.id}) }}">Détail</td>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</tr>
+					</tbody>
+				</table>
+			{% endif %}
+		</div>
+	</div>
+</div>{% endblock %}

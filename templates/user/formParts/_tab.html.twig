@@ -1,0 +1,30 @@
+
+{% if app.user.roles[0] == 'ROLE_ADMIN'  %}
+<ul uk-tab>
+	<li>
+		<a href="{{ path('users_list') }}">Tout</a>
+	</li>
+	<li>
+		<a href="{{ path('owners_list') }}">Propriétaires</a>
+	</li>
+	<li>
+		<a href="{{ path('tenants_list') }}">Locataires</a>
+	</li>
+	<li>
+		<a href="{{ path('guarantors_list') }}">Garants</a>
+	</li>
+</ul>
+
+{% elseif app.user.roles[0] == 'ROLE_OWNER' %}
+<ul uk-tab>
+	<li>
+		<a href="{{ path('users_list') }}">Tout</a>
+	</li>
+	<li>
+		<a href="{{ path('tenants_list') }}">Locataires</a>
+	</li>
+	<li>
+		<a href="{{ path('guarantors_list') }}">Garants</a>
+	</li>
+</ul>
+ {% endif %}

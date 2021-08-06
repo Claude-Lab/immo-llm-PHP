@@ -40,5 +40,4 @@ class SortFixtures extends Fixture
 
             $this->entityManager->flush();
       }
-
 }

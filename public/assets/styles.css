@@ -61,3 +61,14 @@ body.login {
     color: #F0F0F0;
 }
 
+.uk-card-address-after {
+    background: #ecca6b;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.uk-card-address-before {
+    background: #6bec92;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}

@@ -20,13 +20,12 @@ class Sort
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=100)
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Housing::class, mappedBy="sort")
-     * @ORM\JoinColumn(nullable=true)
      */
     private $housings;
 
@@ -81,5 +80,4 @@ class Sort
 
         return $this;
     }
-
 }

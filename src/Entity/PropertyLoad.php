@@ -18,19 +18,19 @@ class PropertyLoad
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
     private $quarter;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float")
      */
     private $rate;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      */
-    private $dateTax;
+    private $dateLoad;
 
     /**
      * @ORM\ManyToOne(targetEntity=Housing::class, inversedBy="propertyLoads")
@@ -47,7 +47,7 @@ class PropertyLoad
         return $this->quarter;
     }
 
-    public function setQuarter(?int $quarter): self
+    public function setQuarter(int $quarter): self
     {
         $this->quarter = $quarter;
 
@@ -59,21 +59,21 @@ class PropertyLoad
         return $this->rate;
     }
 
-    public function setRate(?float $rate): self
+    public function setRate(float $rate): self
     {
         $this->rate = $rate;
 
         return $this;
     }
 
-    public function getDateTax(): ?\DateTimeInterface
+    public function getDateLoad(): ?\DateTimeInterface
     {
-        return $this->dateTax;
+        return $this->dateLoad;
     }
 
-    public function setDateTax(?\DateTimeInterface $dateTax): self
+    public function setDateLoad(\DateTimeInterface $dateLoad): self
     {
-        $this->dateTax = $dateTax;
+        $this->dateLoad = $dateLoad;
 
         return $this;
     }

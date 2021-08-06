@@ -13,86 +13,57 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SortController extends AbstractController
 {
-    protected $em;
+
+    protected $entityManager;
     protected $sortRepository;
 
-    public function __construct(EntityManagerInterface $em, SortRepository $sortRepository)
+    public function __construct(EntityManagerInterface $entityManager, SortRepository $sortRepository)
     {
-        $this->em = $em;
+        $this->entityManager = $entityManager;
         $this->sortRepository = $sortRepository;
     }
 
-    #[Route('/manage/sort/list', name: 'sort_list')]
-    public function list(): Response
+
+    #[Route('/sort/list', name: 'sort_list')]
+    public function index(): Response
     {
 
-        $sorts = $this->sortRepository->findall();
+        $sorts = $this->sortRepository->findAll();
 
         return $this->render('sort/list.html.twig', [
-            'sorts' => $sorts,
+            'sorts'     => $sorts
         ]);
     }
 
-    #[Route('/manage/sort/create', name: 'sort_create')]
-    public function create(Request $request): Response
+    #[Route('/sort/create', name: 'sort_create')]
+    public function createSort(Request $request): Response
     {
-
         $sort = new Sort();
         $sortForm = $this->createForm(SortType::class, $sort);
         $sortForm->handleRequest($request);
 
-        if ($sortForm->isSubmitted() && $sortForm->isValid()) {
-            $this->em->persist($sort);
-            $this->em->flush();
-            $this->addFlash("Création", "Succès de la création du type");
+        if ($sortForm->isSubmitted() && $sortForm->isSubmitted()) {
+            $this->entityManager->persist($sort);
+            $this->entityManager->flush();
+            $this->addFlash("Liste", "Succès de la création du type de logement");
 
             return $this->redirectToRoute('sort_list');
         } else {
+
             return $this->render('sort/create.html.twig', [
-                'sort' => $sort,
-                'sortForm' => $sortForm->createView()
+                'sortForm'      => $sortForm->createView(),
+                'sort'          => $sort
             ]);
         }
     }
 
-    #[Route('/manage/sort/edit{id}', name: 'sort_edit')]
-    public function detail(Request $request, int $id): Response
-    {
-
-        $sort = $this->sortRepository->find($id);
-        $sortForm = $this->createForm(SortType::class, $sort);
-        $sortForm->handleRequest($request);
-
-        if (!$sort) {
-            throw $this->createNotFoundException("Ooops ! Ce type n'existe pas'");
-        }
-        if ($sortForm->isSubmitted() && $sortForm->isValid()) {
-            $this->em->persist($sort);
-            $this->em->flush();
-            $this->addFlash("Création", "Succès de la modification du type");
-
-            return $this->redirectToRoute('sort_list');
-        } else {
-            return $this->render('sort/edit.html.twig', [
-                'sort' => $sort,
-                'sortForm' => $sortForm->createView()
-            ]);
-        }
-    }
-
-    #[Route('/manage/sort/delete/{id}', name: 'sort_delete')]
-    public function delete(int $id): Response
+    #[Route('/sort/detail/{id}', name: 'sort_detail')]
+    public function detailSort(int $id): Response
     {
         $sort = $this->sortRepository->find($id);
 
-        if (!$sort) {
-            throw $this->createNotFoundException("Ooops ! Ce type n'existe pas'");
-        }
-
-        $this->em->remove($sort);
-        $this->em->flush();
-
-        $this->addFlash("Suppression", "Succès de la suppression du type");
-        return $this->redirectToRoute('sort_list');
+        return $this->render('sort/detail.html.twig', [
+            'sort'          => $sort
+        ]);
     }
 }

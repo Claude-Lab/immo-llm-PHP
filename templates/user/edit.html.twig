@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Editer le profil
+
+{% endblock %}
+
+{% block body %}
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Editer le profil
+				</div>
+
+				<div class="uk-card-body">
+
+					{% if (app.user.roles[0] == 'ROLE_ADMIN') or (app.user.roles[0] == 'ROLE_OWNER') %}
+						{% include 'user/formParts/_canEdit.html.twig' with {form: form, user: user} only %}
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -28,17 +28,17 @@ class EquipmentFixtures extends Fixture implements DependentFixtureInterface
       public function saveEquipment()
       {
             for ($i = 0; $i <= 10; $i++) {
-                $faker = Factory::create('fr_FR');
+                  $faker = Factory::create('fr_FR');
 
-                $equipment = new Equipment();
-                $equipment
-                  ->setName('Equipement n°'.$i)
-                  ->setBrandt($faker->company())
-                  ->setSerialNumber($faker->regexify('[A-Z]{9}[0-4]{6}'))
-                  ->setDescription($faker->sentence(5))
-                  ->setState($this->getReference(StateFixtures::STATE_REFERENCE . '_' . mt_rand(1,6)));
+                  $equipment = new Equipment();
+                  $equipment
+                        ->setName('Equipement n°' . $i)
+                        ->setBrandt($faker->company())
+                        ->setSerialNumber($faker->regexify('[A-Z]{9}[0-4]{6}'))
+                        ->setDescription($faker->sentence(5))
+                        ->setState($this->getReference(StateFixtures::STATE_REFERENCE . '_' . mt_rand(1, 6)));
 
-                $this->entityManager->persist($equipment);
+                  $this->entityManager->persist($equipment);
             }
             $this->entityManager->flush();
       }

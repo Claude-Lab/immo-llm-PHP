@@ -15,9 +15,9 @@ class SortType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label'                     => false,
-                'required'                  => true,
+                'required'                  => false,
                 'attr'                      => [
-                    'placeholder'           => 'Indiquez un type pour les location (maison, appartement, garage, etc.)',
+                    'placeholder'           => 'Type de logement (ex. maison, appartement, etc.)',
                     'class'                 => 'uk-input'
                 ]
             ]);

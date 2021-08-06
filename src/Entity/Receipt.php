@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ReceiptRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,7 +18,7 @@ class Receipt
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180)
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
@@ -44,16 +42,6 @@ class Receipt
      * @ORM\JoinColumn(nullable=false)
      */
     private $contract;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Document::class, mappedBy="receipts")
-     */
-    private $documents;
-
-    public function __construct()
-    {
-        $this->documents = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -116,36 +104,6 @@ class Receipt
     public function setContract(?Contract $contract): self
     {
         $this->contract = $contract;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Document[]
-     */
-    public function getDocuments(): Collection
-    {
-        return $this->documents;
-    }
-
-    public function addDocument(Document $document): self
-    {
-        if (!$this->documents->contains($document)) {
-            $this->documents[] = $document;
-            $document->setReceipts($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDocument(Document $document): self
-    {
-        if ($this->documents->removeElement($document)) {
-            // set the owning side to null (unless already changed)
-            if ($document->getReceipts() === $this) {
-                $document->setReceipts(null);
-            }
-        }
 
         return $this;
     }

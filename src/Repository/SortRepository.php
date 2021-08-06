@@ -7,10 +7,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method HousingType|null find($id, $lockMode = null, $lockVersion = null)
- * @method HousingType|null findOneBy(array $criteria, array $orderBy = null)
- * @method HousingType[]    findAll()
- * @method HousingType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Sort|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Sort|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Sort[]    findAll()
+ * @method Sort[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class SortRepository extends ServiceEntityRepository
 {
@@ -20,15 +20,15 @@ class SortRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return HousingType[] Returns an array of HousingType objects
+    //  * @return Sort[] Returns an array of Sort objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('h')
-            ->andWhere('h.exampleField = :val')
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('h.id', 'ASC')
+            ->orderBy('s.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -37,10 +37,10 @@ class SortRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?HousingType
+    public function findOneBySomeField($value): ?Sort
     {
-        return $this->createQueryBuilder('h')
-            ->andWhere('h.exampleField = :val')
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

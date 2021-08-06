@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Tenant;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -42,7 +43,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                   $lastName = $faker->lastName;
                   $firstNane = $faker->firstName;
 
-                  $user = new User();
+                  $user = new Tenant();
                   $user
                         ->setRoles(['ROLE_TENANT'])
                         ->setPassword($this->hash->encodePassword($user, 'aeaeae'))
@@ -52,7 +53,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                         ->setMobile($faker->serviceNumber())
                         ->setPhone($faker->serviceNumber())
                         ->setAvatar('default.png')
-                        ->setAddress($this->getReference(AddressFixtures::ADDRESS_REFERENCE . '_' . $i));
+                        ->setAddressBefore($this->getReference(AddressFixtures::ADDRESS_REFERENCE . '_' . $i));
 
                   $this->entityManager->persist($user);
 

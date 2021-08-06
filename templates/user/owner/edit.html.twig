@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Detail de mon compte
+{% endblock %}
+
+{% block body %}
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Mon profil
+				</div>
+				<div class="uk-card-body">
+
+					{{ form_start(userForm) }}
+
+					<div class="form-error">
+						{{ form_errors(userForm) }}
+					</div>
+
+					<div class="uk-margin">
+						<input class="uk-input" type="text" value="{{ app.user.firstname }}" disabled>
+					</div>
+
+					<div class="uk-margin">
+						<input class="uk-input" type="text" value="{{ app.user.lastname }}" disabled>
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(userForm.email) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(userForm.plainPassword) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(userForm.mobile) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(userForm.phone) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(userForm.address.street) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(userForm.address.postCode) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(userForm.address.city) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(userForm.address.state) }}
+					</div>
+
+					<div class="uk-margin" uk-margin>
+						<div uk-form-custom="target: true">
+							{{ form_widget(userForm.avatar) }}
+							<input class="uk-input uk-form-width-medium" type="text" placeholder="Selectionnez votre avatar" disabled>
+						</div>
+
+						<button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Enregistrer</button>
+						<a href="{{ path('dashboard') }}">
+							<button type="button" class="uk-button uk-button-secondary uk-width-1-1">Annuler</button>
+						</a>
+
+						{{ form_end(userForm) }}
+
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}

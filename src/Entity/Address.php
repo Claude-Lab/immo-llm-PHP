@@ -18,12 +18,12 @@ class Address
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string", length=180)
      */
     private $street;
 
     /**
-     * @ORM\Column(type="string", length=15)
+     * @ORM\Column(type="string", length=20)
      */
     private $postCode;
 
@@ -33,10 +33,10 @@ class Address
     private $city;
 
     /**
-     * @ORM\Column(type="string", length=180)
+     * @ORM\Column(type="string", length=100)
      */
     private $country;
-    
+
     public function getId(): ?int
     {
         return $this->id;

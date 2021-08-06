@@ -44,5 +44,4 @@ class HeatFixtures extends Fixture
 
             $this->entityManager->flush();
       }
-
 }
