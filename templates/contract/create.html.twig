@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Créer un nouveau contrat
+{% endblock %}
+
+{% block body %}
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Créer un contrat
+				</div>
+				<div class="uk-card-body">
+
+					{{ form_start(contractForm) }}
+
+					<div class="uk-margin">
+						{{ form_widget(contractForm.name) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(contractForm.rentWithLoad) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_row(contractForm.startDate) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_row(contractForm.endDate) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(contractForm.securityDeposit) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(contractForm.housing) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(contractForm.tenants) }}
+					</div>
+
+					<div class="uk-margin">
+						{{ form_widget(contractForm.guarantor) }}
+					</div>
+					<div class="uk-panel uk-panel-scrollable">
+						<ul class="uk-list">
+							<p>Selectionnez les équipmenents fouris</p>
+							{% for equipment in contractForm.equipments %}
+								<li>{{ form_row(equipment, {'attr': {'class': 'checkboxy'}}) }}</li>
+
+							{% endfor %}
+						</label>
+					</li>
+				</div>
+			</div>
+
+			<br>
+			<button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Enregistrer</button>
+			<a href="{{ path('contract_list') }}">
+				<button type="button" class="uk-button uk-button-secondary uk-width-1-1">Annuler</button>
+			</a>
+
+			{{ form_end(contractForm) }}
+
+		</div>
+	</div>
+</div></div>{% endblock %}

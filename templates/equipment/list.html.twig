@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| liste d'équipements
+{% endblock %}
+
+{% block body %}
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
+		<div class="uk-first-column">
+			<div class="uk-card uk-card-default">
+				<div class="uk-card-header">
+					Liste de tout vos équipements
+					<a href="{{ path('equipment_create') }}">
+						<button type="button" class="uk-button uk-button-primary uk-button-small uk-align-right@m">Créer un équipement</button>
+					</a>
+				</div>
+				<div class="uk-card-body">
+					{% if equipments is empty %}
+						<div class="uk-placeholder uk-text-center ">
+							<h5>Aucun équipement à afficher</h5>
+							<p>Il semblerait qu'il n'y ait pas d'équipement correspondant à votre recherche.</p>
+						</div>
+					{% else %}
+
+						<table class="uk-table uk-table-responsive uk-table-divider">
+
+							<thead>
+								<tr>
+									<th>Nom</th>
+									<th>En utilisation</th>
+									<th>Detail</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for equipment in equipments %}
+									<td>{{ equipment.name }}</td>
+									<td>{{ equipment.state.name }}</td>
+									<td>{{ equipment.brandt }}</td>
+									<td>
+										<a href="{{ path('equipment_detail', {'id' : equipment.id}) }}">
+											<button class="uk-button uk-button-primary uk-button-small">Détail</button>
+										</td>
+
+									</td>
+								</tbody>
+							</tbody>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
+{% endblock %}
