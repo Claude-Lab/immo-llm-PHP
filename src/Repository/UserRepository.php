@@ -36,14 +36,54 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    public function findByRole(string $role): array
+    /**
+     * @return QueryBuilder
+     */
+    public function findByRole(string $role)
     {
-        $qb = $this->_em->createQueryBuilder();
-
-        $qb->select('u')
+        return $this->_em->createQueryBuilder()
+            ->select('u')
             ->from($this->_entityName, 'u')
             ->where('u.roles LIKE :roles')
-            ->setParameter('roles', '%"' . $role . '"%');
-        return $qb->getQuery()->getResult();
+            ->setParameter('roles', '%"' . $role . '"%')
+            ->orderBy('u.lastname', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function searchByTenant()
+    {
+        return $this->_em->createQueryBuilder()
+            ->select('u')
+            ->from($this->_entityName, 'u')
+            ->where('u INSTANCE OF App\Entity\Tenant')
+            ->orderBy('u.lastname', 'ASC');
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function searchByOwner()
+    {
+        return $this->_em->createQueryBuilder()
+            ->select('u')
+            ->from($this->_entityName, 'u')
+            ->where('u INSTANCE OF App\Entity\Owner')
+            ->orderBy('u.lastname', 'ASC');
+    }
+
+    /**
+     * 
+     */
+    public function searchGuarantorWithoutTenant() {
+
+        return $this->_em->createQueryBuilder()
+            ->select('u')
+            ->from($this->_entityName, 'u')
+            ->where('u INSTANCE OF App\Entity\Guarantor')
+            ->andWhere('App\Entity\Guarantor.tenant IS NULL');
     }
 }

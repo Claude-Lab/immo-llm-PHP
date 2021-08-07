@@ -36,11 +36,49 @@ class Contract
      */
     private $housing;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $rent;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $rentLoad;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $startDate;
+
+   
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $securityDeposit;
+
+    /**
+     * @ORM\Column(type="string", length=200)
+     */
+    private $name;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Equipment::class, inversedBy="contracts")
+     */
+    private $equipments;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $endDate;
+
     public function __construct()
     {
         $this->receipts = new ArrayCollection();
         $this->guarantorUser = new ArrayCollection();
         $this->tenants = new ArrayCollection();
+        $this->equipments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,6 +149,104 @@ class Contract
     public function setHousing(?Housing $housing): self
     {
         $this->housing = $housing;
+
+        return $this;
+    }
+
+    public function getRent(): ?float
+    {
+        return $this->rent;
+    }
+
+    public function setRent(float $rent): self
+    {
+        $this->rent = $rent;
+
+        return $this;
+    }
+
+    public function getRentLoad(): ?float
+    {
+        return $this->rentLoad;
+    }
+
+    public function setRentLoad(float $rentLoad): self
+    {
+        $this->rentLoad = $rentLoad;
+
+        return $this;
+    }
+
+    public function getStartDate(): ?\DateTimeInterface
+    {
+        return $this->startDate;
+    }
+
+    public function setStartDate(\DateTimeInterface $startDate): self
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+
+    
+
+    public function getSecurityDeposit(): ?float
+    {
+        return $this->securityDeposit;
+    }
+
+    public function setSecurityDeposit(float $securityDeposit): self
+    {
+        $this->securityDeposit = $securityDeposit;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Equipment[]
+     */
+    public function getEquipments(): Collection
+    {
+        return $this->equipments;
+    }
+
+    public function addEquipment(Equipment $equipment): self
+    {
+        if (!$this->equipments->contains($equipment)) {
+            $this->equipments[] = $equipment;
+        }
+
+        return $this;
+    }
+
+    public function removeEquipment(Equipment $equipment): self
+    {
+        $this->equipments->removeElement($equipment);
+
+        return $this;
+    }
+
+    public function getEndDate(): ?\DateTimeInterface
+    {
+        return $this->endDate;
+    }
+
+    public function setEndDate(?\DateTimeInterface $endDate): self
+    {
+        $this->endDate = $endDate;
 
         return $this;
     }

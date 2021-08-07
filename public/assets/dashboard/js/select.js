@@ -4,10 +4,4 @@ $(function () {
 
 $(function () {
       $('.select-equipments').select2();
-
-})
-
-$(function () {
-      $('.select-guarantors').select2();
-
 })

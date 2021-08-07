@@ -25,19 +25,19 @@ class Tenant extends User
     private $addressAfter;
 
     /**
-     * @ORM\OneToOne(targetEntity=Guarantor::class, inversedBy="tenant", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $guarantor;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Contract::class, mappedBy="tenants")
      */
     private $contracts;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Guarantor::class, inversedBy="tenants")
+     */
+    private $guarantors;
+
     public function __construct()
     {
         $this->contracts = new ArrayCollection();
+        $this->guarantors = new ArrayCollection();
     }
 
     public function getAddressBefore(): ?Address
@@ -60,18 +60,6 @@ class Tenant extends User
     public function setAddressAfter(?Address $addressAfter): self
     {
         $this->addressAfter = $addressAfter;
-
-        return $this;
-    }
-
-    public function getGuarantor(): ?Guarantor
-    {
-        return $this->guarantor;
-    }
-
-    public function setGuarantor(Guarantor $guarantor): self
-    {
-        $this->guarantor = $guarantor;
 
         return $this;
     }
@@ -103,5 +91,28 @@ class Tenant extends User
         return $this;
     }
 
-    
+    /**
+     * @return Collection|Guarantor[]
+     */
+    public function getGuarantors(): Collection
+    {
+        return $this->guarantors;
+    }
+
+    public function addGuarantor(Guarantor $guarantor): self
+    {
+        if (!$this->guarantors->contains($guarantor)) {
+            $this->guarantors[] = $guarantor;
+        }
+
+        return $this;
+    }
+
+    public function removeGuarantor(Guarantor $guarantor): self
+    {
+        $this->guarantors->removeElement($guarantor);
+
+        return $this;
+    }
+
 }

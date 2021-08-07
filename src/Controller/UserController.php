@@ -10,6 +10,7 @@ use App\Form\AdminType;
 use App\Form\GuarantorType;
 use App\Form\OwnerType;
 use App\Form\TenantType;
+use App\Repository\ContractRepository;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use App\Utils\UploadProfilePic;
@@ -25,6 +26,7 @@ class UserController extends AbstractController
 
     protected $entityManager;
     protected $userRepository;
+    protected $contractRepository;
     protected $passwordEncoder;
     protected $uploadProfilePic;
     protected $service;
@@ -32,15 +34,17 @@ class UserController extends AbstractController
     public function __construct(
         EntityManagerInterface $entityManager,
         UserRepository $userRepository,
+        ContractRepository $contractRepository,
         UserPasswordEncoderInterface $passwordEncoder,
         UploadProfilePic $uploadProfilePic,
         UserService $service
     ) {
-        $this->entityManager    = $entityManager;
-        $this->userRepository   = $userRepository;
-        $this->passwordEncoder  = $passwordEncoder;
-        $this->uploadProfilePic = $uploadProfilePic;
-        $this->service          = $service;
+        $this->entityManager        = $entityManager;
+        $this->userRepository       = $userRepository;
+        $this->contractRepository   = $contractRepository;
+        $this->passwordEncoder      = $passwordEncoder;
+        $this->uploadProfilePic     = $uploadProfilePic;
+        $this->service              = $service;
     }
 
     #[Route('/manage/owner/create', name: 'create_owner')]
@@ -78,13 +82,13 @@ class UserController extends AbstractController
         $role = 'ROLE_ADMIN';
         return $this->service->userCreate($request, $entity, $formType, $role);
     }
-    
+
     #[Route('/manage/user/edit/{id}', name: 'user_edit')]
     public function editUser(Request $request, int $id)
     {
         $user = $this->userRepository->find($id);
         $role = $user->getRoles();
-        
+
         switch (true) {
             case ($role[0] == 'ROLE_OWNER'):
                 return $this->service->userEdit($request, $user, OwnerType::class);
@@ -144,15 +148,31 @@ class UserController extends AbstractController
     #[Route('/manage/user/{id}', name: 'user_detail')]
     public function detail(int $id): Response
     {
+        /**
+         * @var Tenant $user
+         */
         $user = $this->userRepository->find($id);
 
         if (!$user) {
             throw $this->createNotFoundException("Ooop ! Cette personne n'existe pas...");
         }
 
-        return $this->render('user/detail.html.twig', [
-            'user' => $user
-        ]);
+        if ($user instanceof Tenant) {
+            /**
+             * @var Contract[] $contracts
+             */
+            $contracts = $user->getContracts();
+        }
+        if ($user instanceof Tenant) {
+            return $this->render('user/detail.html.twig', [
+                'user'      => $user,
+                'contracts' => $contracts
+            ]);
+        } else {
+            return $this->render('user/detail.html.twig', [
+                'user'      => $user
+            ]);
+        }
     }
 
     #[Route('/profile', name: 'user_profile')]
@@ -185,7 +205,4 @@ class UserController extends AbstractController
                 break;
         }
     }
-
-
-
 }

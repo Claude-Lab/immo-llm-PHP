@@ -83,7 +83,7 @@ class ClodFixtures extends Fixture
                         ->setRoles(['ROLE_ADMIN'])
                         ->setMobile('0605040609')
                         ->setPhone('0203336456')
-                        ->setAvatar('ClaudeLusseau1-61094203d47f1.jpg');
+                        ->setAvatar('ClaudeLusseau1-610e93caa4573.jpg');
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();

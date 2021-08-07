@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Guarantor;
 use App\Entity\Tenant;
+use App\Repository\UserRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -13,6 +14,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TenantType extends AbstractType
 {
+
+    protected $userRepo;
+
+    public function __construct(UserRepository $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -71,6 +80,9 @@ class TenantType extends AbstractType
                 "attr"                      => [
                     'class'                 => 'uk-select',
                 ],
+                'query_builder'     => function () {
+                    return $this->userRepo->searchGuarantorWithoutTenant();
+                },
                 'choice_label'              => 'fullname',
                 'required'                  => false
             ]);

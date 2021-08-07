@@ -14,58 +14,61 @@
 				</div>
 				<div class="uk-card-body">
 
-					{{ form_start(housingForm) }}
+					{{ form_start(form) }}
 
 					<div class="uk-margin">
-						{{ form_row(housingForm.name) }}
+						{{ form_row(form.name) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.owner) }}
+						{{ form_row(form.owner) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.address.street) }}
+						{{ form_row(form.address.street) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.address.city) }}
+						{{ form_row(form.address.city) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.address.postCode) }}
+						{{ form_row(form.address.postCode) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.address.country) }}
+						{{ form_row(form.address.country) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.sort) }}
+						{{ form_row(form.sort) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.nbRoom) }}
+						{{ form_widget(form.heat) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.surface) }}
+						{{ form_row(form.nbRoom) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.floor) }}
+						{{ form_row(form.surface) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.landSurface) }}
+						{{ form_row(form.floor) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.nbFloor) }}
+						{{ form_row(form.landSurface) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.attic) }}
+						{{ form_row(form.nbLevel) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.cellar) }}
+						{{ form_row(form.attic) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.pool) }}
+						{{ form_row(form.cellar) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.box) }}
+						{{ form_row(form.pool) }}
 					</div>
 					<div class="uk-margin">
-						{{ form_row(housingForm.elevator) }}
+						{{ form_row(form.box) }}
+					</div>
+					<div class="uk-margin">
+						{{ form_row(form.elevator) }}
 					</div>
 
 					<button type="submit" class="uk-button uk-button-valid uk-width-1-1 uk-margin-small-bottom">Enregistrer</button>
@@ -74,7 +77,7 @@
 						<button type="button" class="uk-button uk-button-secondary uk-width-1-1">Annuler</button>
 					</a>
 
-					{{ form_end(housingForm) }}
+					{{ form_end(form) }}
 
 				</div>
 			</div>

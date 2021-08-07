@@ -57,10 +57,10 @@
 							{% if user.contracts != null %}
 								{% for contract in user.contracts %}
 									<dt>Addresse Actuelle (contrat de bail)</dt>
-									<dd>{{user.contract.address.street }}</dd>
-									<dd>{{user.contract.address.postCode }}
-										{{user.contract.address.city }}</dd>
-									<dd>{{user.contract.address.country }}</dd>
+									<dd>{{contract.housing.address.street }}</dd>
+									<dd>{{contract.housing.address.postCode }}
+										{{contract.housing.address.city }}</dd>
+									<dd>{{contract.housing.address.country }}</dd>
 								{% endfor %}
 							{% endif %}
 

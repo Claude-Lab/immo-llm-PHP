@@ -16,55 +16,123 @@
 		<div class="uk-first-column">
 			<div class="uk-card uk-card-default">
 				<div class="uk-card-header">
-					Detail d'un équipement
+					Detail d'un contrat
 				</div>
 				<div class="uk-card-body">
-					<dl class="uk-description-list">
+					<dl class="uk-description-list uk-column-1-2@s">
+
 						<dt>Nom</dt>
-						<dd>{{ equipment.name }}</dd>
+						<dd>{{ contract.name }}</dd>
 
-						<dt>Marque</dt>
-						<dd>{{ equipment.brandt }}</dd>
-
-						<dt>Etat</dt>
-						<dd>{{ equipment.modality }}</dd>
-
-						<dt>En utilisation</dt>
+						<dt>Logement associé</dt>
 						<dd>
-							{% if equipment.isUsed == false %}
-								Non
-							{% else %}
-								Oui
-								{{ equipment.contracts }}
-							{% endif %}
+							<a href="{{ path('housing_detail', {'id' : contract.housing.id}) }}">
+								{{ contract.housing.name }}</a>
 						</dd>
-					</dd>
-				</dl>
-				<a href="{{ path('equipment_update', {'id' : equipment.id}) }}">
-					<button type="button" class="uk-button uk-button-primary uk-width-1-1 uk-margin">Modifier</button>
-				</a>
-				<a class="uk-button uk-button-danger uk-width-1-1 uk-toggle" uk-toggle="target: #modal-sections">Supprimer</a>
+
+						<dt>Propriétaire</dt>
+						<dd>
+							<a href="{{ path('user_detail', {'id' : contract.housing.owner.id }) }}">
+								{{ contract.housing.owner.fullname }}</a>
+						</dd>
+
+						<dt>Locataire(s)</dt>
+						<dd>
+							<ul>
+								{% for tenant in contract.tenants %}
+									<li>
+										<a href="{{ path('user_detail', {'id' : tenant.id}) }}">
+											{{ tenant.fullname }}</a>
+									</li>
+								{% endfor %}
+							</dd>
+						</dd>
+
+						<dt>Garant</dt>
+						<dd>
+							<ul>
+
+								{% for tenant in  contract.tenants %}
+									<li>
+										{% if (tenant.guarantor is null) %}
+											Pour
+											<a href="{{ path('user_detail', {'id' : tenant.id }) }}">{{ tenant.fullname}}</a>
+											-> Pas de garant désigné
+										{% else %}
+											Pour
+											<a href="{{ path('user_detail', {'id' : tenant.id }) }}">{{ tenant.fullname}}</a>
+											-> garant :
+											<a href="{{ path('user_detail', {'id' : tenant.guarantor.id }) }}">{{ tenant.guarantor.fullname }}</a>
+										{% endif %}
+									</li>
+								{% endfor %}
+								<ul></dd>
 
 
-				<div id="modal-sections" uk-modal>
-					<div class="uk-modal-dialog">
-						<button class="uk-modal-close-default" type="button" uk-close></button>
-						<div class="uk-modal-header">
-							<h2 class="uk-modal-title">Suppression d'un équipement</h2>
-						</div>
-						<div class="uk-modal-body">
-							<p>Êtes-vous certain de vouloir supprimer cet équipement ?</p>
-						</div>
-						<div class="uk-modal-footer uk-text-right">
-							<a href="{{ path('equipment_delete', {'id' : equipment.id}) }}">
-								<button class="uk-button uk-button-danger" type="button">Supprimer</button>
-							</a>
-							<button class="uk-button uk-button-primary uk-modal-close" type="button">Annuler</button>
+								<dt>Date de début du contrat</dt>
+								<dd>{{ contract.startDate | date('d/m/Y', 'Europe/Paris') }}</dd>
 
+								<dt>Date de fin du contrat</dt>
+								<dd>
+									{% if (contract.endDate is null) %}
+										Aucune date de fin précisée
+									{% else %}
+										{{ contract.endDate | date('d/m/Y', 'Europe/Paris') }}
+									{% endif %}
+								</dd>
+
+								<dt>Loyer Hors Charges</dt>
+								<dd>{{ contract.rent }}
+									€</dd>
+
+								<dt>Charges</dt>
+								<dd>{{ contract.rentLoad }}
+									€</dd>
+
+								<dt>Equipement(s)</dt>
+								<dd>
+									<ul>
+										{% for equipment in contract.equipments %}
+											<li>
+												<a href="{{ path('equipment_detail', {'id' : equipment.id}) }}">{{ equipment.name }}</a>
+
+												-
+												{{ equipment.brandt }}
+												-
+												{{ equipment.serialNumber }}
+											</li>
+										{% endfor %}
+									</ul>
+								</dd>
+							</dd>
+						</dd>
+					</dl>
+					<a href="{{ path('contract_edit', {'id' : contract.id}) }}">
+						<button type="button" class="uk-button uk-button-primary uk-width-1-1 uk-margin">Modifier</button>
+					</a>
+					<a class="uk-button uk-button-danger uk-width-1-1 uk-toggle" uk-toggle="target: #modal-sections">Supprimer</a>
+
+
+					<div id="modal-sections" uk-modal>
+						<div class="uk-modal-dialog">
+							<button class="uk-modal-close-default" type="button" uk-close></button>
+							<div class="uk-modal-header">
+								<h2 class="uk-modal-title">Suppression d'un équipement</h2>
+							</div>
+							<div class="uk-modal-body">
+								<p>Êtes-vous certain de vouloir supprimer cecontrat ?</p>
+							</div>
+							<div class="uk-modal-footer uk-text-right">
+								<a href="{{ path('contract_delete', {'id' : contract.id}) }}">
+									<button class="uk-button uk-button-danger" type="button">Supprimer</button>
+								</a>
+								<button class="uk-button uk-button-primary uk-modal-close" type="button">Annuler</button>
+
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
-	{% endblock %}
+	</div>
+{% endblock %}

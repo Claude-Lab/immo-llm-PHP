@@ -90,8 +90,7 @@ class UserService extends AbstractController
 
                   $this->entityManager->persist($user);
                   $this->entityManager->flush();
-                  $fullname = $user->getFullname();
-                  $this->addFlash("success", "Compte de \"" . $fullname .  "\" édité avec succès");
+                  $this->addFlash("success", "Compte de \"" . $user->getFullname() .  "\" édité avec succès");
 
                   return $this->redirectToRoute(
                         'user_detail',

@@ -25,17 +25,5 @@ class OwnerRepository extends ServiceEntityRepository
         parent::__construct($registry, Owner::class);
         $this->em = $em;
     }
-
-
-    /*
-    public function findOneBySomeField($value): ?Owner
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+    
 }

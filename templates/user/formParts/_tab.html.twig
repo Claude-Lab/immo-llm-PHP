@@ -1,0 +1,8 @@
+<div uk-margin>
+      {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+            <a href='{{ path('users_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Tout les comptes</button></a>
+            <a href='{{ path('owners_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Propriétaires</button></a>
+      {% endif %}
+      <a href='{{ path('tenants_list') }}'><button class="uk-button uk-button-secondary uk-margin-small-right uk-margin-bottom">Locataires</button></a>
+      <a href='{{ path('guarantors_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Garants</button></a>
+</div>

@@ -28,7 +28,7 @@
 						</div>
 					{% else %}
 
-						<table class="uk-table uk-table-responsive">
+						<table class="uk-table uk-table-responsive uk-table-divider">
 							<thead>
 								<tr>
 									<th>Prénom Nom</th>
@@ -41,22 +41,10 @@
 							<tbody>
 								{% for user in users %}
 									<tr>
-										<td>{{ user.firstname }}
-											{{ user.lastname }}</td>
+										<td>{{ user.fullname }}</td>
 										<td>{{ user.mobile }}</td>
 										<td>{{ user.email }}</td>
-										<td>
-											{% if user.roles[0] == 'ROLE_ADMIN' %}
-												Administrateur
-											{% elseif user.roles[0] == 'ROLE_OWNER' %}
-												Propriétaire
-											{% elseif user.roles[0] == 'ROLE_TENANT' %}
-												Locataire
-											{% elseif user.roles[0] == 'ROLE_GUARANTOR' %}
-												Garant
-											{% endif %}
-										</td>
-
+										<td>Propriétaire</td>
 										<td>
 											{% if user.roles[0] != 'ROLE_ADMIN' %}
 												<a href="{{ path('user_detail', {'id' : user.id}) }}">

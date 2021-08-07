@@ -23,7 +23,7 @@
 						</div>
 					{% else %}
 
-						<table class="uk-table uk-table-striped">
+						<table class="uk-table uk-table-responsive uk-table-divider">
 							<thead>
 								<tr>
 									<th>Nom du contrat</th>
@@ -41,17 +41,18 @@
 										<td>{{ contract.housing.owner.fullname }}</td>
 										<td>
 											{% for tenant in contract.tenants %}
-												{{ tenant.fullname }},
+												{{ tenant.fullname }}<br>
 											{% endfor %}
 										</td>
 										<td>{{ contract.startDate | date('d/m/Y', 'Europe/Paris') }}</td>
 										<td>{{ contract.housing.name }}</td>
 										<td>
-											<a href="{{ path('contract_admin_detail', {'id' : contract.id}) }}">Détail</td>
+											<a href="{{ path('contract_detail', {'id' : contract.id}) }}">
+												<button class="uk-button uk-button-primary uk-button-small">Détail</button>
+											</a>
 										</td>
 									</tr>
 								{% endfor %}
-
 							</tbody>
 						</table>
 					{% endif %}
@@ -59,4 +60,4 @@
 			</div>
 		</div>
 	</div>
-</div>{% endblock %}
+{% endblock %}

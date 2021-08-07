@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Heat;
 use App\Entity\Housing;
 use App\Entity\Sort;
 use App\Entity\User;
@@ -50,20 +51,6 @@ class HousingType extends AbstractType
                 'label'             => 'Surface totale',
                 'attr'              => [
                     'placeholder'   => 'Surface totale',
-                    'class'         => 'uk-input'
-                ]
-            ])
-            ->add('rental', NumberType::class, [
-                'label'             => 'Loyer hors charges',
-                'attr'              => [
-                    'placeholder'   => 'Loyer hors charges',
-                    'class'         => 'uk-input'
-                ]
-            ])
-            ->add('rentalLoad', NumberType::class, [
-                'label'             => 'Charges',
-                'attr'              => [
-                    'placeholder'   => 'Charges',
                     'class'         => 'uk-input'
                 ]
             ])
@@ -116,7 +103,7 @@ class HousingType extends AbstractType
                 ],
                 'required'          => false,
             ])
-            ->add('nbFloor', IntegerType::class, [
+            ->add('nbLevel', IntegerType::class, [
                 'label'             => 'Nombre de niveaux (étages)',
                 'attr'              => [
                     'placeholder'   => 'Nombre de niveaux (étages)',
@@ -141,7 +128,7 @@ class HousingType extends AbstractType
                     'class'         => 'uk-select',
                 ],
                 'query_builder'     => function () {
-                    return $this->repo->findByRole('ROLE_OWNER');
+                    return $this->repo->searchByOwner();
                 },
                 'choice_label'      => 'fullname'
             ])
@@ -155,8 +142,33 @@ class HousingType extends AbstractType
                 "attr"              => [
                     'class'         => 'uk-select',
                 ],
-                'choice_label'      => 'name',
-            ]);
+                'choice_label'      => 'name'
+            ])
+            ->add('heat', EntityType::class, [
+                'placeholder'       => '-- Selectionnez le type de chauffage --',
+                'label'             => false,
+                'class'             => Heat::class,
+                "attr"              => [
+                    'class'         => 'uk-select',
+                ],
+                'choice_label'      =>
+                function (Heat $heat) {
+                    return $heat->getName() . ' - ' . $heat->getFacilitie();
+                },
+            ])
+            /* ->add('photos', FileType::class, [
+                'mapped'                    => false,
+                'required'                  => false,
+                'label'                     => false,
+                'constraints'               => [
+                    new Image([
+                        'maxSize'           => '7000k',
+                        'mimeTypesMessage'  => "Format d'image non autorisé"
+                    ])
+
+                ]
+            ]) */
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

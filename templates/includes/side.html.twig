@@ -69,69 +69,69 @@
 			</li>
 		{% endif %}
 
-		{# {% if app.user.roles[0] == 'ROLE_MANAGER' or (app.user.roles[0] == 'ROLE_ADMIN') %}
-		
-					<li class="uk-nav-header">
-						Liste des logements
-					</li>
-					<li>
-						<a href="{{ path('housing_list') }}">Liste des logements</a>
-					</li>
-					<li>
-						<a href="{{ path('contract_list') }}">Liste des contrats</a>
-					</li>
-		
-				{% endif %} #}
+		{% if app.user.roles[0] == 'ROLE_MANAGER' or (app.user.roles[0] == 'ROLE_ADMIN') %}
+
+			<li class="uk-nav-header">
+				Liste des logements
+			</li>
+			<li>
+				<a href="{{ path('housing_list') }}">Liste des logements</a>
+			</li>
+			<li>
+				<a href="{{ path('contract_list') }}">Liste des contrats</a>
+			</li>
+
+		{% endif %}
 
 
 		{# {% if app.user.roles[0] == 'ROLE_OWNER' %}
-					<li class="uk-nav-header">
-						Mes logements
-					</li>
-					<li>
-						<a href="{{ path('housing_list') }}">Liste de mes logements</a>
-					</li>
-					<li>
-						<a href="#">Liste de mes locataires</a>
-					</li>
-					<li>
-						<a href="{{ path('contract_list') }}">Liste des contrats</a>
-					</li>
-				{% endif %}
-		
-				{% if (app.user.roles[0] == 'ROLE_MANAGER') or (app.user.roles[0] == 'ROLE_ADMIN') %}
-		
-					<li class="uk-nav-header">
-						Mobilier
-					</li>
-					<li>
-						<a href="{{ path('sort_list') }}">Types</a>
-					</li>
-					<li>
-						<a href="{{ path('state_list') }}">Etats</a>
-					</li>
-					<li>
-						<a href="{{ path('heat_list') }}">Systemes de chauffage</a>
-					</li>
-					<li>
-						<a href="{{ path('equipment_list') }}">Mes équipements disponibles</a>
-					</li>
-		
-				{% endif %}
-		
-		
-				{% if (app.user.roles[0] == 'ROLE_OWNER')%}
-					<li class="uk-nav-header">
-						Mon mobilier
-					</li>
-					<li>
-						<a href="{{ path('equipment_list') }}">Mes équipements disponibles</a>
-		
-					</li>
-					<li>
-						<a href="#">Modes de chauffage</a>
-					</li>
-				{% endif %} #}
+							<li class="uk-nav-header">
+								Mes logements
+							</li>
+							<li>
+								<a href="{{ path('housing_list') }}">Liste de mes logements</a>
+							</li>
+							<li>
+								<a href="#">Liste de mes locataires</a>
+							</li>
+							<li>
+								<a href="{{ path('contract_list') }}">Liste des contrats</a>
+							</li>
+						{% endif %}
+				
+						{% if (app.user.roles[0] == 'ROLE_MANAGER') or (app.user.roles[0] == 'ROLE_ADMIN') %}
+				
+							<li class="uk-nav-header">
+								Mobilier
+							</li>
+							<li>
+								<a href="{{ path('sort_list') }}">Types</a>
+							</li>
+							<li>
+								<a href="{{ path('state_list') }}">Etats</a>
+							</li>
+							<li>
+								<a href="{{ path('heat_list') }}">Systemes de chauffage</a>
+							</li>
+							<li>
+								<a href="{{ path('equipment_list') }}">Mes équipements disponibles</a>
+							</li>
+				
+						{% endif %}
+				
+				
+						{% if (app.user.roles[0] == 'ROLE_OWNER')%}
+							<li class="uk-nav-header">
+								Mon mobilier
+							</li>
+							<li>
+								<a href="{{ path('equipment_list') }}">Mes équipements disponibles</a>
+				
+							</li>
+							<li>
+								<a href="#">Modes de chauffage</a>
+							</li>
+						{% endif %} #}
 
 	</ul>
 </div>
