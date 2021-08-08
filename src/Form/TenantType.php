@@ -81,7 +81,7 @@ class TenantType extends AbstractType
                     'class'                 => 'uk-select',
                 ],
                 'query_builder'     => function () {
-                    return $this->userRepo->searchGuarantorWithoutTenant();
+                    return $this->userRepo->searchByGuarantor();
                 },
                 'choice_label'              => 'fullname',
                 'required'                  => false

@@ -78,12 +78,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * 
      */
-    public function searchGuarantorWithoutTenant() {
+    public function searchByGuarantor()
+    {
 
         return $this->_em->createQueryBuilder()
             ->select('u')
             ->from($this->_entityName, 'u')
             ->where('u INSTANCE OF App\Entity\Guarantor')
-            ->andWhere('App\Entity\Guarantor.tenant IS NULL');
+            ->orderBy('u.lastname', 'ASC');
     }
 }

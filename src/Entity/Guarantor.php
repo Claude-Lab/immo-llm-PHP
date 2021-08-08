@@ -13,19 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class Guarantor extends User
 {
 
-    /**
-     * @ORM\OneToOne(targetEntity=Tenant::class, inversedBy="guarantor", cascade={"persist", "remove"})
-     */
-    private $tenant;
 
     /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $address;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tenant::class, mappedBy="guarantors")
+     * @ORM\OneToMany(targetEntity=Tenant::class, mappedBy="guarantor")
      */
     private $tenants;
 
@@ -58,7 +54,7 @@ class Guarantor extends User
     {
         if (!$this->tenants->contains($tenant)) {
             $this->tenants[] = $tenant;
-            $tenant->addGuarantor($this);
+            $tenant->setGuarantor($this);
         }
 
         return $this;
@@ -67,9 +63,14 @@ class Guarantor extends User
     public function removeTenant(Tenant $tenant): self
     {
         if ($this->tenants->removeElement($tenant)) {
-            $tenant->removeGuarantor($this);
+            // set the owning side to null (unless already changed)
+            if ($tenant->getGuarantor() === $this) {
+                $tenant->setGuarantor(null);
+            }
         }
 
         return $this;
     }
+
+    
 }

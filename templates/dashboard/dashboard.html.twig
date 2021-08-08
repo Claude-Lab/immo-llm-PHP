@@ -11,11 +11,9 @@
 			<div class="uk-card uk-card-default uk-card-body">
 				<span class="statistics-text">Nombre de contrats en cours</span><br/>
 				<span class="statistics-number">
-					14.164
-					<span class="uk-label uk-label-success">
-						8%
-						<span class="ion-arrow-up-c"></span>
-					</span>
+					{{ contracts | length }}
+					contrat(s)
+
 				</span>
 			</div>
 		</div>
@@ -23,23 +21,16 @@
 			<div class="uk-card uk-card-default uk-card-body">
 				<span class="statistics-text">Nombre de locations</span><br/>
 				<span class="statistics-number">
-					123.238
-					<span class="uk-label uk-label-danger">
-						13%
-						<span class="ion-arrow-down-c"></span>
-					</span>
+					{{ housings | length }}
+					location(s)
 				</span>
 			</div>
 		</div>
 		<div>
 			<div class="uk-card uk-card-default uk-card-body">
-				<span class="statistics-text">Cumul loyer sur l'année</span><br/>
+				<span class="statistics-text">Cumul loyer HS sur l'année</span><br/>
 				<span class="statistics-number">
-					2.316
-					<span class="uk-label uk-label-success">
-						37%
-						<span class="ion-arrow-up-c"></span>
-					</span>
+					3000 €
 				</span>
 			</div>
 		</div>
@@ -47,11 +38,8 @@
 			<div class="uk-card uk-card-default uk-card-body">
 				<span class="statistics-text">Cumul Charges sur l'année</span><br/>
 				<span class="statistics-number">
-					6.384€
-					<span class="uk-label uk-label-success">
-						26%
-						<span class="ion-arrow-up-c"></span>
-					</span>
+					592 €
+					
 				</span>
 			</div>
 		</div>

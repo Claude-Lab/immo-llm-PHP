@@ -30,14 +30,13 @@ class Tenant extends User
     private $contracts;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Guarantor::class, inversedBy="tenants")
+     * @ORM\ManyToOne(targetEntity=Guarantor::class, inversedBy="tenants")
      */
-    private $guarantors;
+    private $guarantor;
 
     public function __construct()
     {
         $this->contracts = new ArrayCollection();
-        $this->guarantors = new ArrayCollection();
     }
 
     public function getAddressBefore(): ?Address
@@ -91,28 +90,18 @@ class Tenant extends User
         return $this;
     }
 
-    /**
-     * @return Collection|Guarantor[]
-     */
-    public function getGuarantors(): Collection
+    public function getGuarantor(): ?Guarantor
     {
-        return $this->guarantors;
+        return $this->guarantor;
     }
 
-    public function addGuarantor(Guarantor $guarantor): self
+    public function setGuarantor(?Guarantor $guarantor): self
     {
-        if (!$this->guarantors->contains($guarantor)) {
-            $this->guarantors[] = $guarantor;
-        }
+        $this->guarantor = $guarantor;
 
         return $this;
     }
 
-    public function removeGuarantor(Guarantor $guarantor): self
-    {
-        $this->guarantors->removeElement($guarantor);
-
-        return $this;
-    }
+    
 
 }
