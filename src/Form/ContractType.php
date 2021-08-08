@@ -17,7 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContractType extends AbstractType
@@ -56,10 +55,17 @@ class ContractType extends AbstractType
                     'class'         => 'uk-input'
                 ]
             ])
-            ->add('rentWithLoad', NumberType::class, [
+            ->add('rent', NumberType::class, [
                 'label'             => false,
                 'attr'              => [
-                    'placeholder'   => 'loyer',
+                    'placeholder'   => 'loyer hors charges',
+                    'class'         => 'uk-input'
+                ]
+            ])
+            ->add('rentLoad', NumberType::class, [
+                'label'             => false,
+                'attr'              => [
+                    'placeholder'   => 'charges',
                     'class'         => 'uk-input'
                 ]
             ])
@@ -69,6 +75,7 @@ class ContractType extends AbstractType
                 'required'          => true,
                 'attr'              => [
                     'class'         => 'uk-input',
+                    'type'          => 'date'
                 ]
             ])
             ->add('endDate', DateType::class, [
@@ -90,29 +97,15 @@ class ContractType extends AbstractType
             ])
             ->add('tenants', EntityType::class, [
                 'class'             => User::class,
-                'mapped'            => false,
-                'placeholder'       => '-- Selectionnez le locataire --',
-                'label'             => false,
+                'choice_label'      => 'fullname',
+                'multiple'          => true,
+                'placeholder'       => '-- Selectionnez le ou les locataires --',
                 "attr"              => [
-                    'class'         => 'uk-select'
+                    'class'         => 'uk-select select-tenants',
                 ],
                 'query_builder'     => function () {
-                    return $this->userRepo->findByRole('ROLE_TENANT');
-                },
-                'choice_label'      => 'fullname'
-            ])
-            ->add('guarantor', EntityType::class, [
-                'class'             => User::class,
-                'mapped'            => false,
-                'placeholder'       => '-- Selectionnez le garant --',
-                'label'             => false,
-                "attr"              => [
-                    'class'         => 'uk-select'
-                ],
-                'query_builder'     => function () {
-                    return $this->userRepo->findByRole('ROLE_GUARANTOR');
-                },
-                'choice_label'      => 'fullname'
+                    return $this->userRepo->searchByTenant();
+                }
             ])
             ->add('housing', EntityType::class, [
                 'class'             => Housing::class,
@@ -127,20 +120,16 @@ class ContractType extends AbstractType
                 'class'             => Equipment::class,
                 'label'             => false,
                 'multiple'          => true,
-                'expanded'          => true,
-                'query_builder'     => function () {
-                    return $this->equipmentRepo->findByContract();
-                },
+                'placeholder'       => '-- Selectionnez le ou les équipements --',
                 'choice_label'      => function ($equipment) {
                     /** @var Equipment $equipment */
                     return $equipment->getName() . ' / ' . $equipment->getBrandt()  . ' / ' . $equipment->getSerialNumber();
                 },
                 'attr'              => [
-                    'class'         => 'checkboxy',
+                    'class'         => 'uk-select select-equipments',
                 ],
 
             ]);
-            
     }
 
     public function configureOptions(OptionsResolver $resolver)

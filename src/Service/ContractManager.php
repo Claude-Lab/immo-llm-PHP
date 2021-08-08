@@ -3,51 +3,35 @@
 
 namespace App\Service;
 
-use App\Repository\HousingRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ContractManager {
+class ContractManager
+{
 
     protected $em;
-    protected $housingRepository;
+    protected $repo;
 
-    public function __construct(EntityManagerInterface $em, HousingRepository $housingRepository)
+    public function __construct(EntityManagerInterface $em, UserRepository $repo)
     {
         $this->em = $em;
-        $this->housingRepository = $housingRepository;
+        $this->repo = $repo;
     }
 
-    public function setContractToTenantsFromFormAndReturn($contract, $contractForm) {
+    public function setContractToGuarantorFromForm($contract, $form)
+    {
 
-        // get the tenants from form
-        $user = $contractForm->get('tenants')->getData();
-        
-        // add contract to tenants
-        $user->setTenantsContract($contract);
+        // get the guarantor from form
+        $users = $form->get('guarantors')->getData();
 
-        return $user;
-    }
 
-    public function checkHousingAviability($contract, $contractForm) {
-
-        
-        $startDate = $contractForm->get('startDate')->getData();
-        $endDate = $contractForm->get('endDate')->getData();
-
-        /**
-         * @var Housing $data
-         */
-        $data = $contractForm->get('housing')->getData();
-
-        $housing = $this->housingRepository->find($data);
-
-        if ((($housing->getContract()->getStartDate() < $startDate) && ($housing->getContract()->getEndDate() < $endDate))
-            || (($housing->getContract()->getStartDate() < $startDate) && ($housing->getContract()->getEndDate() == null)))
-        {
-            return $data;
-        } else {
-            return $message = 'Un contrat concernant ce logement est déjà en cours sur les dates indiquées';
+        foreach ($users as $user) {
+            // if ($user->getGuarantorContract() != null) {
+            //   return 'fd';
+            //}
+            // add contract to guarantors
+            $user->setGuarantorContract($contract);
+            return $user;
         }
     }
-
 }

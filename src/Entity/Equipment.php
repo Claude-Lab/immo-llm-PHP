@@ -45,6 +45,11 @@ class Equipment
      */
     private $state;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Contract::class, mappedBy="equipments")
+     */
+    private $contracts;
+
     public function __construct()
     {
         $this->contracts = new ArrayCollection();
@@ -112,6 +117,33 @@ class Equipment
     public function setState(?State $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contract[]
+     */
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function addContract(Contract $contract): self
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts[] = $contract;
+            $contract->addEquipment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): self
+    {
+        if ($this->contracts->removeElement($contract)) {
+            $contract->removeEquipment($this);
+        }
 
         return $this;
     }

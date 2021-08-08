@@ -2,17 +2,23 @@
 
 {% block title %}
 	{{ parent() }}
-	| Tout les comptes
+	| Liste des propriétaires
 {% endblock %}
 
 {% block body %}
 	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
 		<div class="uk-first-column">
-
-		
+			<div uk-margin>
+				{% if app.user.roles[0] == 'ROLE_ADMIN' %}
+					<a href='{{ path('users_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Tout les comptes</button></a>
+					<a href='{{ path('owners_list') }}'><button class="uk-button uk-button-secondary uk-margin-small-right uk-margin-bottom">Propriétaires</button></a>
+				{% endif %}
+				<a href='{{ path('tenants_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Locataires</button></a>
+				<a href='{{ path('guarantors_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Garants</button></a>
+			</div>
 			<div class="uk-card uk-card-default">
 				<div class="uk-card-header">
-					Liste de tout les utilisateurs
+					Liste des propriétaires
 				</div>
 				<div class="uk-card-body">
 					{% if users is empty %}
@@ -22,7 +28,7 @@
 						</div>
 					{% else %}
 
-						<table class="uk-table uk-table-responsive">
+						<table class="uk-table uk-table-responsive uk-table-divider">
 							<thead>
 								<tr>
 									<th>Prénom Nom</th>
@@ -35,22 +41,10 @@
 							<tbody>
 								{% for user in users %}
 									<tr>
-										<td>{{ user.firstname }}
-											{{ user.lastname }}</td>
+										<td>{{ user.fullname }}</td>
 										<td>{{ user.mobile }}</td>
 										<td>{{ user.email }}</td>
-										<td>
-											{% if user.roles[0] == 'ROLE_ADMIN' %}
-												Administrateur
-											{% elseif user.roles[0] == 'ROLE_OWNER' %}
-												Propriétaire
-											{% elseif user.roles[0] == 'ROLE_TENANT' %}
-												Locataire
-											{% elseif user.roles[0] == 'ROLE_GUARANTOR' %}
-												Garant
-											{% endif %}
-										</td>
-
+										<td>Propriétaire</td>
 										<td>
 											{% if user.roles[0] != 'ROLE_ADMIN' %}
 												<a href="{{ path('user_detail', {'id' : user.id}) }}">

@@ -22,13 +22,16 @@
 					</a>
 				</div>
 				<div class="uk-card-body">
-					<dl class="uk-description-list">
+					<dl class="uk-description-list uk-column-1-2@s">
 
 						<dt>Nom du logement</dt>
 						<dd>{{ housing.name }}</dd>
 
 						<dt>Propriétaire</dt>
-						<dd>{{ housing.owner.fullname }}</dd>
+						<dd>
+							<a href="{{ path('user_detail', {'id' : housing.owner.id }) }}">
+								{{ housing.owner.fullname }}</a>
+						</dd>
 
 						<dt>Addresse</dt>
 
@@ -40,9 +43,129 @@
 						<dt>Type</dt>
 						<dd>{{ housing.sort.name }}</dd>
 
-						<dt></dt>
-						<dd></dd>
-					</dl>
+						<dt>Mode de chauffage</dt>
+						<dd>{{ housing.heat.name }}</dd>
+
+						<dt>Installation du chauffage</dt>
+						<dd>{{ housing.heat.facilitie }}</dd>
+
+						<dt>Nombre de pièces</dt>
+						<dd>{{ housing.nbRoom }}
+							pièce(s)</dd>
+
+						<dt>Surface</dt>
+						<dd>{{ housing.surface }} m²</dd>
+
+						<dt>Niveaux</dt>
+						{% if housing.nbLevel is null %}
+							<dd>1 niveau</dd>
+						{% else %}
+							<dd>{{ housing.nbLevel }}
+								niveau(x)
+							{% endif %}
+
+							<dt>Etage</dt>
+							<dd>{{ housing.floor }}
+								ème étage</dd>
+
+							<dt>Ascenseur</dt>
+							{% if housing.elevator is null %}
+								<dd>Non</dd>
+							{% else %}
+								<dd>Non</dd>
+							{% endif %}
+
+							<dt>Grenier</dt>
+							{% if  housing.attic is null %}
+								<dd>Non</dd>
+							{% else %}
+								<dd>Non</dd>
+							{% endif %}
+
+							<dt>Cave</dt>
+							{% if  housing.cellar is null %}
+								<dd>Non</dd>
+							{% else %}
+								<dd>Non</dd>
+							{% endif %}
+
+							<dt>Piscine</dt>
+							{% if  housing.pool is null %}
+								<dd>Non</dd>
+							{% else %}
+								<dd>Non</dd>
+							{% endif %}
+
+							<dt>Garage</dt>
+							{% if  housing.box is null %}
+								<dd>Non</dd>
+							{% else %}
+								<dd>Non</dd>
+							{% endif %}
+
+							<dt>Surface de terrain</dt>
+							{% if  housing.landSurface is null %}
+								<dd>Pas de terrain</dd>
+							{% else %}
+								<dd>{{ housing.landSurface }}
+									m²</dd>
+							{% endif %}
+
+						</dl>
+					</div>
+				</div>
+			</div>
+			<div class="uk-first-column">
+				<div class="uk-card uk-card-default">
+					<div class="uk-card-header">
+						Les contrats du logement "{{ housing.name }}"
+					</div>
+					<div class="uk-card-body">
+						{% if housing.contracts is empty %}
+							<div class="uk-placeholder uk-text-center ">
+								<h5>Aucun contrat à afficher</h5>
+								<p>Il semblerait qu'il n'y ait pas de contrat correspondant à ce logement.</p>
+							</div>
+						{% else %}
+							<table class="uk-table uk-table-responsive uk-table-divider">
+
+								<thead>
+									<tr>
+										<th>Nom du contrat</th>
+										<th>Date de début</th>
+										<th>Date de fin</th>
+										<th>Locataires</th>
+										<th>Detail</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for contract in housing.contracts %}
+										<tr>
+											<td>{{ contract.name }}</td>
+											<td>{{ contract.startDate | date('d/m/Y', 'Europe/Paris') }}</td>
+											<td>
+												{% if contract.endDate != null %}
+													{{ contract.endDate | date('d/m/Y', 'Europe/Paris') }}
+												{% else %}
+													Contrat en cours
+												{% endif %}
+											</td>
+											<td>
+												{% for tenant in contract.tenants %}
+													{{ tenant.fullname }}<br>
+												{% endfor %}
+											</td>
+											<td>
+												<a href="{{ path('contract_detail', {'id' : contract.id}) }}">
+													<button class="uk-button uk-button-primary uk-button-small">Détail</button>
+												</a>
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</div>
+						{% endif %}
+					</div>
 				</div>
 			</div>
 		</div>

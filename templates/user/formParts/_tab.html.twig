@@ -1,30 +1,8 @@
-
-{% if app.user.roles[0] == 'ROLE_ADMIN'  %}
-<ul uk-tab>
-	<li>
-		<a href="{{ path('users_list') }}">Tout</a>
-	</li>
-	<li>
-		<a href="{{ path('owners_list') }}">Propriétaires</a>
-	</li>
-	<li>
-		<a href="{{ path('tenants_list') }}">Locataires</a>
-	</li>
-	<li>
-		<a href="{{ path('guarantors_list') }}">Garants</a>
-	</li>
-</ul>
-
-{% elseif app.user.roles[0] == 'ROLE_OWNER' %}
-<ul uk-tab>
-	<li>
-		<a href="{{ path('users_list') }}">Tout</a>
-	</li>
-	<li>
-		<a href="{{ path('tenants_list') }}">Locataires</a>
-	</li>
-	<li>
-		<a href="{{ path('guarantors_list') }}">Garants</a>
-	</li>
-</ul>
- {% endif %}
+<div uk-margin>
+      {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+            <a href='{{ path('users_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Tout les comptes</button></a>
+            <a href='{{ path('owners_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Propriétaires</button></a>
+      {% endif %}
+      <a href='{{ path('tenants_list') }}'><button class="uk-button uk-button-secondary uk-margin-small-right uk-margin-bottom">Locataires</button></a>
+      <a href='{{ path('guarantors_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Garants</button></a>
+</div>

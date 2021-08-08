@@ -25,15 +25,14 @@ class Tenant extends User
     private $addressAfter;
 
     /**
-     * @ORM\OneToOne(targetEntity=Guarantor::class, inversedBy="tenant", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $guarantor;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Contract::class, mappedBy="tenants")
      */
     private $contracts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Guarantor::class, inversedBy="tenants")
+     */
+    private $guarantor;
 
     public function __construct()
     {
@@ -60,18 +59,6 @@ class Tenant extends User
     public function setAddressAfter(?Address $addressAfter): self
     {
         $this->addressAfter = $addressAfter;
-
-        return $this;
-    }
-
-    public function getGuarantor(): ?Guarantor
-    {
-        return $this->guarantor;
-    }
-
-    public function setGuarantor(Guarantor $guarantor): self
-    {
-        $this->guarantor = $guarantor;
 
         return $this;
     }
@@ -103,5 +90,18 @@ class Tenant extends User
         return $this;
     }
 
+    public function getGuarantor(): ?Guarantor
+    {
+        return $this->guarantor;
+    }
+
+    public function setGuarantor(?Guarantor $guarantor): self
+    {
+        $this->guarantor = $guarantor;
+
+        return $this;
+    }
+
     
+
 }

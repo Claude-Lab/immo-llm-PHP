@@ -22,7 +22,9 @@
 					{{ user.lastname }}
 				</div>
 				<div class="uk-card-body">
-					<dl class="uk-description-list">
+					<dl class="uk-description-list uk-column-1-2@s">
+
+
 						<dt>Prénom</dt>
 						<dd>{{ user.firstname }}</dd>
 
@@ -55,10 +57,10 @@
 							{% if user.contracts != null %}
 								{% for contract in user.contracts %}
 									<dt>Addresse Actuelle (contrat de bail)</dt>
-									<dd>{{user.contract.address.street }}</dd>
-									<dd>{{user.contract.address.postCode }}
-										{{user.contract.address.city }}</dd>
-									<dd>{{user.contract.address.country }}</dd>
+									<dd>{{contract.housing.address.street }}</dd>
+									<dd>{{contract.housing.address.postCode }}
+										{{contract.housing.address.city }}</dd>
+									<dd>{{contract.housing.address.country }}</dd>
 								{% endfor %}
 							{% endif %}
 
@@ -70,10 +72,11 @@
 
 							{% if user.addressAfter != null %}
 								<dt>Addresse de départ (après déménagement)</dt>
-								<dd>{{user.addressBefore.street }}</dd>
-								<dd>{{user.addressBefore.postCode }}
-									{{user.addressBefore.city }}</dd>
-								<dd>{{user.addressBefore.country }}</dd>
+								<dd>{{user.addressAfter.street }}</dd>
+								<dd>{{user.addressAfter.postCode }}
+									{{user.addressAfter.city }}</dd>
+								<dd>{{user.addressAfter.country }}</dd>
+
 							{% endif %}
 						{% endif %}
 						<dt>Type de compte</dt>
@@ -89,18 +92,24 @@
 							{% endif %}
 						</dd>
 						{% if user.roles[0] == 'ROLE_GUARANTOR' %}
-							{% if user.tenant != null %}
-								<dt>Locataire lié au garant</dt>
-								<dd>
-									<a href="{{ path('user_detail', {'id' : user.tenant.id}) }}">{{ user.tenant.fullname }}</a>
-								</dd>
+							{% if user.tenants != null %}
+
+								{% for tenant in user.tenants %}
+									<dt>Locataire lié au garant</dt>
+									<dd>
+										<ul>
+											<li><a href="{{ path('user_detail', {'id' : tenant.id}) }}">{{ tenant.fullname }}</a></li>
+										</ul>
+									</dd>
+								{% endfor %}
 							{% endif %}
 						{% endif %}
+
 						{% if user.roles[0] == 'ROLE_TENANT' %}
 							{% if user.guarantor != null %}
 								<dt>Garant du locataire</dt>
 								<dd>
-									<a href="{{ path('user_detail', {'id' : user.guarantor.id}) }}">{{ user.guarantor.fullname }}</a>
+									<a href="{{path('user_detail',{'id':user.guarantor.id})}}">{{ user.guarantor.fullname }}</a>
 								</dd>
 							{% endif %}
 						{% endif %}

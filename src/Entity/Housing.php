@@ -30,11 +30,6 @@ class Housing
     private $surface;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
-     */
-    private $housingLoad;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $floor;
@@ -81,11 +76,6 @@ class Housing
     private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="housing")
-     */
-    private $contracts;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Sort::class, inversedBy="housings")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -111,6 +101,16 @@ class Housing
      * @ORM\ManyToOne(targetEntity=Owner::class, inversedBy="housings")
      */
     private $owner;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="housing")
+     */
+    private $contracts;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $name;
 
     public function __construct()
     {
@@ -269,36 +269,6 @@ class Housing
         return $this;
     }
 
-    /**
-     * @return Collection|Contract[]
-     */
-    public function getContracts(): Collection
-    {
-        return $this->contracts;
-    }
-
-    public function addContract(Contract $contract): self
-    {
-        if (!$this->contracts->contains($contract)) {
-            $this->contracts[] = $contract;
-            $contract->setHousing($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContract(Contract $contract): self
-    {
-        if ($this->contracts->removeElement($contract)) {
-            // set the owning side to null (unless already changed)
-            if ($contract->getHousing() === $this) {
-                $contract->setHousing(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getSort(): ?Sort
     {
         return $this->sort;
@@ -391,6 +361,48 @@ class Housing
     public function setOwner(?Owner $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contract[]
+     */
+    public function getContracts(): Collection
+    {
+        return $this->contracts;
+    }
+
+    public function addContract(Contract $contract): self
+    {
+        if (!$this->contracts->contains($contract)) {
+            $this->contracts[] = $contract;
+            $contract->setHousing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(Contract $contract): self
+    {
+        if ($this->contracts->removeElement($contract)) {
+            // set the owning side to null (unless already changed)
+            if ($contract->getHousing() === $this) {
+                $contract->setHousing(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

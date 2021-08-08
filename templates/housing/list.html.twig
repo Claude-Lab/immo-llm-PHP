@@ -41,7 +41,8 @@
 										<td>{{ housing.name }}</td>
 										<td>{{ housing.address.city }}</td>
 										<td>{{ housing.nbRoom }}</td>
-										<td>{{ housing.surface }} m²</td>
+										<td>{{ housing.surface }}
+											m²</td>
 										<td>{{ housing.sort.name }}</td>
 										<td>{{ housing.owner.fullname }}</td>
 										<td>
@@ -49,16 +50,14 @@
 												<button class="uk-button uk-button-primary uk-button-small">Détail</button>
 
 											</a>
-
-
 										</td>
 									</tr>
 								{% endfor %}
 							</tbody>
-						</tbody>
-					</tr>
-				</tbody>
-			</table>
-		{% endif %}
+						</table>
+					{% endif %}
+				</div>
+			</div>
+		</div>
 	</div>
-</div></div>{% endblock %}
+{% endblock %}

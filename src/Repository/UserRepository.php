@@ -37,53 +37,54 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * @param string $role
-     *
-     * @return array
+     * @return QueryBuilder
      */
-    public function findByRoleAdmin(): array
+    public function findByRole(string $role)
     {
-        // The ResultSetMapping maps the SQL result to entities
-        $rsm = $this->createResultSetMappingBuilder('u');
-
-        $rawQuery = sprintf('
-            SELECT %u
-            FROM user u 
-            WHERE JSON_SEARCH(s.roles LIKE %ROLE_ADMIN%)',
-
-            $rsm->generateSelectClause()
-        );
-
-        $query = $this->getEntityManager()->createNativeQuery($rawQuery, $rsm);
-        return $query->getResult();
-    }
-
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->_em->createQueryBuilder()
+            ->select('u')
+            ->from($this->_entityName, 'u')
+            ->where('u.roles LIKE :roles')
+            ->setParameter('roles', '%"' . $role . '"%')
+            ->orderBy('u.lastname', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?User
+    /**
+     * @return QueryBuilder
+     */
+    public function searchByTenant()
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->_em->createQueryBuilder()
+            ->select('u')
+            ->from($this->_entityName, 'u')
+            ->where('u INSTANCE OF App\Entity\Tenant')
+            ->orderBy('u.lastname', 'ASC');
     }
-    */
+
+    /**
+     * @return QueryBuilder
+     */
+    public function searchByOwner()
+    {
+        return $this->_em->createQueryBuilder()
+            ->select('u')
+            ->from($this->_entityName, 'u')
+            ->where('u INSTANCE OF App\Entity\Owner')
+            ->orderBy('u.lastname', 'ASC');
+    }
+
+    /**
+     * 
+     */
+    public function searchByGuarantor()
+    {
+
+        return $this->_em->createQueryBuilder()
+            ->select('u')
+            ->from($this->_entityName, 'u')
+            ->where('u INSTANCE OF App\Entity\Guarantor')
+            ->orderBy('u.lastname', 'ASC');
+    }
 }

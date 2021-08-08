@@ -9,49 +9,37 @@
 	<div uk-grid class="uk-child-width-1-1@s uk-child-width-1-2@m uk-child-width-1-4@xl">
 		<div>
 			<div class="uk-card uk-card-default uk-card-body">
-				<span class="statistics-text">New Registrations</span><br/>
+				<span class="statistics-text">Nombre de contrats en cours</span><br/>
 				<span class="statistics-number">
-					14.164
-					<span class="uk-label uk-label-success">
-						8%
-						<span class="ion-arrow-up-c"></span>
-					</span>
+					{{ contracts | length }}
+					contrat(s)
+
 				</span>
 			</div>
 		</div>
 		<div>
 			<div class="uk-card uk-card-default uk-card-body">
-				<span class="statistics-text">Website Traffic</span><br/>
+				<span class="statistics-text">Nombre de locations</span><br/>
 				<span class="statistics-number">
-					123.238
-					<span class="uk-label uk-label-danger">
-						13%
-						<span class="ion-arrow-down-c"></span>
-					</span>
+					{{ housings | length }}
+					location(s)
 				</span>
 			</div>
 		</div>
 		<div>
 			<div class="uk-card uk-card-default uk-card-body">
-				<span class="statistics-text">Total Invoices</span><br/>
+				<span class="statistics-text">Cumul loyer HS sur l'année</span><br/>
 				<span class="statistics-number">
-					2.316
-					<span class="uk-label uk-label-success">
-						37%
-						<span class="ion-arrow-up-c"></span>
-					</span>
+					3000 €
 				</span>
 			</div>
 		</div>
 		<div>
 			<div class="uk-card uk-card-default uk-card-body">
-				<span class="statistics-text">Total Income</span><br/>
+				<span class="statistics-text">Cumul Charges sur l'année</span><br/>
 				<span class="statistics-number">
-					6.384€
-					<span class="uk-label uk-label-success">
-						26%
-						<span class="ion-arrow-up-c"></span>
-					</span>
+					592 €
+					
 				</span>
 			</div>
 		</div>
@@ -60,7 +48,7 @@
 		<div>
 			<div class="uk-card uk-card-default">
 				<div class="uk-card-header">
-					Website Traffic
+					Impôt foncier
 				</div>
 				<div class="uk-card-body">
 					<canvas id="chart1"></canvas>
@@ -70,7 +58,7 @@
 		<div>
 			<div class="uk-card uk-card-default">
 				<div class="uk-card-header">
-					Website Traffic
+					Traffic Web
 				</div>
 				<div class="uk-card-body">
 					<canvas id="chart2"></canvas>
