@@ -23,7 +23,7 @@ Les technologies et langages utilisés :
 * JSON
 * [Symfony](https://symfony.com/) : Version 5.2.*
 * [Wampserver](https://wampserver.aviatechno.net/) : Version 3.2.5
-* [MariaDB](https://mariadb.org/) : Version 10.03.29
+* [MariaDB](https://mariadb.org/) : Version 10.3.29
 
 Bundles utilisés :
 * knplabs/knp-paginator-bundle
