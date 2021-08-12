@@ -38,18 +38,12 @@
 				Administration
 			</li>
 			<li>
-				<a href="{{ path('users_list') }}">Liste des comptes</a>
+				<a href="{{ path('users_list') }}">Liste des utilisateurs</a>
 			</li>
 			<li>
-				<a href="{{ path('create_owner') }}">Créer un propriétaire</a>
+				<a href="{{ path('create_user') }}">Créer un utilisateur</a>
 			</li>
-			<li>
-				<a href="{{ path('create_tenant') }}">Créer un locataire</a>
-			</li>
-			<li>
-				<a href="{{ path('create_guarantor') }}">Créer un garant</a>
-
-			</li>
+			
 
 
 		{% endif %}
@@ -69,7 +63,7 @@
 			</li>
 		{% endif %}
 
-		{% if app.user.roles[0] == 'ROLE_MANAGER' or (app.user.roles[0] == 'ROLE_ADMIN') %}
+		{% if app.user.roles[0] == 'ROLE_OWNER' or (app.user.roles[0] == 'ROLE_ADMIN') %}
 
 			<li class="uk-nav-header">
 				Liste des logements
@@ -77,9 +71,7 @@
 			<li>
 				<a href="{{ path('housing_list') }}">Liste des logements</a>
 			</li>
-			<li>
-				<a href="{{ path('contract_list') }}">Liste des contrats</a>
-			</li>
+			
 
 		{% endif %}
 

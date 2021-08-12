@@ -46,7 +46,7 @@
 										<td>{{ user.email }}</td>
 										<td>
 											{% if user.roles[0] == 'ROLE_ADMIN' %}
-												Administrateur
+												Manager
 											{% elseif user.roles[0] == 'ROLE_OWNER' %}
 												Propriétaire
 											{% elseif user.roles[0] == 'ROLE_TENANT' %}

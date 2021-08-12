@@ -3,35 +3,62 @@
 
 namespace App\Service;
 
+use App\Repository\HousingRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ContractManager
 {
 
     protected $em;
-    protected $repo;
+    protected $contractRepo;
+    protected $housingRepository;
 
-    public function __construct(EntityManagerInterface $em, UserRepository $repo)
-    {
-        $this->em = $em;
-        $this->repo = $repo;
+    public function __construct(
+        EntityManagerInterface $em,
+        UserRepository $contractRepo,
+        HousingRepository $housingRepository
+    ) {
+        $this->em                   = $em;
+        $this->contractRepo         = $contractRepo;
+        $this->housingRepository    = $housingRepository;
     }
 
-    public function setContractToGuarantorFromForm($contract, $form)
+
+    public function checkContractDate($form, $housing, $id)
     {
+        $formStartDate = $form->get('startDate')->getData();
+        $formEndDate = $form->get('endDate')->getData();
+        $contractEdit = $this->contractRepo->find($id);
 
-        // get the guarantor from form
-        $users = $form->get('guarantors')->getData();
+        $housingCheck = $this->housingRepository->find($housing);
+
+        if ($housingCheck == null) {
+            return new NotFoundHttpException('Aucun logement trouvé');
+        } else {
+            $contracts = $housingCheck->getContracts();
 
 
-        foreach ($users as $user) {
-            // if ($user->getGuarantorContract() != null) {
-            //   return 'fd';
-            //}
-            // add contract to guarantors
-            $user->setGuarantorContract($contract);
-            return $user;
+            foreach ($contracts as $contract) {
+                $housingStart   = $contract->getStartDate();
+                $housingEnd     = $contract->getEndDate();
+
+                if ($contract == $contractEdit)continue;
+
+                if (($housingStart > $formStartDate) && ($housingStart < $formEndDate)) {
+                    return true;
+                } elseif (($housingStart < $formStartDate) && ($housingEnd > $formEndDate)) {
+                    return true;
+                } elseif (($housingEnd < $formStartDate) && ($housingEnd > $formEndDate)) {
+                    return true;
+                } elseif (($housingStart > $formStartDate) && ($housingEnd < $formEndDate)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
     }
 }

@@ -23,9 +23,9 @@ class ContractType extends AbstractType
 {
     protected $em;
     protected $userRepo;
-    protected $housingRepo;
     protected $equipmentRepo;
     protected $contractRepo;
+    protected $housingRepo;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -81,7 +81,6 @@ class ContractType extends AbstractType
             ->add('endDate', DateType::class, [
                 'label'             => 'Date de fin du contrat',
                 'widget'            => 'single_text',
-                'required'          => false,
                 'attr'              => [
                     'class'         => 'uk-input',
                     'type'          => 'date'
@@ -106,15 +105,6 @@ class ContractType extends AbstractType
                 'query_builder'     => function () {
                     return $this->userRepo->searchByTenant();
                 }
-            ])
-            ->add('housing', EntityType::class, [
-                'class'             => Housing::class,
-                'label'             => false,
-                'placeholder'       => '-- Selectionnez le logement --',
-                "attr"              => [
-                    'class'         => 'uk-select'
-                ],
-                'choice_label'      => 'name'
             ])
             ->add('equipments', EntityType::class, [
                 'class'             => Equipment::class,

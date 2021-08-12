@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Utils\UploadProfilePic;
 use Doctrine\ORM\EntityManagerInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,17 +22,21 @@ class UserService extends AbstractController
       protected $userRepository;
       protected $passwordEncoder;
       protected $uploadProfilePic;
+      protected $flashy;
+
 
       public function __construct(
             EntityManagerInterface $entityManager,
             UserRepository $userRepository,
             UserPasswordEncoderInterface $passwordEncoder,
             UploadProfilePic $uploadProfilePic,
+            FlashyNotifier $flashy,
       ) {
             $this->entityManager    = $entityManager;
             $this->userRepository   = $userRepository;
             $this->passwordEncoder  = $passwordEncoder;
             $this->uploadProfilePic = $uploadProfilePic;
+            $this->flashy           = $flashy;
       }
 
       public function userCreate(Request $request, string $entity, string $formType, string $role): Response
@@ -125,7 +130,7 @@ class UserService extends AbstractController
                   $this->entityManager->persist($user);
                   $this->entityManager->flush();
                   $fullname = $user->getFullname();
-                  $this->addFlash("success", "Votre compte à été édité avec succès");
+                  $this->flashy->success('Votre compte ' . $fullname . ' à été édité avec succès', 'http://claude-lusseau.fr');
 
                   return $this->redirectToRoute('user_profile');
             } else {

@@ -47,8 +47,15 @@ class UserController extends AbstractController
         $this->service              = $service;
     }
 
+    #[Route('/manage/user/create', name: 'create_user')]
+    public function createUser()
+    {
+        return $this->render('user/create.html.twig');
+    }
+    
+
     #[Route('/manage/owner/create', name: 'create_owner')]
-    public function createUser(Request $request)
+    public function createOwner(Request $request)
     {
         $entity = Owner::class;
         $formType = OwnerType::class;

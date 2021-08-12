@@ -2,12 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Guarantor;
 use App\Entity\Housing;
 use App\Form\HousingType;
 use App\Repository\HousingRepository;
-use App\Repository\OwnerRepository;
-use App\Repository\SortRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,7 +84,7 @@ class HousingController extends AbstractController
     public function edit(Request $request, int $id): Response
     {
         $housing = $this->housingRepository->find($id);
-
+        
         $form = $this->createForm(HousingType::class, $housing);
         $form->handleRequest($request);
 
@@ -97,7 +94,10 @@ class HousingController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash("Edition", "Succès de l\'édition du logement");
 
-            return $this->redirectToRoute('housing_list');
+            return $this->redirectToRoute(
+                'housing_detail',
+                ['id' => $housing->getId()]
+            );
         } else {
 
             return $this->render('housing/edit.html.twig', [

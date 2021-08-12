@@ -4,7 +4,7 @@
 	{{ parent() }}
 	| Créer un nouveau contrat
 {% endblock %}
-{% block stylesheets %}
+{% block extraCss %}
 	<link href="{{ asset('/assets/dashboard/css/select2.min.css') }}" rel="stylesheet"/>
 {% endblock %}
 
@@ -45,9 +45,6 @@
 					</div>
 
 					<div class="uk-margin">
-						{{ form_widget(form.housing) }}
-					</div>
-					<div class="uk-margin">
 						<p>Selectionnez le ou les locataires pour ce contrat</p>
 						{{ form_widget(form.tenants) }}
 					</div>
@@ -56,10 +53,9 @@
 						{{ form_widget(form.equipments) }}
 					</div>
 
-
 					<br>
 					<button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Enregistrer</button>
-					<a href="{{ path('contract_list') }}">
+					<a href="{{ path('housing_detail', {'id' : housing.id }) }}">
 						<button type="button" class="uk-button uk-button-secondary uk-width-1-1">Annuler</button>
 					</a>
 
@@ -69,7 +65,7 @@
 		</div>
 	</div>
 {% endblock %}
-{% block javascripts %}
+{% block extraJs %}
 	<script src="{{ asset('/assets/dashboard/js/select2.min.js') }}"></script>
 	<script src="{{ asset('/assets/dashboard/js/select.js') }}"></script>
 {% endblock %}

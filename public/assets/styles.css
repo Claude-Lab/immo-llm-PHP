@@ -61,6 +61,11 @@ body.login {
     color: #F0F0F0;
 }
 
+.uk-button-create {
+    background-color: rgb(25, 62, 180);
+    color: #F0F0F0;
+}
+
 .uk-card-address-after {
     background: #ecca6b;
     color: #fff;

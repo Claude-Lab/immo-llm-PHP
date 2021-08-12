@@ -12,7 +12,6 @@
 			<button class="uk-button uk-button-default uk-button-small">Retour à l'accueil</button>
 		</a>
 	</p>
-
 	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
 		<div class="uk-first-column">
 			<div class="uk-card uk-card-default">
@@ -21,7 +20,22 @@
 					{{ user.firstname}}
 					{{ user.lastname }}
 				</div>
+
 				<div class="uk-card-body">
+					<div class="uk-text-center">
+						<div class="uk-inline-clip uk-transition-toggle" tabindex="0">
+							{% if app.user.avatar %}
+								<img id="avatar" width="150" class="uk-border" src="{{ asset('documents/images/users/avatars/' ~ app.user.avatar) }}"/>
+							{% else %}
+								<img id="avatar" width="150" class="uk-border" src="{{ asset('documents/images/users/avatars/default.png') }}"/>
+							{% endif %}
+
+							<div class="uk-transition-slide-bottom uk-position-bottom uk-overlay uk-overlay-default">
+								<p class="uk-h4 uk-margin-remove">Avatar</p>
+							</div>
+						</div>
+					</div>
+
 					<dl class="uk-description-list">
 						<dt>Prénom</dt>
 						<dd>{{ user.firstname }}</dd>

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ContractRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,7 +52,10 @@ class Contract
      */
     private $startDate;
 
-   
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $endDate;
 
     /**
      * @ORM\Column(type="float")
@@ -68,10 +72,7 @@ class Contract
      */
     private $equipments;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $endDate;
+   
 
     public function __construct()
     {
