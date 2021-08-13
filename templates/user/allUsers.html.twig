@@ -1,15 +1,14 @@
 <div class="uk-card uk-card-default">
 	<div class="uk-card-header">
-		Liste des propriétaires
+		Liste de tout les utilisateurs
 	</div>
 	<div class="uk-card-body">
-		{% if owners is empty %}
+		{% if users is empty %}
 			<div class="uk-placeholder uk-text-center ">
 				<h5>Aucun utilisateur à afficher</h5>
 				<p>Il semblerait qu'il n'y ait pas d'utilisateur correspondant à votre recherche.</p>
 			</div>
 		{% else %}
-
 			<table class="uk-table uk-table-responsive uk-table-divider">
 				<thead>
 					<tr>
@@ -21,12 +20,22 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for user in owners %}
+					{% for user in users %}
 						<tr>
 							<td>{{ user.fullname }}</td>
 							<td>{{ user.mobile }}</td>
 							<td>{{ user.email }}</td>
-							<td>Propriétaire</td>
+							<td>
+								{% if user.roles[0]     == 'ROLE_ADMIN' %}
+									Manager
+								{% elseif user.roles[0] == 'ROLE_OWNER' %}
+									Propriétaire
+								{% elseif user.roles[0] == 'ROLE_TENANT' %}
+									Locataire
+								{% elseif user.roles[0] == 'ROLE_GUARANTOR' %}
+									Garant
+								{% endif %}
+							</td>
 							<td>
 								{% if user.roles[0] != 'ROLE_ADMIN' %}
 									<a href="{{ path('user_detail', {'id' : user.id}) }}">

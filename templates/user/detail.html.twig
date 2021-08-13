@@ -9,7 +9,8 @@
 
 	<p uk-margin>
 		<a href="{{ path('users_list') }}">
-			<button class="uk-button uk-button-default uk-button-small">Retour à la liste des comptes</button>
+			<button class="uk-button uk-button-default uk-button-small">
+				<span class="uk-margin-small-right" uk-icon="icon :chevron-double-left; ratio: 1"></span>Retour à la liste des comptes</button>
 		</a>
 	</p>
 
@@ -92,13 +93,12 @@
 							{% endif %}
 						</dd>
 						{% if user.roles[0] == 'ROLE_GUARANTOR' %}
+							<dt>Locataire(s) lié au garant</dt>
 							{% if user.tenants != null %}
-
 								{% for tenant in user.tenants %}
-									<dt>Locataire lié au garant</dt>
 									<dd>
 										<ul>
-											<li><a href="{{ path('user_detail', {'id' : tenant.id}) }}">{{ tenant.fullname }}</a></li>
+											<li><a href="{{path('user_detail',{'id':tenant.id})}}">{{ tenant.fullname }}</a></li>
 										</ul>
 									</dd>
 								{% endfor %}
@@ -109,8 +109,18 @@
 							{% if user.guarantor != null %}
 								<dt>Garant du locataire</dt>
 								<dd>
-									<a href="{{path('user_detail',{'id':user.guarantor.id})}}">{{ user.guarantor.fullname }}</a>
+									<a href="{{path('user_detail',{'id':user.guarantor.id}) }}">{{ user.guarantor.fullname }}</a>
 								</dd>
+							{% endif %}
+							{% if user.contracts != null %}
+								<dt>Contrat(s) du locataire</dt>
+								{% for contract in user.contracts %}
+									<dd>
+										<ul>
+											<li><a href="{{path('contract_detail',{'id': contract.id}) }}">{{ contract.name }}</a></li>
+										</ul>
+									</dd>
+								{% endfor %}
 							{% endif %}
 						{% endif %}
 
@@ -120,6 +130,27 @@
 						<a href="{{ path('user_edit', {'id' : user.id}) }}">
 							<button type="button" class="uk-button uk-button-primary uk-width-1-1 uk-margin">Modifier</button>
 						</a>
+						<a class="uk-button uk-button-danger uk-width-1-1 uk-toggle" uk-toggle="target: #modal-sections">Supprimer</a>
+						<div id="modal-sections" uk-modal>
+							<div class="uk-modal-dialog">
+								<button class="uk-modal-close-default" type="button" uk-close></button>
+								<div class="uk-modal-header">
+									<h2 class="uk-modal-title">Suppression d'un compte</h2>
+								</div>
+								<div class="uk-modal-body">
+									<p>Êtes-vous certain de vouloir supprimer ce compte ?</p>
+									<p>Verifiez que ce dernier n'est relié à aucun contrat en cours, ou à un logement</p>
+									<p>Cette suppression sera définitive !</p>
+								</div>
+								<div class="uk-modal-footer uk-text-right">
+									<a href="{{ path('user_delete', {'id' : user.id}) }}">
+										<button class="uk-button uk-button-danger" type="button">Supprimer</button>
+									</a>
+									<button class="uk-button uk-button-primary uk-modal-close" type="button">Annuler</button>
+
+								</div>
+							</div>
+						</div>
 					{% endif %}
 				</div>
 			</div>

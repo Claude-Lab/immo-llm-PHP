@@ -10,59 +10,56 @@
 				Gestion Immo
 			{% endblock %}
 		</title>
+
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/uikit.min.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/ionicons.min.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/style.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/notyf.min.css') }}"/>
-		<link rel="stylesheet" href="{{ asset('assets/styles.css') }}"/>
-		 {% block stylesheets %}{% endblock %}{% block extraCss %}{% endblock %}
+		<link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+		<link rel="stylesheet" href="{{ asset('assets/styles.css') }}"/> {% block stylesheets %}{% endblock %}{% block extraCss %}{% endblock %}
+		<script src="{{ asset('assets/jquery.min.js') }}"></script>
+		<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+
+	</head>
+	<body>
 
 
-		</head>
-		<body>
+		{% if app.user %}
+			{% include 'includes/nav.html.twig' %}
+			{% include 'includes/side.html.twig' %}
+		{% endif %}
 
-			{% if app.user %}
-				{% include 'includes/nav.html.twig' %}
-				{% include 'includes/side.html.twig' %}
-			{% endif %}
+		{% block frame %}
+			{{ include('bundles/MercurySeriesFlashyBundle/flashy.html.twig') }}
 
-			{% block frame %}
-				<div class="content-padder content-background">
-					<div class="uk-section-small">
-						<div
-							class="uk-container uk-container-large">
+			<div class="content-padder content-background">
+				<div class="uk-section-small">
+					<div class="uk-container uk-container-large">
 
-							{# affiche les éventuels messages flash #}
-							{% for label, messages in app.flashes %}
-								{% for message in messages %}
-									<div class="uk-alert-success" uk-alert>
-										<a class="uk-alert-close" uk-close></a>
-										<p>{{ message }}</p>
-									</div>
-								{% endfor %}
-							{% endfor %}
-							{% block body %}{% endblock %}
-						</div>
+
+						{% block body %}{% endblock %}
 					</div>
 				</div>
-			{% endblock %}
-			<script src="{{ asset('assets/jquery.min.js') }}"></script>
-			<script src="{{ asset('assets/dashboard/js/uikit.min.js') }}"></script>
-			<script src="{{ asset('assets/dashboard/js/uikit-icons.min.js') }}"></script>
-			<script src="{{ asset('assets/dashboard/js/Chart.min.js') }}"></script>
-			<script src="{{ asset('assets/dashboard/js/jquery.transit.min.js') }}"></script>
-			<script src="{{ asset('assets/dashboard/js/notyf.min.js') }}"></script>
-			<!-- Required Overall Script -->
-			<script src="{{ asset('assets/dashboard/js/script.js') }}"></script>
-			<!-- Status Updater -->
-			<script src="{{ asset('assets/dashboard/js/status.js') }}"></script>
-			<!-- Sample Charts -->
-			<script src="{{ asset('assets/dashboard/js/charts.js') }}"></script>
+			</div>
+		{% endblock %}
 
-			{% block javascripts %}{% endblock %}
-
-			{% block extraJs %}{% endblock %}
+		<script src="{{ asset('assets/dashboard/js/uikit.min.js') }}"></script>
+		<script src="{{ asset('assets/dashboard/js/uikit-icons.min.js') }}"></script>
+		<script src="{{ asset('assets/dashboard/js/Chart.min.js') }}"></script>
+		<script src="{{ asset('assets/dashboard/js/jquery.transit.min.js') }}"></script>
+		<script src="{{ asset('assets/dashboard/js/notyf.min.js') }}"></script>
+		<!-- Required Overall Script -->
+		<script src="{{ asset('assets/dashboard/js/script.js') }}"></script>
+		<!-- Status Updater -->
+		<script src="{{ asset('assets/dashboard/js/status.js') }}"></script>
+		<!-- Sample Charts -->
+		<script src="{{ asset('assets/dashboard/js/charts.js') }}"></script>
+		<!-- Flashes Messages -->
 
 
-		</body>
-	</html>
+		{% block javascripts %}{% endblock %}
+
+		{% block extraJs %}{% endblock %}
+
+	</body>
+</html>

@@ -27,7 +27,7 @@ class EquipmentController extends AbstractController
     }
 
 
-    #[Route('/equipment/create', name: 'equipment_create')]
+    #[Route('/manage/equipment/create', name: 'equipment_create')]
     public function create(Request $request): Response
     {
         $equipment = new Equipment();
@@ -51,43 +51,41 @@ class EquipmentController extends AbstractController
         }
     }
 
-    #[Route('/equipment/list', name: 'equipment_list')]
+    #[Route('/manage/equipments', name: 'equipment_list')]
     public function listEquipment(): Response
     {
 
         $equipments = $this->equipmentRepository->findAll();
 
-        return $this->render('equipment/listEquipment.html.twig', [
+        return $this->render('equipment/list.html.twig', [
             'equipments' => $equipments,
         ]);
     }
 
-    #[Route('/equipment/detail/{id}', name: 'equipment_detail')]
+    #[Route('/manage/equipment/detail/{id}', name: 'equipment_detail')]
     public function equipmentDetail(int $id): Response
     {
-
         $equipment = $this->equipmentRepository->find($id);
 
         if (!$equipment) {
             throw $this->createNotFoundException("Ooop ! Cette équipment n'existe pas...");
         }
 
-        return $this->render('equipment/equipmentDetail.html.twig', [
+        return $this->render('equipment/detail.html.twig', [
             'equipment' => $equipment
         ]);
     }
 
-    #[Route('/equipment/update/{id}', name: 'equipment_update')]
+    #[Route('/manage/equipment/edit/{id}', name: 'equipment_edit')]
     public function equipmentUpdate(Request $request, int $id): Response
     {
-        $equipments = $this->equipmentRepository->findAll();
         $equipment = $this->equipmentRepository->find($id);
 
         if (!$equipment) {
             throw $this->createNotFoundException("Ooop ! Cette équipment n'existe pas...");
         }
 
-        $form = $this->createForm(EquipmentUpdateType::class, $equipment);
+        $form = $this->createForm(EquipmentType::class, $equipment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -97,13 +95,13 @@ class EquipmentController extends AbstractController
 
             return $this->redirectToRoute('equipment_list');
         } else {
-            return $this->render('equipment/equipmentUpdate.html.twig', [
+            return $this->render('equipment/edit.html.twig', [
                 'form' => $form->createView()
             ]);
         }
     }
 
-    #[Route('/equipment/delete/{id}', name: 'equipment_delete')]
+    #[Route('/manage/equipment/delete/{id}', name: 'equipment_delete')]
     public function equipmentDelete(int $id): Response
     {
         $equipment = $this->equipmentRepository->find($id);

@@ -8,7 +8,8 @@
 {% block body %}
 	<p uk-margin>
 		<a href="{{ path('housing_list') }}">
-			<button class="uk-button uk-button-default uk-button-small">Retour à la liste des logements</button>
+			<button class="uk-button uk-button-default uk-button-small">
+				<span class="uk-margin-small-right" uk-icon="icon :chevron-double-left; ratio: 1"></span>Retour à la liste des logements</button>
 		</a>
 	</p>
 
@@ -54,10 +55,11 @@
 							pièce(s)</dd>
 
 						<dt>Surface</dt>
-						<dd>{{ housing.surface }} m²</dd>
+						<dd>{{ housing.surface }}
+							m²</dd>
 
 						<dt>Niveaux</dt>
-						{% if housing.nbLevel is null %}
+						{% if housing.nbLevel == 0 %}
 							<dd>1 niveau</dd>
 						{% else %}
 							<dd>{{ housing.nbLevel }}
@@ -69,42 +71,42 @@
 								ème étage</dd>
 
 							<dt>Ascenseur</dt>
-							{% if housing.elevator is null %}
+							{% if housing.elevator == 0 %}
 								<dd>Non</dd>
 							{% else %}
 								<dd>Non</dd>
 							{% endif %}
 
 							<dt>Grenier</dt>
-							{% if  housing.attic is null %}
+							{% if  housing.attic == 0 %}
 								<dd>Non</dd>
 							{% else %}
-								<dd>Non</dd>
+								<dd>Oui</dd>
 							{% endif %}
 
 							<dt>Cave</dt>
-							{% if  housing.cellar is null %}
+							{% if  housing.cellar == 0 %}
 								<dd>Non</dd>
 							{% else %}
-								<dd>Non</dd>
+								<dd>Oui</dd>
 							{% endif %}
 
 							<dt>Piscine</dt>
-							{% if  housing.pool is null %}
+							{% if  housing.pool == 0 %}
 								<dd>Non</dd>
 							{% else %}
-								<dd>Non</dd>
+								<dd>Oui</dd>
 							{% endif %}
 
 							<dt>Garage</dt>
-							{% if  housing.box is null %}
+							{% if  housing.box == 0 %}
 								<dd>Non</dd>
 							{% else %}
-								<dd>Non</dd>
+								<dd>Oui</dd>
 							{% endif %}
 
 							<dt>Surface de terrain</dt>
-							{% if  housing.landSurface is null %}
+							{% if  housing.landSurface == 0 %}
 								<dd>Pas de terrain</dd>
 							{% else %}
 								<dd>{{ housing.landSurface }}
@@ -119,6 +121,9 @@
 				<div class="uk-card uk-card-default">
 					<div class="uk-card-header">
 						Les contrats du logement "{{ housing.name }}"
+						<a href="{{ path('contract_create',  {'id' : housing.id}) }}">
+							<button type="button" class="uk-button uk-button-create uk-button-small uk-align-right@m">Créer un contrat</button>
+						</a>
 					</div>
 					<div class="uk-card-body">
 						{% if housing.contracts is empty %}

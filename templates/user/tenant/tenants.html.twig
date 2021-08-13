@@ -1,65 +1,44 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}
-	{{ parent() }}
-	| Liste des locataires
-{% endblock %}
-
-{% block body %}
-	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
-		<div class="uk-first-column">
-			<div uk-margin>
-				{% if app.user.roles[0] == 'ROLE_ADMIN' %}
-					<a href='{{ path('users_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Tout les comptes</button></a>
-					<a href='{{ path('owners_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Propriétaires</button></a>
-				{% endif %}
-				<a href='{{ path('tenants_list') }}'><button class="uk-button uk-button-secondary uk-margin-small-right uk-margin-bottom">Locataires</button></a>
-				<a href='{{ path('guarantors_list') }}'><button class="uk-button uk-button-default uk-margin-small-right uk-margin-bottom">Garants</button></a>
-			</div>
-			<div class="uk-card uk-card-default">
-				<div class="uk-card-header">
-					Liste des locataires
-				</div>
-				<div class="uk-card-body">
-					{% if users is empty %}
-						<div class="uk-placeholder uk-text-center ">
-							<h5>Aucun utilisateur à afficher</h5>
-							<p>Il semblerait qu'il n'y ait pas d'utilisateur correspondant à votre recherche.</p>
-						</div>
-					{% else %}
-
-						<table class="uk-table uk-table-responsive uk-table-divider">
-							<thead>
-								<tr>
-									<th>Prénom Nom</th>
-									<th>Mobile</th>
-									<th>Email</th>
-									<th>Role</th>
-									<th>Detail</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for user in users %}
-									<tr>
-										<td>{{ user.fullname }}</td>
-										<td>{{ user.mobile }}</td>
-										<td>{{ user.email }}</td>
-										<td>Locataire</td>
-
-										<td>
-											{% if user.roles[0] != 'ROLE_ADMIN' %}
-												<a href="{{ path('user_detail', {'id' : user.id}) }}">
-													<button type="button" class="uk-button-small uk-button-primary uk-width-1-1 uk-margin">Detail</button>
-												</a>
-											{% endif %}
-										</td>
-									</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					{% endif %}
-				</div>
-			</div>
-		</div>
+<div class="uk-card uk-card-default">
+	<div class="uk-card-header">
+		Liste des locataires
 	</div>
-{% endblock %}
+	<div class="uk-card-body">
+		{% if tenants is empty %}
+			<div class="uk-placeholder uk-text-center ">
+				<h5>Aucun utilisateur à afficher</h5>
+				<p>Il semblerait qu'il n'y ait pas d'utilisateur correspondant à votre recherche.</p>
+			</div>
+		{% else %}
+
+			<table class="uk-table uk-table-responsive uk-table-divider">
+				<thead>
+					<tr>
+						<th>Prénom Nom</th>
+						<th>Mobile</th>
+						<th>Email</th>
+						<th>Role</th>
+						<th>Detail</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for user in tenants %}
+						<tr>
+							<td>{{ user.fullname }}</td>
+							<td>{{ user.mobile }}</td>
+							<td>{{ user.email }}</td>
+							<td>Locataire</td>
+
+							<td>
+								{% if user.roles[0] != 'ROLE_ADMIN' %}
+									<a href="{{ path('user_detail', {'id' : user.id}) }}">
+										<button type="button" class="uk-button-small uk-button-primary uk-width-1-1 uk-margin">Detail</button>
+									</a>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
+</div>

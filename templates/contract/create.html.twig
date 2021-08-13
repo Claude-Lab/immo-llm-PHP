@@ -14,7 +14,7 @@
 		<div class="uk-first-column">
 			<div class="uk-card uk-card-default">
 				<div class="uk-card-header">
-					Créer un contrat
+					Créer un contrat pour le logement "{{ housing.name }}"
 				</div>
 				<div class="uk-card-body">
 
@@ -45,9 +45,6 @@
 					</div>
 
 					<div class="uk-margin">
-						{{ form_widget(form.housing) }}
-					</div>
-					<div class="uk-margin">
 						<p>Selectionnez le ou les locataires pour ce contrat</p>
 						{{ form_widget(form.tenants) }}
 					</div>
@@ -59,7 +56,7 @@
 
 					<br>
 					<button type="submit" class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom">Enregistrer</button>
-					<a href="{{ path('contract_list') }}">
+					<a href="{{ path('housing_detail', {'id' : housing.id}) }}">
 						<button type="button" class="uk-button uk-button-secondary uk-width-1-1">Annuler</button>
 					</a>
 

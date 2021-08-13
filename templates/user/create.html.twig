@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parent() }}
+	| Editer le profil
+
+{% endblock %}
+{% block body %}
+	<div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" uk-grid>
+		<a class="uk-link-reset" href={{ path('create_guarantor') }}>
+
+			<div class="uk-card uk-card-default uk-card-body">
+				<h3 class="uk-card-title">Créer un garant</h3>
+				<p>Vous pourrez entrer les données fournis par votre future locataire concernant son garant (addresse, courriel, etc.)</p>
+			</div>
+		</a>
+		<a class="uk-link-reset" href={{ path('create_tenant') }}>
+			<div class="uk-card uk-card-primary uk-card-body">
+				<h3 class="uk-card-title">Créer un locataire</h3>
+				<p>Vous pourrez entrer les données fournis par votre future locataire (addresse précédente, courriel, etc.)
+                        et définir l'envois d'un email pour la création de son espace.
+                        Il pourra accéder à ses données, à son contrat, ainsi qu'a ses quittances de loyer.</p>
+			</div>
+		</a>
+		<a class="uk-link-reset" href={{ path('create_owner') }}>
+			<div class="uk-card uk-card-secondary uk-card-body">
+				<h3 class="uk-card-title">Créer un propriétaire</h3>
+				<p>Vous pourrez entrer les données d'un propriétaire
+                        et définir l'envois d'un email pour la création de son espace. 
+                        Il pourra accéder à ses données, à ses logements, à ses contrats, ses locataires et garants,
+                        ainsi qu'aux quittances de loyer de ses locataires.<br>
+                        Si vous ne souhaitez pas que le propriétaire puisse gérer son espace et ses locations, n'envoyez pas le mail.</p>
+			</div>
+		</a>
+	</div>
+
+
+{% endblock %}

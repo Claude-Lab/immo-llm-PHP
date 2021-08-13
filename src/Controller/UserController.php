@@ -10,11 +10,16 @@ use App\Form\AdminType;
 use App\Form\GuarantorType;
 use App\Form\OwnerType;
 use App\Form\TenantType;
+use App\Repository\AdminRepository;
 use App\Repository\ContractRepository;
+use App\Repository\GuarantorRepository;
+use App\Repository\OwnerRepository;
+use App\Repository\TenantRepository;
 use App\Repository\UserRepository;
-use App\Service\UserService;
+use App\Service\UserManager;
 use App\Utils\UploadProfilePic;
 use Doctrine\ORM\EntityManagerInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,75 +34,99 @@ class UserController extends AbstractController
     protected $contractRepository;
     protected $passwordEncoder;
     protected $uploadProfilePic;
-    protected $service;
+    protected $manager;
+    protected $ownerRepository;
+    protected $tenantRepository;
+    protected $guarantorRepository;
+    protected $adminRepository;
+    protected $flashy;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         UserRepository $userRepository,
+        OwnerRepository $ownerRepository,
+        TenantRepository $tenantRepository,
+        GuarantorRepository $guarantorRepository,
+        AdminRepository $adminRepository,
         ContractRepository $contractRepository,
         UserPasswordEncoderInterface $passwordEncoder,
         UploadProfilePic $uploadProfilePic,
-        UserService $service
+        UserManager $manager,
+        FlashyNotifier $flashy
     ) {
         $this->entityManager        = $entityManager;
         $this->userRepository       = $userRepository;
+        $this->ownerRepository      = $ownerRepository;
+        $this->tenantRepository     = $tenantRepository;
+        $this->guarantorRepository  = $guarantorRepository;
+        $this->adminRepository     = $adminRepository;
         $this->contractRepository   = $contractRepository;
         $this->passwordEncoder      = $passwordEncoder;
         $this->uploadProfilePic     = $uploadProfilePic;
-        $this->service              = $service;
+        $this->manager              = $manager;
+        $this->flashy               = $flashy;
     }
 
-    #[Route('/manage/owner/create', name: 'create_owner')]
-    public function createUser(Request $request)
+    #[Route('/manage/user/create', name: 'create_user')]
+    public function createUser()
     {
-        $entity = Owner::class;
-        $formType = OwnerType::class;
-        $role = 'ROLE_OWNER';
-        return $this->service->userCreate($request, $entity, $formType, $role);
+        return $this->render('user/create.html.twig');
+    }
+
+
+    #[Route('/manage/owner/create', name: 'create_owner')]
+    public function createOwner(Request $request)
+    {
+        $entity     = Owner::class;
+        $formType   = OwnerType::class;
+        $role       = 'ROLE_OWNER';
+        return $this->manager->userCreate($request, $entity, $formType, $role);
     }
 
     #[Route('/manage/tenant/create', name: 'create_tenant')]
     public function createTenant(Request $request)
     {
-        $entity = Tenant::class;
-        $formType = TenantType::class;
-        $role = 'ROLE_TENANT';
-        return $this->service->userCreate($request, $entity, $formType, $role);
+        $entity     = Tenant::class;
+        $formType   = TenantType::class;
+        $role       = 'ROLE_TENANT';
+        return $this->manager->userCreate($request, $entity, $formType, $role);
     }
 
     #[Route('/manage/guarantor/create', name: 'create_guarantor')]
     public function createGuarantor(Request $request)
     {
-        $entity = Guarantor::class;
-        $formType = GuarantorType::class;
-        $role = 'ROLE_GUARANTOR';
-        return $this->service->userCreate($request, $entity, $formType, $role);
+        $entity     = Guarantor::class;
+        $formType   = GuarantorType::class;
+        $role       = 'ROLE_GUARANTOR';
+        return $this->manager->userCreate($request, $entity, $formType, $role);
     }
 
     #[Route('/manage/admin/create', name: 'create_admin')]
     public function createAdmin(Request $request)
     {
-        $entity = Admin::class;
-        $formType = AdminType::class;
-        $role = 'ROLE_ADMIN';
-        return $this->service->userCreate($request, $entity, $formType, $role);
+        $entity     = Admin::class;
+        $formType   = AdminType::class;
+        $role       = 'ROLE_ADMIN';
+        return $this->manager->userCreate($request, $entity, $formType, $role);
     }
 
     #[Route('/manage/user/edit/{id}', name: 'user_edit')]
     public function editUser(Request $request, int $id)
     {
         $user = $this->userRepository->find($id);
-        $role = $user->getRoles();
 
         switch (true) {
-            case ($role[0] == 'ROLE_OWNER'):
-                return $this->service->userEdit($request, $user, OwnerType::class);
+            case ($user instanceof Owner):
+                return $this->manager->userEdit($request, $user, OwnerType::class);
                 break;
-            case ($role[0] == 'ROLE_TENANT'):
-                return $this->service->userEdit($request, $user, TenantType::class);
+            case ($user instanceof Tenant):
+                return $this->manager->userEdit($request, $user, TenantType::class);
                 break;
-            case ($role[0] == 'ROLE_GUARANTOR'):
-                return $this->service->userEdit($request, $user, GuarantorType::class);
+            case ($user instanceof Guarantor):
+                return $this->manager->userEdit($request, $user, GuarantorType::class);
+                break;
+            case ($user instanceof Admin):
+                return $this->manager->userEdit($request, $user, AdminType::class);
                 break;
         }
     }
@@ -105,18 +134,44 @@ class UserController extends AbstractController
     #[Route('/manage/users', name: 'users_list')]
     public function listAllUsers(): Response
     {
-        $users = $this->userRepository->findAll();
+        $users      = $this->userRepository->findAll();
+        $tenants    = $this->tenantRepository->findAll();
+        $owners     = $this->ownerRepository->findAll();
+        $managers   = $this->adminRepository->findAll();
+        $guarantors = $this->guarantorRepository->findAll();
+
+        switch (true) {
+            case ($users instanceof Tenant):
+                $tenants;
+                break;
+            case ($users instanceof Owner):
+                $owners;
+                break;
+            case ($users instanceof Guarantor):
+                $guarantors;
+                break;
+            case ($users instanceof Admin):
+                $managers;
+                break;
+            default:
+                $users;
+                break;
+        }
 
         return $this->render('user/users.html.twig', [
-            'users' => $users,
+            'users'         => $users,
+            'owners'        => $owners,
+            'tenants'       => $tenants,
+            'guarantors'    => $guarantors,
+            'managers'      => $managers,
         ]);
     }
 
     #[Route('/manage/owners', name: 'owners_list')]
     public function listOwners(): Response
     {
-        $role = 'ROLE_OWNER';
-        $users = $this->userRepository->findByRole($role);
+        $role       = 'ROLE_OWNER';
+        $users      = $this->userRepository->findByRole($role);
 
         return $this->render('user/owner/owners.html.twig', [
             'users' => $users,
@@ -126,8 +181,8 @@ class UserController extends AbstractController
     #[Route('/manage/tenants', name: 'tenants_list')]
     public function listTenants(): Response
     {
-        $role = 'ROLE_TENANT';
-        $users = $this->userRepository->findByRole($role);
+        $role       = 'ROLE_TENANT';
+        $users      = $this->userRepository->findByRole($role);
 
         return $this->render('user/tenant/tenants.html.twig', [
             'users' => $users,
@@ -137,8 +192,8 @@ class UserController extends AbstractController
     #[Route('/manage/guarantors', name: 'guarantors_list')]
     public function listGuarantors(): Response
     {
-        $role = 'ROLE_GUARANTOR';
-        $users = $this->userRepository->findByRole($role);
+        $role       = 'ROLE_GUARANTOR';
+        $users      = $this->userRepository->findByRole($role);
 
         return $this->render('user/guarantor/guarantors.html.twig', [
             'users' => $users,
@@ -161,8 +216,9 @@ class UserController extends AbstractController
             /**
              * @var Contract[] $contracts
              */
-            $contracts = $user->getContracts();
+            $contracts      = $user->getContracts();
         }
+
         if ($user instanceof Tenant) {
             return $this->render('user/detail.html.twig', [
                 'user'      => $user,
@@ -178,10 +234,10 @@ class UserController extends AbstractController
     #[Route('/profile', name: 'user_profile')]
     public function userProfile(): Response
     {
-        $user = $this->getUser();
+        $user       = $this->getUser();
 
         return $this->render('user/profile.html.twig', [
-            'user' => $user
+            'user'  => $user
         ]);
     }
 
@@ -192,17 +248,29 @@ class UserController extends AbstractController
 
         switch (true) {
             case ($role[0] == 'ROLE_OWNER'):
-                return $this->service->profileEdit($request, OwnerType::class);
+                return $this->manager->profileEdit($request, OwnerType::class);
                 break;
             case ($role[0] == 'ROLE_TENANT'):
-                return $this->service->profileEdit($request, TenantType::class);
+                return $this->manager->profileEdit($request, TenantType::class);
                 break;
             case ($role[0] == 'ROLE_GUARANTOR'):
-                return $this->service->profileEdit($request, GuarantorType::class);
+                return $this->manager->profileEdit($request, GuarantorType::class);
                 break;
             case ($role[0] == 'ROLE_ADMIN'):
-                return $this->service->profileEdit($request, AdminType::class);
+                return $this->manager->profileEdit($request, AdminType::class);
                 break;
         }
+    }
+
+    #[Route('/manage/user/delete/{id}', name: 'user_delete')]
+    public function delete(int $id) {
+
+        $user = $this->userRepository->find($id);
+        $name = $user->getFullname();
+
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+        $this->flashy->success("Le compte de \"" . $name . "\" à été suprimé avec succès");
+        return $this->redirectToRoute('users_list');
     }
 }
