@@ -56,14 +56,49 @@ body.login {
     background-color: rgb(173, 0, 32);
 }
 
-.uk-button-valid {
-    background-color: rgb(20, 131, 0);
+.uk-button-danger:focus, .uk-button-danger:hover {
+    background-color: rgba(156, 49, 0, 0.459);
+    color: #fff;
+}
+
+.uk-button-modify {
+    background-color: rgb(0, 113, 87);
     color: #F0F0F0;
 }
 
+.uk-button-modify:focus, .uk-button-modify:hover {
+    background-color: rgba(0, 113, 87, 0.719);
+    color: #fff;
+}
+
 .uk-button-create {
-    background-color: rgb(25, 62, 180);
+    background-color: rgb(156, 49, 0);
     color: #F0F0F0;
+}
+
+.uk-button-create:focus, .uk-button-create:hover {
+    background-color: rgba(156, 49, 0, 0.733);
+    color: #fff;
+}
+
+.uk-button-detail {
+    background-color: #217515;
+    color: #F0F0F0;
+}
+
+.uk-button-detail:focus, .uk-button-detail:hover {
+    background-color: #2075157a;
+    color: #fff;
+}
+
+.uk-subnav-pill > .uk-active > a {
+    background-color: #03727d;
+    color: #fff;
+}
+
+.uk-subnav-pill > * > a:focus, .uk-subnav-pill > * > a:hover {
+    background-color: #03737dfd;
+    color: rgb(255, 255, 255);
 }
 
 .uk-card-address-after {

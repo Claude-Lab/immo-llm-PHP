@@ -19,7 +19,7 @@
 				<div class="uk-card-header">
 					Detail du logement "{{ housing.name }}"
 					<a href="{{ path('housing_edit', {'id' : housing.id}) }}">
-						<button type="button" class="uk-button uk-button-valid uk-button-small uk-align-right@m">Modifier ce logement</button>
+						<button type="button" class="uk-button uk-button-modify uk-button-small uk-align-right@m uk-animation-scale-down">Modifier ce logement</button>
 					</a>
 				</div>
 				<div class="uk-card-body">
@@ -162,7 +162,7 @@
 											</td>
 											<td>
 												<a href="{{ path('contract_detail', {'id' : contract.id}) }}">
-													<button class="uk-button uk-button-primary uk-button-small">Détail</button>
+													<button class="uk-button uk-button-small uk-button-detail uk-animation-slide-right">Détail</button>
 												</a>
 											</td>
 										</tr>

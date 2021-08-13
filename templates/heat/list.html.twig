@@ -12,7 +12,7 @@
 				<div class="uk-card-header">
 					Liste de tout vos systèmes de chauffage
 					<a href="{{ path('equipment_create') }}">
-						<button type="button" class="uk-button uk-button-primary uk-button-small uk-align-right@m">Créer système de chauffage</button>
+						<button type="button" class="uk-button uk-button-create uk-animation-scale-down uk-button-small uk-align-right@m">Créer système de chauffage</button>
 					</a>
 				</div>
 				<div class="uk-card-body">
@@ -40,16 +40,16 @@
 
 									<td>
 										<a href="{{ path('heat_detail', {'id' : heat.id}) }}">
-											<button class="uk-button uk-button-primary uk-button-small">Détail</button>
-										</td>
-
+											<button class="uk-button uk-button-small uk-button-detail uk-animation-slide-right">Détail</button>
+										</a>
 									</td>
-								</tbody>
+
+								</td>
 							</tbody>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		{% endif %}
-	</div>
-{% endblock %}
+						</tbody>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+</div>{% endblock %}

@@ -12,7 +12,7 @@
 				<div class="uk-card-header">
 					Liste de tout les états
 					<a href="{{ path('state_create') }}">
-						<button type="button" class="uk-button uk-button-primary uk-button-small uk-align-right@m">Créer un état</button>
+						<button type="button" class="uk-button uk-button-create uk-animation-scale-down uk-button-small uk-align-right@m">Créer un état</button>
 					</a>
 				</div>
 				<div class="uk-card-body">
@@ -36,16 +36,13 @@
 										<td>{{ state.name }}</td>
 										<td>
 											<a href="{{ path('state_edit', {'id' : state.id}) }}">
-												<button class="uk-button uk-button-primary uk-button-small">Modifier</button>
+												<button class="uk-button uk-button-modify uk-button-small uk-animation-slide-left">Modifier</button>
 											</a>
-
 										</td>
 										<td>
 											<a href="#modal-delete{{state.id}}" data-entity-id="{{ state.id }}" uk-toggle>
-												<button class="uk-button uk-button-danger uk-button-small">Supprimer</button>
-
+												<button class="uk-button uk-button-danger uk-button-small uk-animation-slide-right">Supprimer</button>
 											</a>
-
 										</td>
 									</tr>
 								</tbody>
