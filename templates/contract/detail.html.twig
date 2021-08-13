@@ -8,8 +8,10 @@
 {% block body %}
 
 	<p uk-margin>
-		<a href="{{ path('contract_list') }}">
-			<button class="uk-button uk-button-default uk-button-small">Retour à la liste des contrats</button>
+		<a href="{{ path('housing_detail', {'id' : housing.id}) }}">
+
+			<button class="uk-button uk-button-default uk-button-small">
+				<span class="uk-margin-small-right" uk-icon="icon : chevron-double-left; ratio: 1"></span>Retour au détail du logement</button>
 		</a>
 	</p>
 

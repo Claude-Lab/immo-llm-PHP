@@ -9,7 +9,8 @@
 
 	<p uk-margin>
 		<a href="{{ path('users_list') }}">
-			<button class="uk-button uk-button-default uk-button-small">Retour à la liste des comptes</button>
+			<button class="uk-button uk-button-default uk-button-small">
+				<span class="uk-margin-small-right" uk-icon="icon :chevron-double-left; ratio: 1"></span>Retour à la liste des comptes</button>
 		</a>
 	</p>
 
@@ -92,10 +93,9 @@
 							{% endif %}
 						</dd>
 						{% if user.roles[0] == 'ROLE_GUARANTOR' %}
+						<dt>Locataire(s) lié au garant</dt>
 							{% if user.tenants != null %}
-
 								{% for tenant in user.tenants %}
-									<dt>Locataire lié au garant</dt>
 									<dd>
 										<ul>
 											<li><a href="{{ path('user_detail', {'id' : tenant.id}) }}">{{ tenant.fullname }}</a></li>

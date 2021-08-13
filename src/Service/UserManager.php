@@ -2,11 +2,11 @@
 
 namespace App\Service;
 
+use App\Entity\Admin;
 use App\Entity\Guarantor;
 use App\Entity\Owner;
 use App\Entity\Tenant;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use App\Utils\UploadProfilePic;
 use Doctrine\ORM\EntityManagerInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
@@ -15,11 +15,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class UserService extends AbstractController
+class UserManager extends AbstractController
 {
 
       protected $entityManager;
-      protected $userRepository;
       protected $passwordEncoder;
       protected $uploadProfilePic;
       protected $flashy;
@@ -27,13 +26,11 @@ class UserService extends AbstractController
 
       public function __construct(
             EntityManagerInterface $entityManager,
-            UserRepository $userRepository,
             UserPasswordEncoderInterface $passwordEncoder,
             UploadProfilePic $uploadProfilePic,
             FlashyNotifier $flashy,
       ) {
             $this->entityManager    = $entityManager;
-            $this->userRepository   = $userRepository;
             $this->passwordEncoder  = $passwordEncoder;
             $this->uploadProfilePic = $uploadProfilePic;
             $this->flashy           = $flashy;
@@ -61,26 +58,32 @@ class UserService extends AbstractController
 
                   return $this->redirectToRoute('users_list');
             } else {
-                  if ($entity == Owner::class) {
-                        return $this->render('user/owner/create.html.twig', [
-                              'user' => $user,
-                              'form' => $form->createView()
-                        ]);
-                  } else if ($entity == Tenant::class) {
-                        return $this->render('user/tenant/create.html.twig', [
-                              'user' => $user,
-                              'form' => $form->createView()
-                        ]);
-                  } else if ($entity == Guarantor::class) {
-                        return $this->render('user/guarantor/create.html.twig', [
-                              'user' => $user,
-                              'form' => $form->createView()
-                        ]);
-                  } else {
-                        return $this->render('user/admin/create.html.twig', [
-                              'user' => $user,
-                              'form' => $form->createView()
-                        ]);
+
+                  switch ($entity) {
+                        case ($entity == Owner::class):
+                              return $this->render('user/owner/create.html.twig', [
+                                    'user' => $user,
+                                    'form' => $form->createView()
+                              ]);
+                              break;
+                        case ($entity == Tenant::class):
+                              return $this->render('user/tenant/create.html.twig', [
+                                    'user' => $user,
+                                    'form' => $form->createView()
+                              ]);
+                              break;
+                        case ($entity == Guarantor::class):
+                              return $this->render('user/guarantor/create.html.twig', [
+                                    'user' => $user,
+                                    'form' => $form->createView()
+                              ]);
+                              break;
+                        case ($entity == Admin::class):
+                              return $this->render('user/admin/create.html.twig', [
+                                    'user' => $user,
+                                    'form' => $form->createView()
+                              ]);
+                              break;
                   }
             }
       }
