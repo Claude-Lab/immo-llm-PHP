@@ -98,7 +98,7 @@
 								{% for tenant in user.tenants %}
 									<dd>
 										<ul>
-											<li><ahref="{{path('user_detail',{'id':tenant.id})}}">{{ tenant.fullname }}</a></li>
+											<li><a href="{{path('user_detail',{'id':tenant.id})}}">{{ tenant.fullname }}</a></li>
 										</ul>
 									</dd>
 								{% endfor %}
@@ -117,7 +117,7 @@
 								{% for contract in user.contracts %}
 									<dd>
 										<ul>
-											<li><ahref="{{path('contract_detail',{'id':contract.id})}}">{{ contract.name }}</a></li>
+											<li><a href="{{path('contract_detail',{'id':contract.id})}}">{{ contract.name }}</a></li>
 										</ul>
 									</dd>
 								{% endfor %}

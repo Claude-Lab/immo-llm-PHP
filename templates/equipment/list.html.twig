@@ -12,7 +12,7 @@
 				<div class="uk-card-header">
 					Liste de tout vos équipements
 					<a href="{{ path('equipment_create') }}">
-						<button type="button" class="uk-button uk-button-primary uk-button-small uk-align-right@m">Créer un équipement</button>
+						<button type="button" class="uk-button uk-button-create uk-animation-scale-down uk-button-small uk-align-right@m">Créer un équipement</button>
 					</a>
 				</div>
 				<div class="uk-card-body">
@@ -39,9 +39,8 @@
 									<td>{{ equipment.brandt }}</td>
 									<td>
 										<a href="{{ path('equipment_detail', {'id' : equipment.id}) }}">
-											<button class="uk-button uk-button-primary uk-button-small">Détail</button>
-										</td>
-
+											<button class="uk-button uk-button-small uk-button-detail uk-animation-slide-right">Détail</button>
+										</a>
 									</td>
 								</tbody>
 							</tbody>

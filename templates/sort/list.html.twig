@@ -12,7 +12,7 @@
 				<div class="uk-card-header">
 					Liste des types de logements
 					<a href="{{ path('sort_create') }}">
-						<button type="button" class="uk-button uk-button-primary uk-button-small uk-align-right@m">Créer un type de logement</button>
+						<button type="button" class="uk-button uk-button-create uk-animation-scale-down uk-button-small uk-align-right@m">Créer un type de logement</button>
 					</a>
 				</div>
 				<div class="uk-card-body">
@@ -35,7 +35,9 @@
 									<tr>
 										<td>{{ sort.name }}</td>
 										<td>
-											<a href="{{ path('sort_detail', {'id' : sort.id}) }}">Détail</td>
+											<a href="{{ path('sort_detail', {'id' : sort.id}) }}">
+												<button class="uk-button uk-button-small uk-button-detail uk-animation-slide-right">Détail</button>
+											</a>
 										</td>
 									</tr>
 								{% endfor %}
