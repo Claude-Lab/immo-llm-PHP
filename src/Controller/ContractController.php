@@ -153,7 +153,7 @@ class ContractController extends AbstractController
 
         $this->entityManager->remove($contract);
         $this->entityManager->flush();
-        
+        $this->flashy->success('Succès de la suppreion du contrat');
         return $this->redirectToRoute(
             'housing_detail',
             ['id' => $HousingId]

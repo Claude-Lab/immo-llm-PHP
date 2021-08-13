@@ -19,6 +19,7 @@ use App\Repository\UserRepository;
 use App\Service\UserManager;
 use App\Utils\UploadProfilePic;
 use Doctrine\ORM\EntityManagerInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +39,7 @@ class UserController extends AbstractController
     protected $tenantRepository;
     protected $guarantorRepository;
     protected $adminRepository;
+    protected $flashy;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -49,7 +51,8 @@ class UserController extends AbstractController
         ContractRepository $contractRepository,
         UserPasswordEncoderInterface $passwordEncoder,
         UploadProfilePic $uploadProfilePic,
-        UserManager $manager
+        UserManager $manager,
+        FlashyNotifier $flashy
     ) {
         $this->entityManager        = $entityManager;
         $this->userRepository       = $userRepository;
@@ -61,6 +64,7 @@ class UserController extends AbstractController
         $this->passwordEncoder      = $passwordEncoder;
         $this->uploadProfilePic     = $uploadProfilePic;
         $this->manager              = $manager;
+        $this->flashy               = $flashy;
     }
 
     #[Route('/manage/user/create', name: 'create_user')]
@@ -256,5 +260,17 @@ class UserController extends AbstractController
                 return $this->manager->profileEdit($request, AdminType::class);
                 break;
         }
+    }
+
+    #[Route('/manage/user/delete/{id}', name: 'user_delete')]
+    public function delete(int $id) {
+
+        $user = $this->userRepository->find($id);
+        $name = $user->getFullname();
+
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+        $this->flashy->success("Le compte de \"" . $name . "\" à été suprimé avec succès");
+        return $this->redirectToRoute('users_list');
     }
 }

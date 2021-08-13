@@ -14,15 +14,13 @@
 
 			<div class="uk-text-truncate role">
 				{% if app.user.roles[0] == 'ROLE_ADMIN' %}
-					Administrateur
+					Manager
 				{% elseif app.user.roles[0] == 'ROLE_OWNER' %}
 					Propriétaire
 				{% elseif app.user.roles[0] == 'ROLE_TENANT' %}
 					Locataire
 				{% elseif app.user.roles[0] == 'ROLE_GUARANTY' %}
 					Caution solidaire
-				{% elseif app.user.roles[0] == 'ROLE_MANAGER' %}
-					Gestionnaire
 				{% endif %}
 			</div>
 		</div>
@@ -39,12 +37,25 @@
 			</li>
 			<li>
 				<a href="{{ path('users_list') }}">
-					<span class="uk-margin-small-right" uk-icon="icon :users; ratio: 0.9"></span>Liste des utilisateurs</a>
+					<span class="uk-margin-small-right" uk-icon="icon :users; ratio: 0.9"></span>Comptes</a>
 			</li>
 			<li>
-				<a href="{{ path('create_user') }}">
-					<span class="uk-margin-small-right" uk-icon="icon :user; ratio: 0.9"></span>Créer un utilisateur</a>
+				<a href="{{ path('sort_list') }}">
+					<span class="uk-margin-small-right" uk-icon="icon :nut; ratio: 0.9"></span>Types de logements</a>
 			</li>
+			<li>
+				<a href="{{ path('equipment_list') }}">
+					<span class="uk-margin-small-right" uk-icon="icon :bolt; ratio: 0.9"></span>Equipements</a>
+			</li>
+			<li>
+				<a href="{{ path('heat_list') }}">
+					<span class="uk-margin-small-right" uk-icon="icon :cog; ratio: 0.9"></span>Chauffages</a>
+			</li>
+			<li>
+				<a href="{{ path('state_list') }}">
+					<span class="uk-margin-small-right" uk-icon="icon :check; ratio: 0.9"></span>Etats</a>
+			</li>
+			
 
 
 		{% endif %}
@@ -71,7 +82,7 @@
 
 			<li class="uk-nav-header">
 				<span class="uk-margin-small-right" uk-icon="icon :user; ratio: 0.9"></span>
-				Liste des logements
+				Logements
 			</li>
 			<li>
 				<a href="{{ path('housing_list') }}">
