@@ -28,18 +28,25 @@
 							<thead>
 								<tr>
 									<th>Nom</th>
-									<th>En utilisation</th>
-									<th>Detail</th>
+									<th>Marque</th>
+									<th>Etat</th>
+									<th>Détail</th>
+									<th>Modifier</th>
 								</tr>
 							</thead>
 							<tbody>
 								{% for equipment in equipments %}
 									<td>{{ equipment.name }}</td>
-									<td>{{ equipment.state.name }}</td>
 									<td>{{ equipment.brandt }}</td>
+									<td>{{ equipment.state.name }}</td>
 									<td>
 										<a href="{{ path('equipment_detail', {'id' : equipment.id}) }}">
 											<button class="uk-button uk-button-small uk-button-detail uk-animation-slide-right">Détail</button>
+										</a>
+									</td>
+									<td>
+										<a href="{{ path('equipment_edit', {'id' : equipment.id}) }}">
+											<button class="uk-button uk-button-small uk-button-modify uk-animation-slide-right">Modifier</button>
 										</a>
 									</td>
 								</tbody>

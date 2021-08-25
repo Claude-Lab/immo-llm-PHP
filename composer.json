@@ -13,6 +13,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
         "fakerphp/faker": "^1.15",
+        "knplabs/knp-paginator-bundle": "^5.6",
         "mercuryseries/flashy-bundle": "^3.0",
         "phpdocumentor/reflection-docblock": "^5.2",
         "scienta/doctrine-json-functions": "^4.3",

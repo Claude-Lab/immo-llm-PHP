@@ -54,7 +54,8 @@ class UserManager extends AbstractController
 
                   $this->entityManager->persist($user);
                   $this->entityManager->flush();
-                  $this->addFlash("success", "Succès de la création de l'utilisateur");
+                  $this->addFlash("success", "Compte de \"" . $user->getFullname() .  "\" crée avec succès");
+
 
                   return $this->redirectToRoute('users_list');
             } else {
@@ -98,7 +99,8 @@ class UserManager extends AbstractController
 
                   $this->entityManager->persist($user);
                   $this->entityManager->flush();
-                  $this->addFlash("success", "Compte de \"" . $user->getFullname() .  "\" édité avec succès");
+                  $this->flashy->success("Compte de \"" . $user->getFullname() .  "\" édité avec succès");
+
 
                   return $this->redirectToRoute(
                         'user_detail',

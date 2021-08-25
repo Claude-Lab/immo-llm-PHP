@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchUsersData;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -86,5 +87,48 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->from($this->_entityName, 'u')
             ->where('u INSTANCE OF App\Entity\Guarantor')
             ->orderBy('u.lastname', 'ASC');
+    }
+
+    /**
+     * Get users with search engine.
+     * @param SearcUsersData $search
+     * @return array
+     */
+    public function SearchUsers(SearchUsersData $search): array
+    {
+
+        $query  = $this->createQueryBuilder('user');
+
+        if ($search->tenants) {
+            $query
+                ->orWhere('user INSTANCE OF App\Entity\Tenant');
+        }
+
+        if ($search->owners) {
+            $query
+                ->orWhere('user INSTANCE OF App\Entity\Owner');
+        }
+
+        if ($search->guarantors) {
+            $query
+                ->orWhere('user INSTANCE OF App\Entity\Guarantor');
+        }
+
+        if ($search->managers) {
+            $query
+                ->orWhere('user INSTANCE OF App\Entity\Admin');
+        }
+
+        if ($search->fullname) {
+            $query
+                ->orWhere('user.firstname LIKE :fullname')
+                ->setParameter('fullname', '%' . $search->fullname . '%')
+                ->orWhere('user.lastname LIKE :lastname')
+                ->setParameter('fullname', '%' . $search->fullname . '%');
+        }
+        return $query
+            ->orderBy('user.lastname', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }

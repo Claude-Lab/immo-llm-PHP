@@ -43,7 +43,7 @@ class EquipmentType extends AbstractType
                 'label'                     => false,
                 'required'                  => true,
                 'attr'                      => [
-                    'placeholder'           => 'Numéro de série',
+                    'placeholder'           => 'description',
                     'class'                 => 'uk-input'
                 ]
             ])

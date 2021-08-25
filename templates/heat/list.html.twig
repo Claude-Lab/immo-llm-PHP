@@ -31,6 +31,7 @@
 									<th>Nom</th>
 									<th>Appareillage</th>
 									<th>Detail</th>
+									<th>Modifier</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -41,6 +42,11 @@
 									<td>
 										<a href="{{ path('heat_detail', {'id' : heat.id}) }}">
 											<button class="uk-button uk-button-small uk-button-detail uk-animation-slide-right">Détail</button>
+										</a>
+									</td>
+									<td>
+										<a href="{{ path('heat_edit', {'id' : heat.id}) }}">
+											<button class="uk-button uk-button-small uk-button-modify uk-animation-slide-right">Modifier</button>
 										</a>
 									</td>
 

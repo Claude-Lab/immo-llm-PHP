@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Data\SearchUsersData;
 use App\Entity\Admin;
 use App\Entity\Guarantor;
 use App\Entity\Owner;
@@ -9,6 +10,7 @@ use App\Entity\Tenant;
 use App\Form\AdminType;
 use App\Form\GuarantorType;
 use App\Form\OwnerType;
+use App\Form\SearchUsersFormType;
 use App\Form\TenantType;
 use App\Repository\AdminRepository;
 use App\Repository\ContractRepository;
@@ -19,6 +21,7 @@ use App\Repository\UserRepository;
 use App\Service\UserManager;
 use App\Utils\UploadProfilePic;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -132,38 +135,21 @@ class UserController extends AbstractController
     }
 
     #[Route('/manage/users', name: 'users_list')]
-    public function listAllUsers(): Response
+    public function listUsers(Request $request, PaginatorInterface $paginator): Response
     {
-        $users      = $this->userRepository->findAll();
-        $tenants    = $this->tenantRepository->findAll();
-        $owners     = $this->ownerRepository->findAll();
-        $managers   = $this->adminRepository->findAll();
-        $guarantors = $this->guarantorRepository->findAll();
 
-        switch (true) {
-            case ($users instanceof Tenant):
-                $tenants;
-                break;
-            case ($users instanceof Owner):
-                $owners;
-                break;
-            case ($users instanceof Guarantor):
-                $guarantors;
-                break;
-            case ($users instanceof Admin):
-                $managers;
-                break;
-            default:
-                $users;
-                break;
-        }
-
+        $data = new SearchUsersData();
+        $form = $this->createForm(SearchUsersFormType::class, $data);
+        $form->handleRequest($request);
+        $page = $this->userRepository->SearchUsers($data);
+        $users = $paginator->paginate(
+            $page,
+            $request->query->getInt('page', 1),
+            5
+        );
         return $this->render('user/users.html.twig', [
             'users'         => $users,
-            'owners'        => $owners,
-            'tenants'       => $tenants,
-            'guarantors'    => $guarantors,
-            'managers'      => $managers,
+            'form'          => $form->createView(),
         ]);
     }
 
@@ -263,7 +249,8 @@ class UserController extends AbstractController
     }
 
     #[Route('/manage/user/delete/{id}', name: 'user_delete')]
-    public function delete(int $id) {
+    public function delete(int $id)
+    {
 
         $user = $this->userRepository->find($id);
         $name = $user->getFullname();

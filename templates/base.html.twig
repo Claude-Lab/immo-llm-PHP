@@ -16,9 +16,12 @@
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/style.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/dashboard/css/notyf.min.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
-		<link rel="stylesheet" href="{{ asset('assets/styles.css') }}"/> {% block stylesheets %}{% endblock %}{% block extraCss %}{% endblock %}
+		<link rel="stylesheet" href="{{ asset('assets/styles.css') }}"/>
 		<script src="{{ asset('assets/jquery.min.js') }}"></script>
 		<script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+		{% block stylesheets %}{% endblock %}
+		{% block extraCss %}{% endblock %}
+
 
 	</head>
 	<body>
@@ -27,10 +30,12 @@
 		{% if app.user %}
 			{% include 'includes/nav.html.twig' %}
 			{% include 'includes/side.html.twig' %}
+
 		{% endif %}
 
 		{% block frame %}
 			{{ include('bundles/MercurySeriesFlashyBundle/flashy.html.twig') }}
+			{% include 'bundles/MercurySeriesFlashyBundle/flashy.html.twig' %}
 
 			<div class="content-padder content-background uk-animation-fade">
 				<div class="uk-section-small">
@@ -41,6 +46,7 @@
 					</div>
 				</div>
 			</div>
+
 		{% endblock %}
 
 		<script src="{{ asset('assets/dashboard/js/uikit.min.js') }}"></script>

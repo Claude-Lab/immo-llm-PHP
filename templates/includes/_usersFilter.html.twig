@@ -1,0 +1,18 @@
+{{ form_start(form) }}
+<fieldset class="fieldset" id="filtres">
+	<legend>
+		<strong>Filtrer les sorties</strong>
+	</legend>
+	<label>Entrez le prénom et le nom à trouver :
+		{{ form_row(form.fullname) }}
+	</label>
+	
+	<ul class="menu vertical">
+		<li>{{ form_row(form.tenants) }}</li>
+		<li>{{ form_row(form.owners) }}</li>
+		<li>{{ form_row(form.guarantors) }}</li>
+		<li>{{ form_row(form.managers) }}</li>
+	</ul>
+	<input type="submit" value="Rechercher" class="hollow button" id="button-list" onclick="refreshContenu()">
+</fieldset>
+{{ form_end(form) }}

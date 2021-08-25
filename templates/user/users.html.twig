@@ -6,24 +6,23 @@
 {% endblock %}
 
 {% block body %}
-	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack  uk-animation-fade">
+	<div uk-grid="" class="uk-child-width-1-1@s uk-child-width-1-1@l uk-grid uk-grid-stack">
 		<div class="uk-first-column">
+			<div class="uk-card uk-card-default uk-animation-fade">
+				<div class="uk-card-header">
+					Outil de recherche :
+					
+				</div>
+				<div class="uk-card-body">
+				
 
-			<ul class="uk-subnav uk-subnav-pill" uk-switcher>
-				<li class="uk-margin-bottom uk-animation-slide-top"><a href="#">Tous les utilisateurs</a></li>
-				<li class="uk-margin-bottom uk-animation-slide-bottom"><a href="#">Locataires</a></li>
-				<li class="uk-margin-bottom uk-animation-slide-top"><a href="#">Garants</a></li>
-				<li class="uk-margin-bottom uk-animation-slide-bottom"><a href="#">Propriétaires</a></li>
-				<li class="uk-margin-bottom uk-animation-slide-top"><a href="#">Managers</a></li>
-			</ul>
 
-			<ul class="uk-switcher uk-margin">
-				<li>{% include 'user/allUsers.html.twig' %}</li>
-				<li>{% include 'user/tenant/tenants.html.twig' %}</li>
-				<li>{% include 'user/guarantor/guarantors.html.twig' %}</li>
-				<li>{% include 'user/owner/owners.html.twig' %}</li>
-				<li>{% include 'user/admin/admin.html.twig' %}</li>
-			</ul>
+				</div>
+			</div>
 		</div>
 	</div>
+	<div class="uk-first-column uk-margin">
+		{% include 'user/allUsers.html.twig' %}
+	</div>
+
 {% endblock %}

@@ -7,6 +7,7 @@ use App\Form\EquipmentType;
 use App\Form\EquipmentUpdateType;
 use App\Repository\EquipmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use MercurySeries\FlashyBundle\FlashyNotifier;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,13 +18,16 @@ class EquipmentController extends AbstractController
 
     protected $entityManager;
     protected $equipmentRepository;
+    protected $flashy;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         EquipmentRepository $equipmentRepository,
+        FlashyNotifier $flashy,
     ) {
         $this->entityManager        = $entityManager;
         $this->equipmentRepository  = $equipmentRepository;
+        $this->flashy               = $flashy;
     }
 
 
@@ -36,10 +40,10 @@ class EquipmentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
+            $name = $form->get('name')->getData();
             $this->entityManager->persist($equipment);
             $this->entityManager->flush();
-            $this->addFlash("Création", "Succès de la création d'un équipement'");
+            $this->flashy->success("L'équipement " . $name . " à été crée avec succès");
 
             return $this->redirectToRoute('equipment_list');
         } else {
@@ -77,9 +81,10 @@ class EquipmentController extends AbstractController
     }
 
     #[Route('/manage/equipment/edit/{id}', name: 'equipment_edit')]
-    public function equipmentUpdate(Request $request, int $id): Response
+    public function equipmentEdit(Request $request, int $id): Response
     {
         $equipment = $this->equipmentRepository->find($id);
+        $name = $equipment->getName();
 
         if (!$equipment) {
             throw $this->createNotFoundException("Ooop ! Cette équipment n'existe pas...");
@@ -91,7 +96,7 @@ class EquipmentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($equipment);
             $this->entityManager->flush();
-            $this->addFlash("Modification", "Succès de la modification d'un équipement'");
+            $this->flashy->success("Succès de la modification d'un équipement " . $name);
 
             return $this->redirectToRoute('equipment_list');
         } else {
@@ -105,6 +110,9 @@ class EquipmentController extends AbstractController
     public function equipmentDelete(int $id): Response
     {
         $equipment = $this->equipmentRepository->find($id);
+        $name = $equipment->getName();
+        $brandt = $equipment->getBrandt();
+        $serial = $equipment->getSerialNumber();
 
         if (!$equipment) {
             throw $this->createNotFoundException("Ooops ! This serie doesn't esist'");
@@ -112,7 +120,7 @@ class EquipmentController extends AbstractController
 
         $this->entityManager->remove($equipment);
         $this->entityManager->flush();
-        $this->addFlash("Suppression", "Equipement supprimé avec succès");
+        $this->flashy->success("L\'équipement " . $name . " - " . $brandt . " - " . $serial . "à été supprimé avec succès");
 
         return $this->redirectToRoute('equipment_list');
     }

@@ -27,7 +27,8 @@
 							<thead>
 								<tr>
 									<th>Nom du type</th>
-									<th>Detail</th>
+									<th>Modifier</th>
+									<th>Supprimer</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -35,11 +36,32 @@
 									<tr>
 										<td>{{ sort.name }}</td>
 										<td>
-											<a href="{{ path('sort_detail', {'id' : sort.id}) }}">
-												<button class="uk-button uk-button-small uk-button-detail uk-animation-slide-right">Détail</button>
+											<a href="{{ path('sort_edit', {'id' : sort.id}) }}">
+												<button class="uk-button uk-button-small uk-button-modify uk-animation-slide-right">Modifier</button>
 											</a>
 										</td>
+										<td>
+											<a class="uk-button uk-button-small uk-button-danger" uk-toggle="target: #modal-sections">Supprimer</a>
+										</td>
 									</tr>
+									<div id="modal-sections" uk-modal>
+										<div class="uk-modal-dialog">
+											<button class="uk-modal-close-default" type="button" uk-close></button>
+											<div class="uk-modal-header">
+												<h2 class="uk-modal-title">Suppression d'un type de logement</h2>
+											</div>
+											<div class="uk-modal-body">
+												<p>Êtes-vous certain de vouloir ce type de logement ?</p>
+											</div>
+											<div class="uk-modal-footer uk-text-right">
+												<a href="{{ path('sort_delete', {'id' : sort.id}) }}">
+													<button class="uk-button uk-button-danger" type="button">Supprimer</button>
+												</a>
+												<button class="uk-button uk-button-primary uk-modal-close" type="button">Annuler</button>
+
+											</div>
+										</div>
+									</div>
 								{% endfor %}
 							</tbody>
 						</table>
