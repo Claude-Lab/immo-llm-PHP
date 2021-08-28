@@ -28,6 +28,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class UserController extends AbstractController
 {
@@ -43,6 +44,7 @@ class UserController extends AbstractController
     protected $guarantorRepository;
     protected $adminRepository;
     protected $flashy;
+    protected $serializer;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -55,7 +57,8 @@ class UserController extends AbstractController
         UserPasswordEncoderInterface $passwordEncoder,
         UploadProfilePic $uploadProfilePic,
         UserManager $manager,
-        FlashyNotifier $flashy
+        FlashyNotifier $flashy,
+        SerializerInterface $serializer
     ) {
         $this->entityManager        = $entityManager;
         $this->userRepository       = $userRepository;
@@ -68,6 +71,7 @@ class UserController extends AbstractController
         $this->uploadProfilePic     = $uploadProfilePic;
         $this->manager              = $manager;
         $this->flashy               = $flashy;
+        $this->$serializer          = $serializer;
     }
 
     #[Route('/manage/user/create', name: 'create_user')]
@@ -86,9 +90,18 @@ class UserController extends AbstractController
         return $this->manager->userCreate($request, $entity, $formType, $role);
     }
 
-    #[Route('/manage/tenant/create', name: 'create_tenant')]
+    /*
+    * @Route("/manage/tenant/create", name="create_tenant" methods={"POST"})
+    */
     public function createTenant(Request $request)
     {
+        $jsonReceived = $request->getContent();
+
+        $user = $this->serialize->deserialize($jsonReceived, Owner::class, 'json');
+        
+        # cours : https://www.youtube.com/watch?v=SG7GgcnR1F4&t=458s&ab_channel=LiorCHAMLA
+
+
         $entity     = Tenant::class;
         $formType   = TenantType::class;
         $role       = 'ROLE_TENANT';
@@ -134,7 +147,9 @@ class UserController extends AbstractController
         }
     }
 
-    #[Route('/manage/users', name: 'users_list')]
+    /*
+    * @Route("/manage/users", name="users_list" methods={"GET"})
+    */
     public function listUsers(Request $request, PaginatorInterface $paginator): Response
     {
 
@@ -153,15 +168,15 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/manage/owners', name: 'owners_list')]
+    /*
+    * @Route("/manage/owners", name="owners_list" methods={"GET"})
+    */
     public function listOwners(): Response
     {
-        $role       = 'ROLE_OWNER';
-        $users      = $this->userRepository->findByRole($role);
+        $role = 'ROLE_OWNER';
 
-        return $this->render('user/owner/owners.html.twig', [
-            'users' => $users,
-        ]);
+        return $this->json($this->userRepository->findByRole($role), 200, [], ['groups' => 'user:read']);
+
     }
 
     #[Route('/manage/tenants', name: 'tenants_list')]

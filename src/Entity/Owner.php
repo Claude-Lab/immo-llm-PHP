@@ -6,9 +6,12 @@ use App\Repository\OwnerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=OwnerRepository::class)
+ * @ApiResource
  */
 class Owner extends User
 {
@@ -20,6 +23,7 @@ class Owner extends User
     /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("user:read")
      */
     private $address;
 

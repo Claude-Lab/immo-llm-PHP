@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\ReceiptRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=ReceiptRepository::class)
+ * @ApiResource
  */
 class Receipt
 {

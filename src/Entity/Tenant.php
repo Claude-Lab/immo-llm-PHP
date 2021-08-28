@@ -5,32 +5,39 @@ namespace App\Entity;
 use App\Repository\TenantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TenantRepository::class)
+ * @ApiResource
  */
 class Tenant extends User
 {
 
     /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
+     * @Groups("user:read")
      */
     private $addressBefore;
 
     /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("user:read")
      */
     private $addressAfter;
 
     /**
      * @ORM\ManyToMany(targetEntity=Contract::class, mappedBy="tenants")
+     * @Groups("user:read")
      */
     private $contracts;
 
     /**
      * @ORM\ManyToOne(targetEntity=Guarantor::class, inversedBy="tenants")
+     * @Groups("user:read")
      */
     private $guarantor;
 

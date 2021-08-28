@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\TaxRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TaxRepository::class)
+ * @ApiResource
  */
 class Tax
 {

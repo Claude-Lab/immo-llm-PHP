@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\PropertyLoadRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=PropertyLoadRepository::class)
+ * @ApiResource
  */
 class PropertyLoad
 {

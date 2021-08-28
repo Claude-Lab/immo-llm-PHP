@@ -6,9 +6,11 @@ use App\Repository\SortRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=SortRepository::class)
+ * @ApiResource
  */
 class Sort
 {

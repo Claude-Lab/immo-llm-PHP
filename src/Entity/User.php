@@ -4,13 +4,16 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\DiscriminatorMap({"owner" = "Owner", "tenant" = "Tenant", "guarantor" = "Guarantor", "admin" = "Admin"})
+ * @ApiResource
  */
 abstract class User implements UserInterface
 {
@@ -18,50 +21,67 @@ abstract class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("user:read")
      */
     private $id;
 
     /**
+    * @ORM\Column(type="string", unique=true, nullable=true)
+    */
+    private $apiToken;
+
+    /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups("user:read")
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups("user:read")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups("user:read")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Groups("user:read")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=150)
+     * @Groups("user:read")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Groups("user:read")
      */
     private $mobile;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
+     * @Groups("user:read")
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("user:read")
      */
     private $avatar;
 
+    /**
+     * @Groups("user:read")
+     */
     private $fullname;
 
     public function getId(): ?int
@@ -209,5 +229,25 @@ abstract class User implements UserInterface
     public function getFullname(): ?string
     {
         return $this->firstname . ' ' . $this->lastname;
+    }
+
+    /**
+     * Get the value of apiToken
+     */ 
+    public function getApiToken()
+    {
+        return $this->apiToken;
+    }
+
+    /**
+     * Set the value of apiToken
+     *
+     * @return  self
+     */ 
+    public function setApiToken($apiToken)
+    {
+        $this->apiToken = $apiToken;
+
+        return $this;
     }
 }

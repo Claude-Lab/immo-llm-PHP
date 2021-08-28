@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\StateRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=StateRepository::class)
+ * @ApiResource
  */
 class State
 {
